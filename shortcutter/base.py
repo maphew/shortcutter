@@ -30,11 +30,11 @@ class ShortCutter(object):
     bin_folder : str
         `Scripts` or `bin` dir path
         (the one to where setup.py installs if use `ShortCutter()` from setup.py)
-        Works (tested) only on Miniconda.
+        Works on Windows, on Miniconda on Linux (tested).
     site_packages : str
         Site packages dir path
         (the one to where setup.py installs if use `ShortCutter()` from setup.py)
-        Works (tested) only on Miniconda.
+        Works on Windows, on Miniconda on Linux (tested).
     """
 
     def __init__(self, raise_errors=False, error_log=None):
