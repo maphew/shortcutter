@@ -239,7 +239,7 @@ class ShortCutter(object):
         Returns a single target file path or `None` if a path can't be found.
 
         Single-worded targets like `'app'` are always searched in the PATH
-        You should append `./app` to tell that the file is in the CWD.
+        You should prepend `./app` to tell that the file is in the CWD.
         """
         if os.path.basename(target) == target:
             targets = self.search_for_target(target)
@@ -260,6 +260,7 @@ class ShortCutter(object):
             The target to find.
 
         Returns a list of potential target file paths, it no paths are found an empty list is returned.
+        Works (tested) only on Miniconda.
         """
         # potential list of app paths
         target_paths = []
@@ -288,13 +289,7 @@ class ShortCutter(object):
     def _is_file_the_target(self, target, file_name, file_path):
         raise ShortcutError("_is_file_the_target needs overriding")
 
-    def _get_paths(self):
-        """
-        Gets paths from the PATH environment variables.
-
-        Returns a list of paths.
-        """
-        # get folders from PATH
-        paths = os.environ['PATH'].split(os.pathsep)
-
-        return paths
+    # needs overriding
+    @staticmethod
+    def _get_paths():
+        raise ShortcutError("_get_paths needs overriding")

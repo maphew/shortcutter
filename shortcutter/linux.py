@@ -74,3 +74,13 @@ class ShortCutterLinux(ShortCutter):
             else:
                 match = False
         return match
+
+    @staticmethod
+    def _get_paths(self):
+        """
+        Gets paths from the PATH environment variable and
+        prepends the `<Python>/bin` directory.
+
+        Returns a list of paths.
+        """
+        return [os.path.dirname(sys.executable)] + os.environ['PATH'].split(os.pathsep)

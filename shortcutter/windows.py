@@ -86,48 +86,15 @@ class ShortCutterWindows(ShortCutter):
                     match = True
         return match
 
-    def _get_paths(self):
+    @staticmethod
+    def _get_paths():
         """
-        Gets paths from the PATH environment variable and (if possible)
-        the path of the Python/Scripts directory.
+        Gets paths from the PATH environment variable and 
+        prepends `<Python>`, `<Python>\Scripts`, `<Python>\Library\bin` directories.
 
         Returns a list of paths.
         """
-        # noinspection PyProtectedMember
-        paths = super(ShortCutterWindows, self)._get_paths()
-
-        # add the python scripts path
-        python_scripts_path = self._get_python_scripts_path()
-        if python_scripts_path not in paths:
-            paths.append(python_scripts_path)
-
-        return paths
-
-    # noinspection PyMethodMayBeStatic
-    def _get_python_scripts_path(self):
-        """
-        Gets the Python Scripts path by examining the location of the 
-        sys.executable and working backwards through the directory
-        structure.
-
-        Returns `None` if it cant be found.
-        """
-        python_exe_path = sys.executable
-        python_path = os.path.dirname(python_exe_path)
-        scripts_path = None
-
-        current_path = python_path
-
-        searched = False
-        while not searched:
-            path_to_test = os.path.join(current_path, "Scripts")
-            if os.path.isdir(path_to_test):
-                searched = True
-                scripts_path = path_to_test
-            else:
-                current_path = os.path.dirname(current_path)
-                # have we reached the top level
-                if os.path.splitdrive(current_path)[1] == "":
-                    searched = True
-
-        return scripts_path
+        root = os.path.dirname(sys.executable)
+        return [root,
+                os.path.join(root, 'Scripts'),
+                os.path.join(root, 'Library', 'bin')] + os.environ['PATH'].split(os.pathsep)
