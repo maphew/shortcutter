@@ -1,11 +1,11 @@
-Shortcut
+Shortcutter
 ========
 
 |pypibadge| |docsbadge|
 
-Shortcut is a cross platform command line application and API for creating shortcuts.
+Shortcutter is a cross platform command line application and API for creating shortcuts.
 
-``shortcut`` will do its best to find your app, searching for the usual suspects in the usual places (i.e. those in the PATH), or you can give it a full path.
+``shortcutter`` will do its best to find your app, searching for the usual suspects in the usual places (i.e. those in the PATH), or you can give it a full path.
 
 To create desktop and menu shortcuts for ``python``: 
 
@@ -15,7 +15,7 @@ To create desktop and menu shortcuts for ``python``:
 
 - Using the Python API::
 
-    from shortcut import ShortCutter
+    from shortcutter import ShortCutter
     s = ShortCutter()
     s.create_desktop_shortcut("python")
     s.create_menu_shortcut("python")
@@ -34,15 +34,15 @@ Shortcut is available on pypi_ and can be installed using ``pip``:
 
 - Windows ::
 
-    pip install shortcut
+    pip install shortcutter
 
 - MacOS ::
 
-    pip3 install shortcut
+    pip3 install shortcutter
 
 - Linux ::
 
-    sudo pip3 install shortcut
+    sudo pip3 install shortcutter
 
 Status
 ------
@@ -51,8 +51,8 @@ Alpha - tested and works but issues_ maybe experienced and API changes are possi
 
 It should work with Windows, MacOS and Linux operating systems.
 
-.. _issues: https://github.com/martinohanlon/shortcut/issues
-.. _pypi: https://pypi.python.org/pypi/shortcut
+.. _issues: https://github.com/kiwi0fruit/shortcutter/issues
+.. _pypi: https://pypi.python.org/pypi/shortcutter
 .. _shortcut.readthedocs.io: https://shortcut.readthedocs.io
 
 .. |pypibadge| image:: https://badge.fury.io/py/shortcut.svg

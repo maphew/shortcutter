@@ -10,20 +10,16 @@ elif sys.version_info[0] == 3:
 else:
     raise ValueError('Unrecognized major version of Python')
 
-__project__ = 'shortcut'
-__desc__ = 'A X platform super simple api and command line application for creating shortcuts'
+__project__ = 'shortcutter'
+__desc__ = 'A cross platform simple api for setup.py and command line application for creating shortcuts (fork of Shortcut)'
 __version__ = '0.0.2'
-__author__ = "Martin O'Hanlon"
-__author_email__ = 'martin@ohanlonweb.com'
+__author__ = "Martin O'Hanlon, Peter Zagubisalo"
+__author_email__ = 'peter.zagubisalo@gmail.com'
 __license__ = 'MIT'
-__url__ = 'https://github.com/martinohanlon/shortcut'
-#__requires__ = []
-__extra_requires__ = {
-    ':sys_platform == "win32"': [
-        'pypiwin32',
-        'winshell',
-        ],
-    }
+__url__ = 'https://github.com/kiwi0fruit/shortcutter'
+__install_requires__ = ['winshell;platform_system=="Windows"',
+                        'pywin32;platform_system=="Windows"']
+
 
 __classifiers__ = [
     "Development Status :: 3 - Alpha",
@@ -44,7 +40,7 @@ __classifiers__ = [
 ]
 
 if __name__ == '__main__':
-    setup(name='shortcut',
+    setup(name='shortcutter',
           version = __version__,
           description = __desc__,
           url = __url__,
@@ -52,10 +48,9 @@ if __name__ == '__main__':
           author_email = __author_email__,
           license= __license__,
           packages = [__project__],
-          #install_requires = __requires__,
-          extras_require = __extra_requires__,
+          install_requires = __install_requires__,
           entry_points={
               'console_scripts': [
-                  'shortcut = shortcut:main'
+                  'shortcutter = shortcutter:main'
                   ]},
           zip_safe=False)
