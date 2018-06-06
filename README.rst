@@ -11,7 +11,7 @@ To create desktop and menu shortcuts for ``python``:
 
 - Using the app:: 
 
-    shortcut python 
+    shortcutter python 
 
 - Using the Python API::
 
