@@ -76,7 +76,7 @@ class ShortCutterLinux(ShortCutter):
         return match
 
     @staticmethod
-    def _get_paths(self):
+    def _get_paths():
         """
         Gets paths from the PATH environment variable and
         prepends the `<Python>/bin` directory.
