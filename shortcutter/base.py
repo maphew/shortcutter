@@ -1,4 +1,5 @@
 import os
+from os import path as p
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 import traceback
 
@@ -113,10 +114,10 @@ class ShortCutter(object):
         cls._executable(app_name)
 
     def _get_conda_root(self):
-        ddot = os.path.dirname(self.local_root)
-        ddotX2 = os.path.dirname(ddot)
-        if (os.path.basename(ddot) == 'envs') and self._check_if_conda_root(ddotX2):
-            return ddotX2
+        ddot = p.dirname(self.local_root)
+        ddotx2 = p.dirname(ddot)
+        if (p.basename(ddot) == 'envs') and self._check_if_conda_root(ddotx2):
+            return ddotx2
 
         conda_root = os.environ.get('CONDA_ROOT')
         if self._check_if_conda_root(conda_root):
@@ -124,9 +125,9 @@ class ShortCutter(object):
 
         conda = self.find_target('conda')
         if conda is not None:
-            return os.path.dirname(os.path.dirname(conda))
+            return p.dirname(p.dirname(conda))
 
-        # TODO I cannot get CWD from setup.py!
+        return None
 
     # should be overridden
     @staticmethod
@@ -147,7 +148,7 @@ class ShortCutter(object):
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
-        if not os.path.isdir(self.desktop_folder):
+        if not p.isdir(self.desktop_folder):
             msg = "Desktop folder '{}' not found.".format(self.desktop_folder)
             if self.raise_errors:
                 raise ShortcutNoDesktopError(msg)
@@ -170,7 +171,7 @@ class ShortCutter(object):
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
-        if not os.path.isdir(self.menu_folder):
+        if not p.isdir(self.menu_folder):
             msg = "Menu folder '{}' not found.".format(self.menu_folder)
             if self.raise_errors:
                 raise ShortcutNoMenuError(msg)
@@ -201,16 +202,16 @@ class ShortCutter(object):
         # Check if target is dir or file:
         isdir = False
         if target_path is not None:
-            if os.path.isdir(target_path):
+            if p.isdir(target_path):
                 isdir = True
 
         # Set shortcut name:
         if shortcut_name is None:
             if isdir:
-                shortcut_name = os.path.basename(target)
+                shortcut_name = p.basename(target)
             else:
                 # getting the file name and removing the extension:
-                shortcut_name = os.path.splitext(os.path.basename(target))[0]
+                shortcut_name = p.splitext(p.basename(target))[0]
 
         # Create shortcut:
         def create():
@@ -254,7 +255,7 @@ class ShortCutter(object):
         """
         ret = True
         for path in args:
-            if not os.path.isdir(path):
+            if not p.isdir(path):
                 if self.raise_errors:
                     os.makedirs(path)
                 else:
@@ -280,14 +281,14 @@ class ShortCutter(object):
         Single-worded targets like `'app'` are always searched in the PATH
         You should prepend `./app` to tell that the file is in the CWD.
         """
-        if os.path.basename(target) == target:
+        if p.basename(target) == target:
             targets = self.search_for_target(target)
             if len(targets) > 0:
                 return targets[0]
             else:
                 return None
-        elif os.path.isfile(target):
-            return os.path.abspath(target)
+        elif p.isfile(target):
+            return p.abspath(target)
         else:
             return None
 
@@ -309,13 +310,13 @@ class ShortCutter(object):
 
         # loop through each folder
         for path in paths:
-            if os.path.exists(path):
+            if p.exists(path):
                 # is it a directory?
-                if os.path.isdir(path):
+                if p.isdir(path):
                     # get files in directory
                     for file_name in os.listdir(path):
-                        file_path = os.path.join(path, file_name)
-                        if os.path.isfile(file_path):
+                        file_path = p.join(path, file_name)
+                        if p.isfile(file_path):
                             if self._is_file_the_target(target, file_name, file_path):
                                 target_paths.append(file_path)
                 else:

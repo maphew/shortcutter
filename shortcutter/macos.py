@@ -1,4 +1,5 @@
 import os
+from os import path as p
 from .exception import ShortcutError
 from .linux import ShortCutterLinux
 from tempfile import NamedTemporaryFile
@@ -8,11 +9,11 @@ import subprocess
 class ShortCutterMacOS(ShortCutterLinux):
     @staticmethod
     def _get_desktop_folder():
-        return os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+        return p.join(p.expanduser('~'), 'Desktop')
 
     @staticmethod
     def _get_menu_folder():
-        return os.path.join('/', 'Applications') 
+        return p.join('/', 'Applications') 
 
     @staticmethod
     def _create_shortcut_file(shortcut_name, target_path, shortcut_directory):
@@ -21,7 +22,7 @@ class ShortCutterMacOS(ShortCutterLinux):
 
         Returns the file path of the shortcut created
         """
-        shortcut_file_path = os.path.join(shortcut_directory, shortcut_name + ".app")
+        shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".app")
 
         # create the AppleScript script
         sf = NamedTemporaryFile(mode="w")

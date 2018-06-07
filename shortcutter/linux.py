@@ -1,4 +1,5 @@
 import os
+from os import path as p
 import sys
 import site
 import stat
@@ -13,11 +14,11 @@ class ShortCutterLinux(ShortCutter):
             return subprocess.check_output(['xdg-user-dir',
                                             'DESKTOP']).decode('utf-8').strip()
         except subprocess.CalledProcessError:
-            return os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+            return p.join(p.expanduser('~'), 'Desktop')
 
     @staticmethod
     def _get_menu_folder():
-        return os.path.join(os.path.join(os.path.expanduser('~')), '.local', 'share', 'applications')
+        return p.join(p.join(p.expanduser('~')), '.local', 'share', 'applications')
 
     @staticmethod
     def _get_site_packages():
@@ -25,7 +26,7 @@ class ShortCutterLinux(ShortCutter):
 
     @staticmethod
     def _get_bin_folder():
-        return os.path.dirname(sys.executable)
+        return p.dirname(sys.executable)
 
     @staticmethod
     def _executable(app_name):
@@ -34,7 +35,7 @@ class ShortCutterLinux(ShortCutter):
     @staticmethod
     def _check_if_conda_root(path):
         if path is not None:
-            conda = os.path.join(path, 'bin', 'conda')
+            conda = p.join(path, 'bin', 'conda')
             # check if the file executable
             if os.access(path, os.X_OK):
                 return True
@@ -47,8 +48,8 @@ class ShortCutterLinux(ShortCutter):
 
         Returns shortcut_file_path
         """
-        shortcut_file_path = os.path.join(shortcut_directory, shortcut_name)
-        if os.path.islink(shortcut_file_path):
+        shortcut_file_path = p.join(shortcut_directory, shortcut_name)
+        if p.islink(shortcut_file_path):
             os.remove(shortcut_file_path)
         os.symlink(target_path, shortcut_file_path)
         return shortcut_file_path
@@ -60,7 +61,7 @@ class ShortCutterLinux(ShortCutter):
 
         Returns shortcut_file_path
         """
-        shortcut_file_path = os.path.join(shortcut_directory, "launch_" + shortcut_name + ".desktop")
+        shortcut_file_path = p.join(shortcut_directory, "launch_" + shortcut_name + ".desktop")
         with open(shortcut_file_path, "w") as shortcut:
             shortcut.write("[Desktop Entry]\n")
             shortcut.write("Name={}\n".format(shortcut_name))
@@ -92,4 +93,4 @@ class ShortCutterLinux(ShortCutter):
 
         Returns a list of paths.
         """
-        return [os.path.dirname(sys.executable)] + os.environ['PATH'].split(os.pathsep)
+        return [p.dirname(sys.executable)] + os.environ['PATH'].split(os.pathsep)

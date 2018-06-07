@@ -1,3 +1,6 @@
+import sys
+import os
+from os import path as p
 # import win32com
 # this often fails due to unable to find DLLs
 # so dynamically change the path if required
@@ -5,23 +8,19 @@ try:
     import win32com
 except ImportError as e:
     if "DLL load failed:" in str(e):
-        import os
-        import sys
-        path = os.path.join(os.path.split(sys.executable)[0], "Lib", "site-packages", "pywin32_system32")
+        path = p.join(p.split(sys.executable)[0], "Lib", "site-packages", "pywin32_system32")
         os.environ["PATH"] = os.environ["PATH"] + ";" + path
         try:
             import win32com
         except ImportError as ee:
             dll = os.listdir(path)
-            dll = [os.path.join(path, _) for _ in dll if "dll" in _]
+            dll = [p.join(path, _) for _ in dll if "dll" in _]
             # TODO: Python version 2.7 does not support this syntax:
             raise ImportError("Failed to import win32com, due to missing DLL:\n" + "\n".join(dll)) from e
     else:
         raise e
 
 import winshell
-import sys
-import os
 from .base import ShortCutter
 
 
@@ -39,15 +38,15 @@ class ShortCutterWindows(ShortCutter):
 
     @staticmethod
     def _get_bin_folder():
-        return os.path.join(os.path.dirname(sys.executable), "Scripts")
+        return p.join(p.dirname(sys.executable), "Scripts")
 
     @staticmethod
     def _get_local_root():
-        return os.path.dirname(sys.executable)
+        return p.dirname(sys.executable)
 
     @staticmethod
     def _get_site_packages():
-        return os.path.join(os.path.dirname(sys.executable), 'Lib', 'site-packages')
+        return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
 
     @staticmethod
     def _executable(app_name):
@@ -56,8 +55,8 @@ class ShortCutterWindows(ShortCutter):
     @staticmethod
     def _check_if_conda_root(path):
         if path is not None:
-            conda = os.path.join(path, 'Scripts', 'conda.exe')
-            if os.path.isfile(conda) and not os.path.isdir(conda):
+            conda = p.join(path, 'Scripts', 'conda.exe')
+            if p.isfile(conda) and not p.isdir(conda):
                 return True
         return False
 
@@ -72,13 +71,13 @@ class ShortCutterWindows(ShortCutter):
 
         Returns shortcut_file_path
         """
-        shortcut_file_path = os.path.join(shortcut_directory, shortcut_name + ".lnk")
+        shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
 
         winshell.CreateShortcut(
             Path=shortcut_file_path,
             Target=target_path,
             Icon=(target_path, 0),
-            Description="Shortcut to" + os.path.basename(target_path),
+            Description="Shortcut to" + p.basename(target_path),
             StartIn=target_path)
 
         return shortcut_file_path
@@ -86,7 +85,7 @@ class ShortCutterWindows(ShortCutter):
     def _is_file_the_target(self, target, file_name, file_path):
         match = False
         # does the target have an extension?
-        target_ext = os.path.splitext(target)[1]
+        target_ext = p.splitext(target)[1]
         # if so, do a direct match
         if target_ext:
             if file_name.lower() == target.lower():
@@ -106,7 +105,7 @@ class ShortCutterWindows(ShortCutter):
 
         Returns a list of paths.
         """
-        root = os.path.dirname(sys.executable)
+        root = p.dirname(sys.executable)
         return [root,
-                os.path.join(root, 'Scripts'),
-                os.path.join(root, 'Library', 'bin')] + os.environ['PATH'].split(os.pathsep)
+                p.join(root, 'Scripts'),
+                p.join(root, 'Library', 'bin')] + os.environ['PATH'].split(os.pathsep)
