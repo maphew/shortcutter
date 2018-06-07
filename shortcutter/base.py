@@ -65,7 +65,7 @@ class ShortCutter(object):
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
-        self.conda_root = self._get_conda_root()  # should be run the last
+        self.conda_root = self._get_conda_root(self.local_root)
 
     # might be overridden if needed
     def _set_exec_file_exts(self):
@@ -111,12 +111,21 @@ class ShortCutter(object):
         """
         cls._executable(app_name)
 
-    def _get_conda_root(self):
+    def _get_conda_root(self, local_root):
+        ddot = os.path.dirname(local_root)
+        ddotX2 = os.path.dirname(ddot)
+        if (os.path.basename(ddot) == 'envs') and self._check_if_conda_root(ddotX2):
+            return ddotX2
+
         conda_root = os.environ.get('CONDA_ROOT')
         if self._check_if_conda_root(conda_root):
             return conda_root
-        else:
-            return None  # TODO
+
+        conda = self.find_target('conda')
+        if conda is not None:
+            return os.path.dirname(os.path.dirname(conda))
+
+        # TODO I cannot get CWD from setup.py!
 
     # should be overridden
     @staticmethod

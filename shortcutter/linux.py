@@ -32,6 +32,15 @@ class ShortCutterLinux(ShortCutter):
         return app_name
 
     @staticmethod
+    def _check_if_conda_root(path):
+        if path is not None:
+            conda = os.path.join(path, 'bin', 'conda')
+            # check if the file executable
+            if os.access(path, os.X_OK):
+                return True
+        return False
+
+    @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
         """
         Creates a Unix shortcut to a directory via symbolic link.
