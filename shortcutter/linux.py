@@ -18,7 +18,7 @@ class ShortCutterLinux(ShortCutter):
 
     @staticmethod
     def _get_menu_folder():
-        return p.join(p.join(p.expanduser('~')), '.local', 'share', 'applications')
+        return p.join(p.expanduser('~'), '.local', 'share', 'applications')
 
     @staticmethod
     def _get_site_packages():
