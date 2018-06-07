@@ -113,7 +113,7 @@ class ShortCutter(object):
             msg = "Desktop folder '{}' not found.".format(self.desktop_folder)
             if self.raise_errors:
                 raise ShortcutNoDesktopError(msg)
-            else:
+            elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
             return self.create_shortcut(target, self.desktop_folder, shortcut_name)
@@ -136,7 +136,7 @@ class ShortCutter(object):
             msg = "Menu folder '{}' not found.".format(self.menu_folder)
             if self.raise_errors:
                 raise ShortcutNoMenuError(msg)
-            else:
+            elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
             return self.create_shortcut(target, self.menu_folder, shortcut_name)
@@ -189,7 +189,8 @@ class ShortCutter(object):
                 shortcut_file_path = create()
             except:
                 shortcut_file_path = None
-                self.error_log.write(''.join(traceback.format_exc()))
+                if self.error_log is not None:
+                    self.error_log.write(''.join(traceback.format_exc()))
 
         return shortcut_name, target_path, shortcut_file_path
 
