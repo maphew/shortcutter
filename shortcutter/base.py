@@ -1,4 +1,3 @@
-import sys
 import os
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 import traceback
@@ -35,9 +34,15 @@ class ShortCutter(object):
         Site packages dir path
         (the one to where setup.py installs if use `ShortCutter()` from setup.py)
         Works on Windows, on Miniconda on Linux (tested).
+    local_root : str
+        Root directory path of the current python environment/installation.
+        Works on Windows, on Miniconda on Linux (tested).
+    conda_root : str or None
+        Root directory path of Anaconda/Miniconda installation
+        (if current python is conda environment or Anaconda/Miniconda installation).
     """
 
-    def __init__(self, raise_errors=False, error_log=None):
+    def __init__(self, raise_errors=False, error_log=None, activate=True):
         """
         Creates ShortCutter.
 
@@ -47,17 +52,23 @@ class ShortCutter(object):
             File object where to write errors when raise_errors=False.
             Default is `None` - do not write errors.
             Can also be `sys.stderr` or `io.StringIO()`.
+        :param bool activate:
+            Whether to create shortcuts that automatically activate
+            conda environment / virtual environment.
         """
         self.raise_errors = raise_errors
         self.error_log = error_log
+        self.activate = activate
         self.desktop_folder = self._get_desktop_folder()
         self.menu_folder = self._get_menu_folder()
         self.bin_folder = self._get_bin_folder()
         self.site_packages = self._get_site_packages()
-        self._custom_init()
+        self.local_root = self._get_local_root()
+        self._set_exec_file_exts()
+        self.conda_root = self._get_conda_root()  # should be run the last
 
     # might be overridden if needed
-    def _custom_init(self):
+    def _set_exec_file_exts(self):
         pass
 
     # should be overridden
@@ -74,6 +85,11 @@ class ShortCutter(object):
     @staticmethod
     def _get_bin_folder():
         raise ShortcutError("_get_bin_folder needs overriding")
+
+    # should be overridden
+    @staticmethod
+    def _get_local_root():
+        raise ShortcutError("_get_local_root needs overriding")
 
     # should be overridden
     @staticmethod
@@ -94,6 +110,18 @@ class ShortCutter(object):
           * app -> app.exe (on Windows)
         """
         cls._executable(app_name)
+
+    def _get_conda_root(self):
+        conda_root = os.environ.get('CONDA_ROOT')
+        if self._check_if_conda_root(conda_root):
+            return conda_root
+        else:
+            return None  # TODO
+
+    # should be overridden
+    @staticmethod
+    def _check_if_conda_root(path):
+        raise ShortcutError("_check_if_conda_root needs overriding")
 
     def create_desktop_shortcut(self, target, shortcut_name=None):
         """

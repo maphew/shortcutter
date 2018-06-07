@@ -26,7 +26,7 @@ from .base import ShortCutter
 
 
 class ShortCutterWindows(ShortCutter):
-    def _custom_init(self):
+    def _set_exec_file_exts(self):
         self.executable_file_extensions = os.environ['PATHEXT'].split(os.pathsep)
 
     @staticmethod
@@ -38,16 +38,28 @@ class ShortCutterWindows(ShortCutter):
         return winshell.folder("CSIDL_PROGRAMS")
 
     @staticmethod
-    def _get_site_packages():
-        return os.path.join(os.path.dirname(sys.executable), 'Lib', 'site-packages')
-
-    @staticmethod
     def _get_bin_folder():
         return os.path.join(os.path.dirname(sys.executable), "Scripts")
 
     @staticmethod
+    def _get_local_root():
+        return os.path.dirname(sys.executable)
+
+    @staticmethod
+    def _get_site_packages():
+        return os.path.join(os.path.dirname(sys.executable), 'Lib', 'site-packages')
+
+    @staticmethod
     def _executable(app_name):
         return app_name + '.exe'
+
+    @staticmethod
+    def _check_if_conda_root(path):
+        if path is not None:
+            conda = os.path.join(path, 'Scripts', 'conda.exe')
+            if os.path.isfile(conda) and not os.path.isdir(conda):
+                return True
+        return False
 
     @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
