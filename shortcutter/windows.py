@@ -54,12 +54,17 @@ class ShortCutterWindows(ShortCutter):
 
     @staticmethod
     def _check_if_conda_root(path):
+        """
+        Checks if provided path is conda root.
+
+        Returns path to conda activate script or None.
+        """
         if path is not None:
             if p.isdir(p.join(path, 'conda-meta')):
                 conda = p.join(path, 'Scripts', 'conda.exe')
                 if p.isfile(conda) and not p.isdir(conda):
-                    return True
-        return False
+                    return p.abspath(conda)
+        return None
 
     @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):

@@ -38,9 +38,10 @@ class ShortCutter(object):
     local_root : str
         Root directory path of the current python environment/installation.
         Works on Windows, on Miniconda on Linux (tested).
-    conda_root : str or None
-        Root directory path of Anaconda/Miniconda installation
-        (if current python is conda environment or Anaconda/Miniconda installation).
+    conda_activate : str or None
+        Path to conda activate script in root installation of Anaconda/Miniconda.
+        None if current python is neither conda environment nor Anaconda/Miniconda installation.
+        "" if conda path wasn't found.
     """
 
     def __init__(self, raise_errors=False, error_log=None, activate=True):
@@ -67,7 +68,7 @@ class ShortCutter(object):
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
         # should be run the last:
-        self.conda_root = self._get_conda_root()
+        self.conda_activate = self._get_conda_activate()
 
     # might be overridden if needed
     def _set_exec_file_exts(self):
@@ -113,24 +114,47 @@ class ShortCutter(object):
         """
         cls._executable(app_name)
 
-    def _get_conda_root(self):
-        ddot = p.dirname(self.local_root)
-        ddotx2 = p.dirname(ddot)
-        if (p.basename(ddot) == 'envs') and self._check_if_conda_root(ddotx2):
-            return ddotx2
+    def _get_conda_activate(self):
+        """
+        Returns path to conda activate script in root installation of Anaconda/Miniconda.
+        Returns None if current python is neither conda environment nor Anaconda/Miniconda installation.
+        Returns "" if conda path wasn't found.
+        TODO conda path -> activate path
+        """
+        if p.isdir(p.join(self.local_root, 'conda-meta')):
+            # check if we are installing to conda root:
+            conda = self._check_if_conda_root(self.local_root)
+            if conda:
+                return conda
 
-        conda_root = os.environ.get('CONDA_ROOT')
-        if self._check_if_conda_root(conda_root):
-            return p.abspath(conda_root)
+            # check if we are installing to default env location:
+            #   `<conda_root>/envs/<local_root_basename>`
+            ddot = p.dirname(self.local_root)
+            conda = self._check_if_conda_root(p.dirname(ddot))
+            if (p.basename(ddot) == 'envs') and conda:
+                return conda
 
-        conda = self.find_target('conda')
-        if conda is not None:
-            conda_root = p.dirname(p.dirname(conda))
-            if self._check_if_conda_root(conda_root):
-                return conda_root
+            # check if we are running pip via `conda env create -f env.yaml`
+            #   or user specified `CONDA_ROOT` env var himself:
+            conda_root = os.environ.get('CONDA_ROOT')
+            conda = self._check_if_conda_root(conda_root)
+            if p.isabs(conda_root) and conda:
+                return conda
 
+            # check if there is conda in the PATH:
+            conda = self.find_target('conda')
+            if conda is not None:
+                conda_root = p.dirname(p.dirname(conda))
+                conda = self._check_if_conda_root(conda_root)
+                if conda:
+                    return conda
+
+            return ""
         return None
 
+    def _has_activate(self):
+        
+      
     # should be overridden
     @staticmethod
     def _check_if_conda_root(path):
