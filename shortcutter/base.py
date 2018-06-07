@@ -65,7 +65,8 @@ class ShortCutter(object):
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
-        self.conda_root = self._get_conda_root(self.local_root)
+        # should be run the last:
+        self.conda_root = self._get_conda_root()
 
     # might be overridden if needed
     def _set_exec_file_exts(self):
@@ -111,8 +112,8 @@ class ShortCutter(object):
         """
         cls._executable(app_name)
 
-    def _get_conda_root(self, local_root):
-        ddot = os.path.dirname(local_root)
+    def _get_conda_root(self):
+        ddot = os.path.dirname(self.local_root)
         ddotX2 = os.path.dirname(ddot)
         if (os.path.basename(ddot) == 'envs') and self._check_if_conda_root(ddotX2):
             return ddotX2
