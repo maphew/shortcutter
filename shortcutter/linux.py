@@ -21,12 +21,16 @@ class ShortCutterLinux(ShortCutter):
         return p.join(p.expanduser('~'), '.local', 'share', 'applications')
 
     @staticmethod
-    def _get_site_packages():
-        return site.getsitepackages()[0]
-
-    @staticmethod
     def _get_bin_folder():
         return p.dirname(sys.executable)
+
+    @staticmethod
+    def _get_local_root():
+        return p.dirname(p.dirname(sys.executable))
+
+    @staticmethod
+    def _get_site_packages():
+        return site.getsitepackages()[0]
 
     @staticmethod
     def _executable(app_name):
@@ -35,10 +39,11 @@ class ShortCutterLinux(ShortCutter):
     @staticmethod
     def _check_if_conda_root(path):
         if path is not None:
-            conda = p.join(path, 'bin', 'conda')
-            # check if the file executable
-            if os.access(path, os.X_OK):
-                return True
+            if p.isdir(p.join(path, 'conda-meta')):
+                conda = p.join(path, 'bin', 'conda')
+                # check if the file executable
+                if os.access(path, os.X_OK):
+                    return True
         return False
 
     @staticmethod

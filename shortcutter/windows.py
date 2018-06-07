@@ -55,9 +55,10 @@ class ShortCutterWindows(ShortCutter):
     @staticmethod
     def _check_if_conda_root(path):
         if path is not None:
-            conda = p.join(path, 'Scripts', 'conda.exe')
-            if p.isfile(conda) and not p.isdir(conda):
-                return True
+            if p.isdir(p.join(path, 'conda-meta')):
+                conda = p.join(path, 'Scripts', 'conda.exe')
+                if p.isfile(conda) and not p.isdir(conda):
+                    return True
         return False
 
     @staticmethod

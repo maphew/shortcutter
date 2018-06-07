@@ -121,11 +121,13 @@ class ShortCutter(object):
 
         conda_root = os.environ.get('CONDA_ROOT')
         if self._check_if_conda_root(conda_root):
-            return conda_root
+            return p.abspath(conda_root)
 
         conda = self.find_target('conda')
         if conda is not None:
-            return p.dirname(p.dirname(conda))
+            conda_root = p.dirname(p.dirname(conda))
+            if self._check_if_conda_root(conda_root):
+                return conda_root
 
         return None
 
@@ -284,7 +286,7 @@ class ShortCutter(object):
         if p.basename(target) == target:
             targets = self.search_for_target(target)
             if len(targets) > 0:
-                return targets[0]
+                return p.abspath(targets[0])
             else:
                 return None
         elif p.isfile(target):
@@ -311,7 +313,6 @@ class ShortCutter(object):
         # loop through each folder
         for path in paths:
             if p.exists(path):
-                # is it a directory?
                 if p.isdir(path):
                     # get files in directory
                     for file_name in os.listdir(path):
