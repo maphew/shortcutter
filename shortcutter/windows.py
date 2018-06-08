@@ -49,8 +49,8 @@ class ShortCutterWindows(ShortCutter):
         return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
 
     @staticmethod
-    def _executable(app_name):
-        return app_name + '.exe'
+    def _executable(app_name, script=False):
+        return app_name + ('.bat' if script else '.exe')
 
     @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):

@@ -33,7 +33,7 @@ class ShortCutterLinux(ShortCutter):
         return site.getsitepackages()[0]
 
     @staticmethod
-    def _executable(app_name):
+    def _executable(app_name, script=False):
         return app_name
 
     @staticmethod
