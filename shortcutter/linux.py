@@ -37,21 +37,6 @@ class ShortCutterLinux(ShortCutter):
         return app_name
 
     @staticmethod
-    def _check_if_conda_root(path):
-        """
-        Checks if provided path is conda root.
-
-        Returns path to conda activate script or None.
-        """
-        if path is not None:
-            if p.isdir(p.join(path, 'conda-meta')):
-                conda = p.join(path, 'bin', 'conda')
-                # check if the file executable
-                if os.access(conda, os.X_OK):
-                    return p.abspath(conda)
-        return None
-
-    @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
         """
         Creates a Unix shortcut to a directory via symbolic link.

@@ -118,7 +118,7 @@ class ShortCutter(object):
         """
         Returns path to conda activate script in root installation of Anaconda/Miniconda.
         Returns None if current python is neither conda environment nor Anaconda/Miniconda installation.
-        Returns "" if conda path wasn't found.
+        Returns "" if conda activate path wasn't found.
         TODO conda path -> activate path
         """
         if p.isdir(p.join(self.local_root, 'conda-meta')):
@@ -153,12 +153,23 @@ class ShortCutter(object):
         return None
 
     def _has_activate(self):
-        
+        pass
       
-    # should be overridden
-    @staticmethod
-    def _check_if_conda_root(path):
-        raise ShortcutError("_check_if_conda_root needs overriding")
+    def _check_if_conda_root(self, path):
+        """
+        Checks if provided path is conda root.
+
+        Returns path to conda activate script or None.
+        """
+        if path is not None:
+            if p.isdir(p.join(path, 'conda-meta')):
+                conda = p.join(path,
+                               p.basename(self.bin_folder),
+                               self.executable('conda'))
+                # check if the file executable
+                if p.isfile(conda) and not p.isdir(conda) and os.access(conda, os.X_OK):
+                    return p.abspath(conda)
+        return None
 
     def create_desktop_shortcut(self, target, shortcut_name=None):
         """
