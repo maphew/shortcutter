@@ -61,7 +61,7 @@ class ShortCutterWindows(ShortCutter):
         """
         Creates a Windows shortcut file.
 
-        Returns shortcut_file_path
+        Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
         shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
 
@@ -72,7 +72,7 @@ class ShortCutterWindows(ShortCutter):
             Description="Shortcut to" + p.basename(target_path),
             StartIn=target_path)
 
-        return shortcut_file_path
+        return shortcut_name, target_path, shortcut_file_path
 
     def _is_file_the_target(self, target, file_name, file_path):
         match = False

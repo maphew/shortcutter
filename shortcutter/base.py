@@ -38,10 +38,10 @@ class ShortCutter(object):
     local_root : str
         Root directory path of the current python environment/installation.
         Works on Windows, on Miniconda on Linux (tested).
-    install_type : str
-        installation type marker:
-        'python', 'venv', 'conda', 'conda_env', 'conda_env_moved'.
-    activate : str or None
+    activate: bool
+        Whether to create shortcuts that automatically activate
+        conda environment / virtual environment.
+    activate_args : tuple(str or None, str or None)
         Path to conda activate script in root installation of Anaconda/Miniconda.
         or None if conda activate path wasn't found
         (but current installation is moved conda env).
@@ -73,7 +73,7 @@ class ShortCutter(object):
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
         # should be run the last:
-        self.install_type, self.activate = self._get_activate()
+        self.activate_args = self._get_activate_args()
 
     # might be overridden if needed
     def _set_exec_file_exts(self):
@@ -124,40 +124,33 @@ class ShortCutter(object):
         """
         cls._executable(app_name, script)
 
-    def _get_activate(self):
+    def _get_activate_args(self):
         """
-        Returns tuple: (str, str or None).
+        Returns tuple: (str or None, str or None).
 
-        First is installation type marker:
-        'python', 'venv', 'conda', 'conda_env', 'conda_env_moved'.
+        First is the activate script full path (or None if it's wasn't found).
 
-        Second is the Path to conda activate script in root installation of Anaconda/Miniconda.
-        or None if conda activate path wasn't found
-        (but current installation is moved conda env).
-        or path to activate script in virtual environment installation.
-        or None otherwise.
+        Second is the second arg of the activate script.
         """
         if p.isdir(p.join(self.local_root, 'conda-meta')):
             # check if we are installing to conda root:
             activate = self._check_if_conda_root(self.local_root)
             if activate:
-                return 'conda', activate
+                return activate, None
 
-            # check if we are installing to default env location:
+            # check if we are installing to default conda env location:
             #   `<conda_root>/envs/<local_root_basename>`
             ddot = p.dirname(self.local_root)
             activate = self._check_if_conda_root(p.dirname(ddot))
             if (p.basename(ddot) == 'envs') and activate: 
-                return 'conda_env', activate
-            else:
-                install_type = 'conda_env_moved'
+                return activate, p.basename(self.local_root)
 
             # check if we are running pip via `conda env create -f env.yaml`
             #   or user specified `CONDA_ROOT` env var himself:
             conda_root = os.environ.get('CONDA_ROOT')
             activate = self._check_if_conda_root(conda_root)
             if p.isabs(conda_root) and activate:
-                return install_type, activate
+                return activate, self.local_root
 
             # check if there is conda in the PATH:
             conda = self.find_target('conda')
@@ -165,17 +158,17 @@ class ShortCutter(object):
                 conda_root = p.dirname(p.dirname(conda))
                 activate = self._check_if_conda_root(conda_root)
                 if activate:
-                    return install_type, activate
+                    return activate, self.local_root
 
-            return install_type, None
+            return None, self.local_root
         else:
+            # check if we are installing to venv:
             activate = p.join(self.bin_folder,
                               self.executable('activate', script=True))
-            # TODO test condition:
-            if p.isfile(activate) and not p.isdir(activate) and os.access(activate, os.X_OK):
-                return 'venv', activate
+            if p.isfile(activate) and not p.isdir(activate):
+                return activate, None
 
-        return 'python', None
+        return None, None
  
     def _check_if_conda_root(self, path):
         """
@@ -280,25 +273,35 @@ class ShortCutter(object):
         def create():
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
-            else:
-                # TODO create shell script wrapper if activate
-                # What to do if activate is None?
-                # Error if conda_env_moved.
-                # 
-                return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
+            elif self.activate:
+                activate, arg = self.activate_args
+                if activate and (not arg):
+                    # TODO shell script wrapper `source activate`
+                    return None
+                elif activate and arg:
+                    # TODO shell script wrapper `source activate arg`
+                    return None
+                elif (not activate) and arg:
+                    raise ShortcutError('Shortcutter failed to find conda root or activate script there. ' +
+                                        'It searched in `../../` assuming default env location (`../` should have `envs` basename). ' + 
+                                        'Checked `CONDA_ROOT` environment variable. ' +
+                                        'Searched `conda` executable in the PATH.')
+
+            # Use simple shortcuts if self.activate=False or we are installing to common python installation:
+            return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
 
         if self.raise_errors:
-            shortcut_file_path = create()
+            ret = create()
         else:
             # noinspection PyBroadException
             try:
-                shortcut_file_path = create()
+                ret = create()
             except:
-                shortcut_file_path = None
+                ret = (shortcut_name, target_path, None)
                 if self.error_log is not None:
                     self.error_log.write(''.join(traceback.format_exc()))
 
-        return shortcut_name, target_path, shortcut_file_path
+        return ret
 
     # should be overridden
     @staticmethod

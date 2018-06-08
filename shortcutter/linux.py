@@ -41,20 +41,20 @@ class ShortCutterLinux(ShortCutter):
         """
         Creates a Unix shortcut to a directory via symbolic link.
 
-        Returns shortcut_file_path
+        Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
         shortcut_file_path = p.join(shortcut_directory, shortcut_name)
         if p.islink(shortcut_file_path):
             os.remove(shortcut_file_path)
         os.symlink(target_path, shortcut_file_path)
-        return shortcut_file_path
+        return shortcut_name, target_path, shortcut_file_path
 
     @staticmethod
     def _create_shortcut_file(shortcut_name, target_path, shortcut_directory):
         """
         Creates a Linux shortcut file.
 
-        Returns shortcut_file_path
+        Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
         shortcut_file_path = p.join(shortcut_directory, "launch_" + shortcut_name + ".desktop")
         with open(shortcut_file_path, "w") as shortcut:
@@ -68,7 +68,7 @@ class ShortCutterLinux(ShortCutter):
             st = os.stat(shortcut_file_path)
             os.chmod(shortcut_file_path, st.st_mode | stat.S_IEXEC)
 
-        return shortcut_file_path
+        return shortcut_name, target_path, shortcut_file_path
 
     def _is_file_the_target(self, target, file_name, file_path):
         match = False
