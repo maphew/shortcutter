@@ -38,6 +38,15 @@ class ShortCutter(object):
     local_root : str
         Root directory path of the current python environment/installation.
         Works on Windows, on Miniconda on Linux (tested).
+    install_type : str
+        installation type marker:
+        'python', 'venv', 'conda', 'conda_env', 'conda_env_moved'.
+    activate : str or None
+        Path to conda activate script in root installation of Anaconda/Miniconda.
+        or None if conda activate path wasn't found
+        (but current installation is moved conda env).
+        or path to activate script in virtual environment installation.
+        or None otherwise.
     """
 
     def __init__(self, raise_errors=False, error_log=None, activate=True):
@@ -63,9 +72,8 @@ class ShortCutter(object):
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
-        self._install_type = None
         # should be run the last:
-        self._activate = self._get_activate()
+        self.install_type, self.activate = self._get_activate()
 
     # might be overridden if needed
     def _set_exec_file_exts(self):
@@ -118,36 +126,38 @@ class ShortCutter(object):
 
     def _get_activate(self):
         """
-        Sets installation type marker: 'python', 'venv', 'conda', 'conda_env', 'conda_env_moved'.
+        Returns tuple: (str, str or None).
 
-        Returns path to conda activate script in root installation of Anaconda/Miniconda.
-        Or None if conda activate path wasn't found.
-        Or path to activate script in virtual environments installation.
-        Or None if current python is neither conda/virtual environment nor Anaconda/Miniconda installation.
+        First is installation type marker:
+        'python', 'venv', 'conda', 'conda_env', 'conda_env_moved'.
+
+        Second is the Path to conda activate script in root installation of Anaconda/Miniconda.
+        or None if conda activate path wasn't found
+        (but current installation is moved conda env).
+        or path to activate script in virtual environment installation.
+        or None otherwise.
         """
         if p.isdir(p.join(self.local_root, 'conda-meta')):
             # check if we are installing to conda root:
             activate = self._check_if_conda_root(self.local_root)
             if activate:
-                self._install_type = 'conda'
-                return activate
+                return 'conda', activate
 
             # check if we are installing to default env location:
             #   `<conda_root>/envs/<local_root_basename>`
             ddot = p.dirname(self.local_root)
             activate = self._check_if_conda_root(p.dirname(ddot))
-            if (p.basename(ddot) == 'envs') and activate:
-                self._install_type = 'conda_env'
-                return activate
+            if (p.basename(ddot) == 'envs') and activate: 
+                return 'conda_env', activate
             else:
-                self._install_type = 'conda_env_moved'
+                install_type = 'conda_env_moved'
 
             # check if we are running pip via `conda env create -f env.yaml`
             #   or user specified `CONDA_ROOT` env var himself:
             conda_root = os.environ.get('CONDA_ROOT')
             activate = self._check_if_conda_root(conda_root)
             if p.isabs(conda_root) and activate:
-                return activate
+                return install_type, activate
 
             # check if there is conda in the PATH:
             conda = self.find_target('conda')
@@ -155,19 +165,17 @@ class ShortCutter(object):
                 conda_root = p.dirname(p.dirname(conda))
                 activate = self._check_if_conda_root(conda_root)
                 if activate:
-                    return activate
+                    return install_type, activate
 
-            return None
+            return install_type, None
         else:
             activate = p.join(self.bin_folder,
                               self.executable('activate', script=True))
             # TODO test condition:
             if p.isfile(activate) and not p.isdir(activate) and os.access(activate, os.X_OK):
-                self._install_type = 'venv'
-                return activate
+                return 'venv', activate
 
-        self._install_type = 'python'
-        return None
+        return 'python', None
  
     def _check_if_conda_root(self, path):
         """
