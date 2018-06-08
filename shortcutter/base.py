@@ -281,6 +281,10 @@ class ShortCutter(object):
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
             else:
+                # TODO create shell script wrapper if activate
+                # What to do if activate is None?
+                # Error if conda_env_moved.
+                # 
                 return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
 
         if self.raise_errors:
