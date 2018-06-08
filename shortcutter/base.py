@@ -107,25 +107,31 @@ class ShortCutter(object):
     def _get_activate_wrapper_template():
         raise ShortcutError("_get_activate_wrapper_template needs overriding")
 
-    # should be overridden
     @staticmethod
-    def _executable(app_name, script):
-        raise ShortcutError("_executable needs overriding")
-
-    @classmethod
-    def executable(cls, app_name, script=False):
+    def exe(app_name):
         """
         Returns platform independent executable name:
 
           * app -> app (on Unix)
           * app -> app.exe (on Windows)
+        """
+        if os.name == 'nt':
+            return app_name + '.exe'
+        else:
+            return app_name
 
-        Or shell script name:
+    @staticmethod
+    def sh(script_name):
+        """
+        Returns platform independent shell script name:
 
           * run -> run (on Unix)
           * run -> run.bat (on Windows)
         """
-        cls._executable(app_name, script)
+        if os.name == 'nt':
+            return script_name + '.bat'
+        else:
+            return script_name
 
     def _activate_wrapper(self, target_path):
         """
@@ -137,7 +143,7 @@ class ShortCutter(object):
         return self._get_activate_wrapper_template().format(
             activate=r(activate) + (('" "' + r(env) if env else ''),
             executable=r(target_path),
-            deactivate=r(p.join(p.dirname(activate), self.executable('deactivate', script=True)))
+            deactivate=r(p.join(p.dirname(activate), self.sh('deactivate')))
         )
 
     def _get_activate_args(self):
@@ -179,8 +185,7 @@ class ShortCutter(object):
             return None, self.local_root
         else:
             # check if we are installing to venv:
-            activate = p.join(self.bin_folder,
-                              self.executable('activate', script=True))
+            activate = p.join(self.bin_folder, self.sh('activate'))
             if p.isfile(activate) and not p.isdir(activate):
                 return activate, None
 
@@ -197,11 +202,10 @@ class ShortCutter(object):
             if p.isdir(p.join(path, 'conda-meta')):
                 conda = p.join(path,
                                p.basename(self.bin_folder),
-                               self.executable('conda'))
+                               self.exe('conda'))
                 # check if the file executable:
                 if p.isfile(conda) and not p.isdir(conda) and os.access(conda, os.X_OK):
-                    activate = p.join(p.dirname(conda),
-                                      self.executable('activate', script=True))
+                    activate = p.join(p.dirname(conda), self.sh('activate'))
                     if p.isfile(activate) and not p.isdir(activate):
                         return p.abspath(activate)
         return None
@@ -292,7 +296,7 @@ class ShortCutter(object):
             elif self.activate:
                 activate, env = self.activate_args
                 wrapper_path = p.join(self.bin_folder,
-                                      self.executable('shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut', script=True))
+                                      self.sh('shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut'))
                 if activate:
                     with open(wrapper_path, 'w') as f:
                         f.write(self._activate_wrapper(target_path))

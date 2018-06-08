@@ -43,10 +43,6 @@ class ShortCutterLinux(ShortCutter):
         return ACTIVATE
 
     @staticmethod
-    def _executable(app_name, script=False):
-        return app_name
-
-    @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
         """
         Creates a Unix shortcut to a directory via symbolic link.
