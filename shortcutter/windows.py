@@ -23,6 +23,12 @@ except ImportError as e:
 import winshell
 from .base import ShortCutter
 
+ACTIVATE = r"""@echo off
+call "{activate}"
+"{executable}" %*
+"{deactivate}\deactivate.bat"
+"""
+
 
 class ShortCutterWindows(ShortCutter):
     def _set_exec_file_exts(self):
@@ -47,6 +53,10 @@ class ShortCutterWindows(ShortCutter):
     @staticmethod
     def _get_site_packages():
         return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
+
+    @staticmethod
+    def _get_activate_wrapper_template():
+        return ACTIVATE
 
     @staticmethod
     def _executable(app_name, script=False):

@@ -5,6 +5,12 @@ import site
 import stat
 from .base import ShortCutter
 
+ACTIVATE = """#!/bin/sh
+source "{activate}"
+"{executable}" "$@"
+"{deactivate}"
+"""
+
 
 class ShortCutterLinux(ShortCutter):
     @staticmethod
@@ -31,6 +37,10 @@ class ShortCutterLinux(ShortCutter):
     @staticmethod
     def _get_site_packages():
         return site.getsitepackages()[0]
+
+    @staticmethod
+    def _get_activate_wrapper_template():
+        return ACTIVATE
 
     @staticmethod
     def _executable(app_name, script=False):

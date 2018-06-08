@@ -2,6 +2,7 @@ import os
 from os import path as p
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 import traceback
+import re
 
 
 class ShortCutter(object):
@@ -42,11 +43,8 @@ class ShortCutter(object):
         Whether to create shortcuts that automatically activate
         conda environment / virtual environment.
     activate_args : tuple(str or None, str or None)
-        Path to conda activate script in root installation of Anaconda/Miniconda.
-        or None if conda activate path wasn't found
-        (but current installation is moved conda env).
-        or path to activate script in virtual environment installation.
-        or None otherwise.
+        First is the activate script full path (or None if it's wasn't found) - conda's or venv's.
+        Second is the env argument of the activate script (or None if not needed).
     """
 
     def __init__(self, raise_errors=False, error_log=None, activate=True):
@@ -106,6 +104,11 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
+    def _get_activate_wrapper_template():
+        raise ShortcutError("_get_activate_wrapper_template needs overriding")
+
+    # should be overridden
+    @staticmethod
     def _executable(app_name, script):
         raise ShortcutError("_executable needs overriding")
 
@@ -124,13 +127,26 @@ class ShortCutter(object):
         """
         cls._executable(app_name, script)
 
+    def _activate_wrapper(self, target_path):
+        """
+        Returns shell script wrapper source for shortcut with activation.
+        """
+        def r(path):
+            return path.replace('"', r'\"')
+        activate, env = self.activate_args
+        return self._get_activate_wrapper_template().format(
+            activate=r(activate) + (('" "' + r(env) if env else ''),
+            executable=r(target_path),
+            deactivate=r(p.join(p.dirname(activate), self.executable('deactivate', script=True)))
+        )
+
     def _get_activate_args(self):
         """
         Returns tuple: (str or None, str or None).
 
-        First is the activate script full path (or None if it's wasn't found).
+        First is the activate script full path (or None if it's wasn't found) - conda's or venv's.
 
-        Second is the second arg of the activate script.
+        Second is the env argument of the activate script (or None if not needed).
         """
         if p.isdir(p.join(self.local_root, 'conda-meta')):
             # check if we are installing to conda root:
@@ -274,14 +290,14 @@ class ShortCutter(object):
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
             elif self.activate:
-                activate, arg = self.activate_args
-                if activate and (not arg):
-                    # TODO shell script wrapper `source activate`
-                    return None
-                elif activate and arg:
-                    # TODO shell script wrapper `source activate arg`
-                    return None
-                elif (not activate) and arg:
+                activate, env = self.activate_args
+                wrapper_path = p.join(self.bin_folder,
+                                      self.executable('shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut', script=True))
+                if activate:
+                    with open(wrapper_path, 'w') as f:
+                        f.write(self._activate_wrapper(target_path))
+                    return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
+                elif (not activate) and env:
                     raise ShortcutError('Shortcutter failed to find conda root or activate script there. ' +
                                         'It searched in `../../` assuming default env location (`../` should have `envs` basename). ' + 
                                         'Checked `CONDA_ROOT` environment variable. ' +
