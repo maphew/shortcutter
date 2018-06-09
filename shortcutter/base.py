@@ -337,7 +337,7 @@ class ShortCutter(object):
         Switches shortcuts creation function error modes.
 
         :param create:
-            function to call
+            function to call (without arguments)
         """
         if self.raise_errors:
             ret = create()
@@ -351,11 +351,14 @@ class ShortCutter(object):
                     self.error_log.write(''.join(traceback.format_exc()))
         return ret
 
-    def create_activated_console_shortcut(self, shortcut_directory):
+    def create_activated_terminal_shortcuts(self, shortcut_directory):
         """
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
         (plus shortcut to root environment in case of conda).
+        
+        :param str shortcut_directory:
+            The directory path where the shortcut should be created.
         """
         activate, env = self.activate_args
         if activate:
