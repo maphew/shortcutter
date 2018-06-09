@@ -294,6 +294,7 @@ class ShortCutter(object):
         def create():
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
+
             elif self.activate:
                 activate, env = self.activate_args
                 wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_' +
@@ -303,8 +304,9 @@ class ShortCutter(object):
                     with open(wrapper_path, 'w') as f:
                         f.write(self._activate_wrapper(target_path))
                     return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
+
                 elif (not activate) and env:
-                    raise ShortcutError('Shortcutter failed to find conda root or activate script there. ' +
+                    raise ShortcutError('Shortcutter failed to find conda root (or activate script there). ' +
                                         'It searched in `../../` assuming default env location ' +
                                         '(`../` should have `envs` basename). ' +
                                         'Checked `CONDA_ROOT` environment variable. ' +
