@@ -310,7 +310,7 @@ class ShortCutter(object):
                 # getting the file name and removing the extension:
                 shortcut_name = p.splitext(p.basename(target))[0]
 
-        # Create shortcut:
+        # Create shortcut function:
         def create():
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
@@ -326,10 +326,19 @@ class ShortCutter(object):
                                         '(`../` should have `envs` basename). ' +
                                         'Checked `CONDA_ROOT` environment variable. ' +
                                         'Searched `conda` executable in the PATH.')
-
             # Use simple shortcuts if self.activate=False or we are installing to common python installation:
             return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
 
+        ret = self._safe_create(create)
+        return ret if (ret != 'error') else (shortcut_name, target_path, None)
+
+    def _safe_create(self, create):
+        """
+        Switches shortcuts creation function error modes.
+
+        :param create:
+            function to call
+        """
         if self.raise_errors:
             ret = create()
         else:
@@ -337,10 +346,9 @@ class ShortCutter(object):
             try:
                 ret = create()
             except:
-                ret = (shortcut_name, target_path, None)
+                ret = 'error'
                 if self.error_log is not None:
                     self.error_log.write(''.join(traceback.format_exc()))
-
         return ret
 
     def create_activated_console_shortcut(self, shortcut_directory):
@@ -348,16 +356,16 @@ class ShortCutter(object):
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
         (plus shortcut to root environment in case of conda).
-        
-        Returns None
         """
         activate, env = self.activate_args
         if activate:
-            shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
-            self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None)
-            if env:
-                shortcut_name = 'Activate {} env'.format(p.basename(env))
-                self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env)
+            def create():
+                shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
+                self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None)
+                if env:
+                    shortcut_name = 'Activate {} env'.format(p.basename(env))
+                    self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env)
+            self._safe_create(create)
 
     # should be overridden
     @staticmethod
@@ -379,19 +387,12 @@ class ShortCutter(object):
 
         Returns True on success False of failure
         """
-        ret = True
+        ret = []
         for path in args:
             if not p.isdir(path):
-                if self.raise_errors:
-                    os.makedirs(path)
-                else:
-                    try:
-                        os.makedirs(path)
-                    except OSError:
-                        if self.error_log is not None:
-                            self.error_log.write(''.join(traceback.format_exc()))
-                        ret = False
-        return ret
+                ret.append(self._safe_create(lambda: os.makedirs(path)))
+
+        return False if ('error' in ret) else True
 
     def find_target(self, target):
         """
