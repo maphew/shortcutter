@@ -267,6 +267,16 @@ class ShortCutter(object):
         else:
             return self.create_shortcut(target, self.menu_folder, shortcut_name)
 
+    def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate, env):
+        wrapper_path = p.join(self.bin_folder, self.sh(
+            'shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut'
+        ))
+        if target_path:
+            with open(wrapper_path, 'w') as f:
+                f.write(self._activate_wrapper(activate, env, target_path))
+                self._make_executable(wrapper_path)
+        return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
+
     def create_shortcut(self, target, shortcut_directory, shortcut_name=None):
         """
         Creates a shortcut to a target.
@@ -307,15 +317,8 @@ class ShortCutter(object):
 
             elif self.activate:
                 activate, env = self.activate_args
-                wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_' +
-                                                               re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) +
-                                                               '_shortcut'))
                 if activate:
-                    if target_path:
-                        with open(wrapper_path, 'w') as f:
-                            f.write(self._activate_wrapper(activate, env, target_path))
-                            self._make_executable(wrapper_path)
-                    return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
+                    return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory, activate, env)
 
                 elif (not activate) and env:
                     raise ShortcutError('Shortcutter failed to find conda root (or activate script there). ' +
@@ -339,6 +342,22 @@ class ShortCutter(object):
                     self.error_log.write(''.join(traceback.format_exc()))
 
         return ret
+
+    def create_activated_console_shortcut(self, shortcut_directory):
+        """
+        Creates shortcuts for console (terminal) that
+        has already activated the environment we are installing to
+        (plus shortcut to root environment in case of conda).
+        
+        Returns None
+        """
+        activate, env = self.activate_args
+        if activate:
+            shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
+            self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None)
+            if env:
+                shortcut_name = 'Activate {} env'.format(p.basename(env))
+                self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env)
 
     # should be overridden
     @staticmethod
