@@ -267,11 +267,23 @@ class ShortCutter(object):
         else:
             return self.create_shortcut(target, self.menu_folder, shortcut_name)
 
-    def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate, env):
+    def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
+        """
+        Providing activate_args optional argument switches to creation
+        of shortcut to terminal with activated environment. 
+        """
+        if activate_args is None:
+            activate, env = self.activate_args
+            terminals = False
+        else:
+            activate, env = activate_args
+            terminals = True
+            target_path = None
+
         wrapper_path = p.join(self.bin_folder, self.sh(
             'shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut'
         ))
-        if target_path:
+        if target_path or terminals:
             with open(wrapper_path, 'w') as f:
                 f.write(self._activate_wrapper(activate, env, target_path))
                 self._make_executable(wrapper_path)
@@ -318,7 +330,7 @@ class ShortCutter(object):
             elif self.activate:
                 activate, env = self.activate_args
                 if activate:
-                    return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory, activate, env)
+                    return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory)
 
                 elif (not activate) and env:
                     raise ShortcutError('Shortcutter failed to find conda root (or activate script there). ' +
@@ -381,10 +393,10 @@ class ShortCutter(object):
                         self.error_log.write(msg + '\n')
                 else:
                     shortcut_name = 'Terminal at activated ' + p.basename(p.dirname(p.dirname(activate)))
-                    self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, activate, None))
+                    self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None)))
                     if env:
                         shortcut_name = 'Terminal at activated {} env'.format(p.basename(env))
-                        self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, activate, env))
+                        self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env)))
 
     # should be overridden
     @staticmethod
