@@ -9,6 +9,7 @@ ACTIVATE = """#!/bin/sh
 source "{activate}"
 "{executable}" "$@"
 "{deactivate}"
+
 """
 
 
