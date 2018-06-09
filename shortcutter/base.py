@@ -359,13 +359,11 @@ class ShortCutter(object):
         """
         activate, env = self.activate_args
         if activate:
-            def create():
-                shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
-                self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None)
-                if env:
-                    shortcut_name = 'Activate {} env'.format(p.basename(env))
-                    self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env)
-            self._safe_create(create)
+            shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
+            self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None))
+            if env:
+                shortcut_name = 'Activate {} env'.format(p.basename(env))
+                self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env))
 
     # should be overridden
     @staticmethod
