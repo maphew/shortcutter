@@ -171,8 +171,9 @@ class ShortCutter(object):
             #   or user specified `CONDA_ROOT` env var himself:
             conda_root = os.environ.get('CONDA_ROOT')
             activate = self._check_if_conda_root(conda_root)
-            if p.isabs(conda_root) and activate:
-                return activate, self.local_root
+            if activate:
+                if p.isabs(conda_root):
+                    return activate, self.local_root
 
             # check if there is conda in the PATH:
             conda = self.find_target('conda')
