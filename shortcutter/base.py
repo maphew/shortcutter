@@ -145,17 +145,11 @@ class ShortCutter(object):
         """
         def r(path):
             return path.replace('"', r'\"').replace("'", r"\'")
-        if target_path:
-            return self._ACTIVATE.format(
-                activate=r(activate) + ('" "' + r(env) if env else ''),
-                executable=r(target_path),
-                bin=r(p.dirname(activate))
-            )
-        else:
-            return self._ACTIVATE_PROMPT.format(
-                activate=r(activate) + ('" "' + r(env) if env else ''),
-                bin=r(p.dirname(activate))
-            )
+        return (self._ACTIVATE if target_path else self._ACTIVATE_PROMPT).format(
+            activate=r(activate) + ('" "' + r(env) if env else ''),
+            executable=r(target_path),
+            bin=r(p.dirname(activate))
+        )
 
     def _get_activate_args(self):
         """
