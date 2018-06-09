@@ -60,6 +60,10 @@ class ShortCutterWindows(ShortCutter):
         return ACTIVATE
 
     @staticmethod
+    def _make_executable(file_path):
+        pass
+
+    @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
         return ShortCutterWindows._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
 

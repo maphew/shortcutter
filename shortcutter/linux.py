@@ -44,6 +44,11 @@ class ShortCutterLinux(ShortCutter):
         return ACTIVATE
 
     @staticmethod
+    def _make_executable(file_path):
+        st = os.stat(file_path)
+        os.chmod(file_path, st.st_mode | stat.S_IEXEC)
+
+    @staticmethod
     def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
         """
         Creates a Unix shortcut to a directory via symbolic link.

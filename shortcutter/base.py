@@ -107,6 +107,11 @@ class ShortCutter(object):
     def _get_activate_wrapper_template():
         raise ShortcutError("_get_activate_wrapper_template needs overriding")
 
+    # should be overridden
+    @staticmethod
+    def _make_executable(file_path):
+        raise ShortcutError("_make_executable needs overriding")
+
     @staticmethod
     def exe(app_name):
         """
@@ -303,6 +308,7 @@ class ShortCutter(object):
                 if activate:
                     with open(wrapper_path, 'w') as f:
                         f.write(self._activate_wrapper(target_path))
+                    self._make_executable(wrapper_path)
                     return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 
                 elif (not activate) and env:
