@@ -26,7 +26,7 @@ from .base import ShortCutter
 ACTIVATE = r"""@echo off
 call "{activate}"
 "{executable}" %*
-"{deactivate}"
+call "{deactivate}"
 
 """
 

@@ -8,7 +8,7 @@ from .base import ShortCutter
 ACTIVATE = """#!/bin/sh
 source "{activate}"
 "{executable}" "$@"
-"{deactivate}"
+source "{deactivate}"
 
 """
 
