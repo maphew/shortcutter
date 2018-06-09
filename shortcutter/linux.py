@@ -6,7 +6,6 @@ import stat
 from .base import ShortCutter
 
 ACTIVATE = """#!/bin/bash
-export PATH="{bin}:$PATH"
 source "{activate}"
 "{executable}" "$@"
 source "{bin}/deactivate"

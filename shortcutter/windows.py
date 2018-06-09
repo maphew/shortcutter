@@ -24,7 +24,6 @@ import winshell
 from .base import ShortCutter
 
 ACTIVATE = r"""@echo off
-set "PATH={bin};%PATH%"
 call "{activate}"
 chcp 65001 > NUL
 set "PYTHONIOENCODING=utf-8"

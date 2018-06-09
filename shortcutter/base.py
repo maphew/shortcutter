@@ -149,11 +149,12 @@ class ShortCutter(object):
             return self._ACTIVATE.format(
                 activate=r(activate) + ('" "' + r(env) if env else ''),
                 executable=r(target_path),
-                deactivate=r(p.join(p.dirname(activate), self.sh('deactivate')))
+                bin=r(p.dirname(activate))
             )
         else:
             return self._ACTIVATE_PROMPT.format(
                 activate=r(activate) + ('" "' + r(env) if env else ''),
+                bin=r(p.dirname(activate))
             )
 
     def _get_activate_args(self):
