@@ -32,6 +32,7 @@ call "{deactivate}"
 
 ACTIVATE_PROMPT = """@echo off
 call "{activate}"
+cd %USERPROFILE%
 cmd /k
 
 """

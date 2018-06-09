@@ -13,7 +13,7 @@ source "{deactivate}"
 """
 
 ACTIVATE_PROMPT = """#!/bin/bash
-bash --rcfile <(echo 'source "{activate}"')
+bash --rcfile <(echo 'source "{activate}"; cd $HOME')
 
 """
 
