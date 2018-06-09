@@ -70,6 +70,7 @@ class ShortCutter(object):
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
         self._set_exec_file_exts()
+        self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
         # should be run the last:
         self.activate_args = self._get_activate_args()
 
@@ -104,8 +105,8 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
-    def _get_activate_wrapper_template():
-        raise ShortcutError("_get_activate_wrapper_template needs overriding")
+    def _get_activate_wrapper_templates():
+        raise ShortcutError("_get_activate_wrapper_templates needs overriding")
 
     # should be overridden
     @staticmethod
@@ -138,18 +139,22 @@ class ShortCutter(object):
         else:
             return script_name
 
-    def _activate_wrapper(self, target_path):
+    def _activate_wrapper(self, activate, env, target_path=None):
         """
         Returns shell script wrapper source for shortcut with activation.
         """
         def r(path):
             return path.replace('"', r'\"').replace("'", r"\'")
-        activate, env = self.activate_args
-        return self._get_activate_wrapper_template().format(
-            activate=r(activate) + ('" "' + r(env) if env else ''),
-            executable=r(target_path),
-            deactivate=r(p.join(p.dirname(activate), self.sh('deactivate')))
-        )
+        if target_path:
+            return self._ACTIVATE.format(
+                activate=r(activate) + ('" "' + r(env) if env else ''),
+                executable=r(target_path),
+                deactivate=r(p.join(p.dirname(activate), self.sh('deactivate')))
+            )
+        else:
+            return self._ACTIVATE_PROMPT.format(
+                activate=r(activate) + ('" "' + r(env) if env else ''),
+            )
 
     def _get_activate_args(self):
         """
@@ -307,7 +312,7 @@ class ShortCutter(object):
                                                                '_shortcut'))
                 if activate:
                     with open(wrapper_path, 'w') as f:
-                        f.write(self._activate_wrapper(target_path))
+                        f.write(self._activate_wrapper(activate, env, target_path))
                     self._make_executable(wrapper_path)
                     return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 

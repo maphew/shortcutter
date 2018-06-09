@@ -30,6 +30,12 @@ call "{deactivate}"
 
 """
 
+ACTIVATE_PROMPT = """@echo off
+call "{activate}"
+cmd /k
+
+"""
+
 
 class ShortCutterWindows(ShortCutter):
     def _set_exec_file_exts(self):
@@ -56,8 +62,8 @@ class ShortCutterWindows(ShortCutter):
         return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
 
     @staticmethod
-    def _get_activate_wrapper_template():
-        return ACTIVATE
+    def _get_activate_wrapper_templates():
+        return ACTIVATE, ACTIVATE_PROMPT
 
     @staticmethod
     def _make_executable(file_path):

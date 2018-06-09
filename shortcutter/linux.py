@@ -12,6 +12,11 @@ source "{deactivate}"
 
 """
 
+ACTIVATE_PROMPT = """#!/bin/bash
+bash --rcfile <(echo 'source "{activate}"')
+
+"""
+
 
 class ShortCutterLinux(ShortCutter):
     @staticmethod
@@ -40,8 +45,8 @@ class ShortCutterLinux(ShortCutter):
         return site.getsitepackages()[0]
 
     @staticmethod
-    def _get_activate_wrapper_template():
-        return ACTIVATE
+    def _get_activate_wrapper_templates():
+        return ACTIVATE, ACTIVATE_PROMPT
 
     @staticmethod
     def _make_executable(file_path):
