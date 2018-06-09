@@ -311,9 +311,10 @@ class ShortCutter(object):
                                                                re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) +
                                                                '_shortcut'))
                 if activate:
-                    with open(wrapper_path, 'w') as f:
-                        f.write(self._activate_wrapper(activate, env, target_path))
-                    self._make_executable(wrapper_path)
+                    if target_path:
+                        with open(wrapper_path, 'w') as f:
+                            f.write(self._activate_wrapper(activate, env, target_path))
+                            self._make_executable(wrapper_path)
                     return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 
                 elif (not activate) and env:
