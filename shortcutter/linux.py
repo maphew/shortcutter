@@ -6,14 +6,15 @@ import stat
 from .base import ShortCutter
 
 ACTIVATE = """#!/bin/bash
+export PATH="{bin}:$PATH"
 source "{activate}"
 "{executable}" "$@"
-source "{deactivate}"
+source "{bin}/deactivate"
 
 """
 
 ACTIVATE_PROMPT = """#!/bin/bash
-bash --rcfile <(echo 'source "{activate}"; cd $HOME')
+bash --rcfile <(export PATH="{bin}:$PATH"; echo 'source "{activate}"; cd $HOME')
 
 """
 

@@ -24,14 +24,20 @@ import winshell
 from .base import ShortCutter
 
 ACTIVATE = r"""@echo off
+set "PATH={bin};%PATH%"
 call "{activate}"
+chcp 65001 > NUL
+set "PYTHONIOENCODING=utf-8"
 "{executable}" %*
-call "{deactivate}"
+call "{bin}\deactivate.bat"
 
 """
 
 ACTIVATE_PROMPT = """@echo off
+set "PATH={bin};%PATH%"
 call "{activate}"
+chcp 65001 > NUL
+set "PYTHONIOENCODING=utf-8"
 cd %USERPROFILE%
 cmd /k
 
