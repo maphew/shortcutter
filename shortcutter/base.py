@@ -143,7 +143,7 @@ class ShortCutter(object):
         Returns shell script wrapper source for shortcut with activation.
         """
         def r(path):
-            return path.replace('"', r'\"')
+            return path.replace('"', r'\"').replace("'", r"\'")
         activate, env = self.activate_args
         return self._get_activate_wrapper_template().format(
             activate=r(activate) + ('" "' + r(env) if env else ''),
