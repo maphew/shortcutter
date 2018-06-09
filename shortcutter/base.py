@@ -371,7 +371,7 @@ class ShortCutter(object):
         dirs = []
         for check, path, pref in [(desktop, self.desktop_folder, 'Desktop folder'),
                                   (menu, self.menu_folder, 'Menu folder'),
-                                  (shortcut_directory is not None, shortcut_directory. 'Directory')]:
+                                  (shortcut_directory is not None, shortcut_directory, 'Directory')]:
             if check and not p.isdir(path):
                 msg = "{} '{}' not found.".format(pref, path)
                 if self.raise_errors:
