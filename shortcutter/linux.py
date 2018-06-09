@@ -5,7 +5,7 @@ import site
 import stat
 from .base import ShortCutter
 
-ACTIVATE = """#!/bin/sh
+ACTIVATE = """#!/bin/bash
 source "{activate}"
 "{executable}" "$@"
 source "{deactivate}"
