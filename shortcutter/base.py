@@ -141,7 +141,7 @@ class ShortCutter(object):
             return path.replace('"', r'\"')
         activate, env = self.activate_args
         return self._get_activate_wrapper_template().format(
-            activate=r(activate) + (('" "' + r(env) if env else ''),
+            activate=r(activate) + ('" "' + r(env) if env else ''),
             executable=r(target_path),
             deactivate=r(p.join(p.dirname(activate), self.sh('deactivate')))
         )
@@ -186,7 +186,7 @@ class ShortCutter(object):
         else:
             # check if we are installing to venv:
             activate = p.join(self.bin_folder, self.sh('activate'))
-            if p.isfile(activate) and not p.isdir(activate):
+            if p.isfile(activate):
                 return activate, None
 
         return None, None
@@ -204,9 +204,9 @@ class ShortCutter(object):
                                p.basename(self.bin_folder),
                                self.exe('conda'))
                 # check if the file executable:
-                if p.isfile(conda) and not p.isdir(conda) and os.access(conda, os.X_OK):
+                if p.isfile(conda) and os.access(conda, os.X_OK):
                     activate = p.join(p.dirname(conda), self.sh('activate'))
-                    if p.isfile(activate) and not p.isdir(activate):
+                    if p.isfile(activate):
                         return p.abspath(activate)
         return None
 
@@ -295,15 +295,17 @@ class ShortCutter(object):
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
             elif self.activate:
                 activate, env = self.activate_args
-                wrapper_path = p.join(self.bin_folder,
-                                      self.sh('shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut'))
+                wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_' +
+                                                               re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) +
+                                                               '_shortcut'))
                 if activate:
                     with open(wrapper_path, 'w') as f:
                         f.write(self._activate_wrapper(target_path))
                     return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
                 elif (not activate) and env:
                     raise ShortcutError('Shortcutter failed to find conda root or activate script there. ' +
-                                        'It searched in `../../` assuming default env location (`../` should have `envs` basename). ' + 
+                                        'It searched in `../../` assuming default env location ' +
+                                        '(`../` should have `envs` basename). ' +
                                         'Checked `CONDA_ROOT` environment variable. ' +
                                         'Searched `conda` executable in the PATH.')
 
@@ -377,7 +379,7 @@ class ShortCutter(object):
                 return p.abspath(targets[0])
             else:
                 return None
-        elif p.isfile(target):
+        elif p.isfile(target) or p.isdir(target):
             return p.abspath(target)
         else:
             return None
