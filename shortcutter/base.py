@@ -351,22 +351,39 @@ class ShortCutter(object):
                     self.error_log.write(''.join(traceback.format_exc()))
         return ret
 
-    def create_activated_terminal_shortcuts(self, shortcut_directory):
+    def create_activated_terminal_shortcuts(self, desktop=True, menu=True, shortcut_directory=None):
         """
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
         (plus shortcut to root environment in case of conda).
-        
+
+        :param bool desktop:
+            Whether to create shortcuts on the desktop. Default is `True`
+        :param bool menu:
+            Whether to create shortcuts in the menu. Default is `True`
         :param str shortcut_directory:
-            The directory path where the shortcut should be created.
+            The directory path where the shortcuts should be created. Default is `None`
         """
         activate, env = self.activate_args
-        if activate:
-            shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
-            self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, None))
-            if env:
-                shortcut_name = 'Activate {} env'.format(p.basename(env))
-                self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, shortcut_directory, activate, env))
+        if not activate:
+            return
+
+        dirs = []
+        for check, path, pref in [(desktop, self.desktop_folder, 'Desktop folder'),
+                                  (menu, self.menu_folder, 'Menu folder'),
+                                  (shortcut_directory is not None, shortcut_directory. 'Directory')]:
+            if check and not p.isdir(path):
+                msg = "{} '{}' not found.".format(pref, path)
+                if self.raise_errors:
+                    raise ShortcutNoDesktopError(msg)
+                elif self.error_log is not None:
+                    self.error_log.write(msg + '\n')
+            else:
+                shortcut_name = 'Activate ' + p.basename(p.dirname(p.dirname(activate)))
+                self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, activate, None))
+                if env:
+                    shortcut_name = 'Activate {} env'.format(p.basename(env))
+                    self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, activate, env))
 
     # should be overridden
     @staticmethod
