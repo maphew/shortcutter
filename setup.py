@@ -1,5 +1,7 @@
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
+from os import path as p
+import versioneer
 
 if sys.version_info[0] == 2:
     if not sys.version_info >= (2, 7):
@@ -10,11 +12,17 @@ elif sys.version_info[0] == 3:
 else:
     raise ValueError('Unrecognized major version of Python')
 
+here = p.abspath(os.path.dirname(__file__))
+with open(p.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
 
 setup(
     name='shortcutter',
-    version = '0.0.2',
+    version = versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description = 'A cross platform simple api for setup.py and command line application for creating shortcuts (fork of Shortcut)',
+    long_description=long_description,
     url = 'https://github.com/kiwi0fruit/shortcutter',
     author = "Martin O'Hanlon, Peter Zagubisalo",
     author_email = 'peter.zagubisalo@gmail.com',
@@ -36,7 +44,7 @@ setup(
         "Environment :: MacOS X",
         "Environment :: Win32 (MS Windows)",
     ],
-    packages = ['shortcutter'],
+    packages = find_packages(exclude=['docs', 'tests']),
     install_requires = ['pywin32;platform_system=="Windows"'],
     entry_points={
         'console_scripts': [
