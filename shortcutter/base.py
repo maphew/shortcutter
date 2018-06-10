@@ -266,9 +266,10 @@ class ShortCutter(object):
     def _path_to_name(path):
         """
         Takes three last items from the absolutized path and converts to
-        lowercased name by replacing everything except `A-Za-z0-9` to `_`
+        name by replacing everything except `A-Za-z0-9` to `_`
         """
-        return re.sub(r'[^A-Za-z0-9]', '_', '_'.join(p.abspath(path).split(os.sep)[-3:])).lower()
+        dirs = '_'.join(p.abspath(path).split(os.sep)[-3:-1])
+        return re.sub(r'[^A-Za-z0-9]', '_', '{}__at__{}'.format(p.basename(path), dirs))
 
     def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
         """
@@ -283,7 +284,7 @@ class ShortCutter(object):
             activate, env = activate_args
             terminals = True
             target_path = None
-            name = re.sub(r'[^A-Za-z0-9]', '_', shortcut_name).lower()
+            name = re.sub(r'[^A-Za-z0-9]', '_', shortcut_name)
 
         wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_{}_shortcut'.format(name)))
         if target_path or terminals:
