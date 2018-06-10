@@ -74,7 +74,8 @@ class ShortCutterLinux(ShortCutter):
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
                                            'Exec="{}" %F\n'.format(target_path) +
-                                           'Terminal=true\n')
+                                           'Terminal=true\n' +
+                                           'Icon=terminal.png\n')
 
     def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script):
         """
