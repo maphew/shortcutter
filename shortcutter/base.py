@@ -262,14 +262,18 @@ class ShortCutter(object):
         else:
             return self.create_shortcut(target, self.menu_folder, shortcut_name)
 
-    @staticmethod
-    def _path_to_name(path):
+    @classmethod
+    def _path_to_name(cls, path):
         """
         Takes three last items from the absolutized path and converts to
         name by replacing everything except `A-Za-z0-9` to `_`
         """
         dirs = '_'.join(p.abspath(path).split(os.sep)[-3:-1])
-        return re.sub(r'[^A-Za-z0-9]', '_', '{}__at__{}'.format(p.basename(path), dirs))
+        return cls._ascii_name('{}__at__{}'.format(p.basename(path), dirs))
+
+    @staticmethod
+    def _ascii_name(name):
+        return re.sub(r'[^A-Za-z0-9]', '_', name)
 
     def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
         """
@@ -284,7 +288,7 @@ class ShortCutter(object):
             activate, env = activate_args
             terminals = True
             target_path = None
-            name = re.sub(r'[^A-Za-z0-9]', '_', shortcut_name)
+            name = self._ascii_name(shortcut_name)
 
         wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__' + name))
         if target_path or terminals:
