@@ -396,10 +396,10 @@ class ShortCutter(object):
                     elif self.error_log is not None:
                         self.error_log.write(msg + '\n')
                 else:
-                    shortcut_name = 'Terminal at activated ' + p.basename(p.dirname(p.dirname(activate)))
+                    shortcut_name = 'Terminal at ' + p.basename(p.dirname(p.dirname(activate)))
                     self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None)))
                     if env:
-                        shortcut_name = 'Terminal at activated env ' + p.basename(env)
+                        shortcut_name = 'Terminal at env ' + p.basename(env)
                         self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env)))
 
     # should be overridden
