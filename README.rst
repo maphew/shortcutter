@@ -1,4 +1,5 @@
-Shortcutter ========
+Shortcutter
+===========
 
 |Latest Version| |Docs|
 

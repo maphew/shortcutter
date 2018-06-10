@@ -1,4 +1,5 @@
-Shortcutter ========
+Shortcutter
+===========
 
 [![Latest Version](https://badge.fury.io/py/shortcut.svg)](https://badge.fury.io/py/bluedot)
 [![Docs](https://readthedocs.org/projects/shortcut/badge/)](https://readthedocs.org/projects/shortcut/)
