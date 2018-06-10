@@ -33,7 +33,7 @@ def main():
     create_menu = args.menu
     activate = not args.simple
 
-    if not args.terminal and not args.terminal:
+    if not args.target and not args.terminal:
         print('Shortcutter needs target or --terminal arguments to work.')
         return
 
