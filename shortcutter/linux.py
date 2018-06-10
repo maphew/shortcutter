@@ -70,11 +70,11 @@ class ShortCutterLinux(ShortCutter):
         Creates a Linux shortcut file to folder.
         """
         return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
-                                           '[Desktop Entry]\n'
-                                           'Name={}\n'.format(shortcut_name)
-                                           'Type=Application\n'
+                                           '[Desktop Entry]\n' +
+                                           'Name={}\n'.format(shortcut_name) +
+                                           'Type=Application\n' +
                                            'Path={}\n'.format(target_path) +
-                                           'Exec="{}" %F\n'.format(target_path)
+                                           'Exec="{}" %F\n'.format(target_path) +
                                            'Terminal=true\n')
 
     def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script):
