@@ -73,7 +73,6 @@ class ShortCutterLinux(ShortCutter):
                                            '[Desktop Entry]\n' +
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
-                                           'Path={}\n'.format(target_path) +
                                            'Exec="{}" %F\n'.format(target_path) +
                                            'Terminal=true\n')
 
