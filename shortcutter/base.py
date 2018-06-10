@@ -69,13 +69,13 @@ class ShortCutter(object):
         self.bin_folder = self._get_bin_folder()
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
-        self._set_executable_file_extensions()  # important on Windows
+        self._set_win_vars()  # important on Windows
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
         # should be run the last:
         self.activate_args = self._get_activate_args()
 
     # might be overridden if needed
-    def _set_executable_file_extensions(self):
+    def _set_win_vars(self):
         pass
 
     # should be overridden

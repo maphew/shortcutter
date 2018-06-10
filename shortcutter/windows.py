@@ -46,8 +46,10 @@ cmd /k
 
 
 class ShortCutterWindows(ShortCutter):
-    def _set_executable_file_extensions(self):
-        self.executable_file_extensions = os.environ['PATHEXT'].split(os.pathsep)
+    def _set_win_vars(self):
+        self._executable_file_extensions = os.environ['PATHEXT'].split(os.pathsep)
+        cmd = self.find_target('cmd')
+        self._icon_app_path = cmd if cmd else sys.executable
 
     @staticmethod
     def _get_desktop_folder():
@@ -92,8 +94,7 @@ class ShortCutterWindows(ShortCutter):
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path
         if p.isfile(target_path):
-            cmd = self.find_target('cmd')
-            shortcut.IconLocation = "{},0".format(cmd if cmd else sys.executable)
+            shortcut.IconLocation = "{},0".format(self._icon_app_path)
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         shortcut.save()
 
@@ -109,7 +110,7 @@ class ShortCutterWindows(ShortCutter):
                 match = True
         # no extension, compare the target to the file_name for each executable file extension
         else:
-            for extension in self.executable_file_extensions:
+            for extension in self._executable_file_extensions:
                 if file_name.lower() == (target + extension).lower():
                     match = True
         return match
