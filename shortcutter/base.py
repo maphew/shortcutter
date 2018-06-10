@@ -1,7 +1,6 @@
 import os
 from os import path as p
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
-import traceback
 import re
 
 
@@ -378,13 +377,12 @@ class ShortCutter(object):
         if self.raise_errors:
             ret = create()
         else:
-            # noinspection PyBroadException
             try:
                 ret = create()
-            except:
+            except Exception as e:
                 ret = 'error'
                 if self.error_log is not None:
-                    self.error_log.write(''.join(traceback.format_exc()))
+                    self.error_log.write(e)
         return ret
 
     def create_activated_terminal_shortcuts(self, desktop=True, menu=True, shortcut_directory=None):
