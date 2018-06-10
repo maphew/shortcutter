@@ -75,7 +75,7 @@ class ShortCutter(object):
         self.activate_args = self._get_activate_args()
 
     # might be overridden if needed
-    def _set_exec_file_exts(self):
+    def _set_executable_file_extensions(self):
         pass
 
     # should be overridden
