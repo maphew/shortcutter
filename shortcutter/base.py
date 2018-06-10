@@ -286,7 +286,7 @@ class ShortCutter(object):
             target_path = None
             name = re.sub(r'[^A-Za-z0-9]', '_', shortcut_name)
 
-        wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_{}_shortcut'.format(name)))
+        wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__' + name))
         if target_path or terminals:
             with open(wrapper_path, 'w') as f:
                 f.write(self._activate_wrapper(activate, env, target_path))
