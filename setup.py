@@ -12,7 +12,7 @@ elif sys.version_info[0] == 3:
 else:
     raise ValueError('Unrecognized major version of Python')
 
-here = p.abspath(os.path.dirname(__file__))
+here = p.abspath(p.dirname(__file__))
 with open(p.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
