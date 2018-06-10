@@ -69,7 +69,7 @@ class ShortCutter(object):
         self.bin_folder = self._get_bin_folder()
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
-        self._set_exec_file_exts()
+        self._set_executable_file_extensions()  # important on Windows
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
         # should be run the last:
         self.activate_args = self._get_activate_args()
@@ -262,6 +262,14 @@ class ShortCutter(object):
         else:
             return self.create_shortcut(target, self.menu_folder, shortcut_name)
 
+    @staticmethod
+    def _path_to_name(path):
+        """
+        Takes three last items from the absolutized path and converts to
+        lowercased name by replacing everything except `A-Za-z0-9` to `_`
+        """
+        return re.sub(r'[^A-Za-z0-9]', '_', '_'.join(p.abspath(path).split(os.sep)[-3:])).lower()
+
     def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
         """
         Providing activate_args optional argument switches to creation
@@ -270,14 +278,14 @@ class ShortCutter(object):
         if activate_args is None:
             activate, env = self.activate_args
             terminals = False
+            name = self._path_to_name(target_path)
         else:
             activate, env = activate_args
             terminals = True
             target_path = None
+            name = re.sub(r'[^A-Za-z0-9]', '_', shortcut_name).lower()
 
-        wrapper_path = p.join(self.bin_folder, self.sh(
-            'shortcutter_' + re.sub(r'[^A-Za-z0-9_]', '_', shortcut_name) + '_shortcut'
-        ))
+        wrapper_path = p.join(self.bin_folder, self.sh('shortcutter_{}_shortcut'.format(name)))
         if target_path or terminals:
             with open(wrapper_path, 'w') as f:
                 f.write(self._activate_wrapper(activate, env, target_path))
@@ -390,17 +398,15 @@ class ShortCutter(object):
                     shortcut_name = 'Terminal at activated ' + p.basename(p.dirname(p.dirname(activate)))
                     self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None)))
                     if env:
-                        shortcut_name = 'Terminal at activated {} env'.format(p.basename(env))
+                        shortcut_name = 'Terminal at activated env ' + p.basename(env)
                         self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env)))
 
     # should be overridden
-    @staticmethod
-    def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
         raise ShortcutError("_create_shortcut_to_dir needs overriding")
 
     # should be overridden
-    @staticmethod
-    def _create_shortcut_file(shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
         raise ShortcutError("_create_shortcut_file needs overriding")
 
     def makedirs(self, *args):

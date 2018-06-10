@@ -53,37 +53,41 @@ class ShortCutterLinux(ShortCutter):
         st = os.stat(file_path)
         os.chmod(file_path, st.st_mode | stat.S_IEXEC)
 
-    @staticmethod
-    def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
         """
-        Creates a Unix shortcut to a directory via symbolic link.
+        Creates a Linux shortcut file to executable.
+        """
+        return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
+                                           '[Desktop Entry]\n' +
+                                           'Name={}\n'.format(shortcut_name) +
+                                           'Type=Application\n' +
+                                           'Path={}\n'.format(target_path) +
+                                           'Exec=xdg-open "{}"\n'.format(target_path) +
+                                           'Icon=system-file-manager.png\n')
+
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
+        """
+        Creates a Linux shortcut file to folder.
+        """
+        return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
+                                           '[Desktop Entry]\n'
+                                           'Name={}\n'.format(shortcut_name)
+                                           'Type=Application\n'
+                                           'Path={}\n'.format(target_path) +
+                                           'Exec="{}" %F\n'.format(target_path)
+                                           'Terminal=true\n')
+
+    def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script):
+        """
+        Creates a Linux shortcut file using .desktop file script
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        shortcut_file_path = p.join(shortcut_directory, shortcut_name)
-        if p.islink(shortcut_file_path):
-            os.remove(shortcut_file_path)
-        os.symlink(target_path, shortcut_file_path)
-        return shortcut_name, target_path, shortcut_file_path
+        shortcut_file_path = p.join(shortcut_directory, 'launch_' + self._path_to_name(target_path) + '.desktop')
 
-    @staticmethod
-    def _create_shortcut_file(shortcut_name, target_path, shortcut_directory):
-        """
-        Creates a Linux shortcut file.
-
-        Returns tuple (shortcut_name, target_path, shortcut_file_path)
-        """
-        shortcut_file_path = p.join(shortcut_directory, "launch_" + shortcut_name + ".desktop")
         with open(shortcut_file_path, "w") as shortcut:
-            shortcut.write("[Desktop Entry]\n")
-            shortcut.write("Name={}\n".format(shortcut_name))
-            shortcut.write("Exec={} %F\n".format(target_path))
-            shortcut.write("Terminal=true\n")
-            shortcut.write("Type=Application\n")
-
-            # make the launch file executable
-            st = os.stat(shortcut_file_path)
-            os.chmod(shortcut_file_path, st.st_mode | stat.S_IEXEC)
+            shortcut.write(script)
+            self._make_executable(shortcut_file_path)
 
         return shortcut_name, target_path, shortcut_file_path
 

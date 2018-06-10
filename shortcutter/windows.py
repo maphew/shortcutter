@@ -20,8 +20,10 @@ except ImportError as e:
     else:
         raise e
 
-import winshell
+from win32com.client import Dispatch
 from .base import ShortCutter
+
+shell = Dispatch('WScript.Shell')
 
 ACTIVATE = r"""@echo off
 call "{activate}"
@@ -44,16 +46,16 @@ cmd /k
 
 
 class ShortCutterWindows(ShortCutter):
-    def _set_exec_file_exts(self):
+    def _set_executable_file_extensions(self):
         self.executable_file_extensions = os.environ['PATHEXT'].split(os.pathsep)
 
     @staticmethod
     def _get_desktop_folder():
-        return winshell.desktop()
+        return shell.SpecialFolders("Desktop")
 
     @staticmethod
     def _get_menu_folder():
-        return winshell.folder("CSIDL_PROGRAMS")
+        return shell.SpecialFolders("Programs")
 
     @staticmethod
     def _get_bin_folder():
@@ -75,12 +77,10 @@ class ShortCutterWindows(ShortCutter):
     def _make_executable(file_path):
         pass
 
-    @staticmethod
-    def _create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory):
-        return ShortCutterWindows._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
+        return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
 
-    @staticmethod
-    def _create_shortcut_file(shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
         """
         Creates a Windows shortcut file.
 
@@ -88,12 +88,12 @@ class ShortCutterWindows(ShortCutter):
         """
         shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
 
-        winshell.CreateShortcut(
-            Path=shortcut_file_path,
-            Target=target_path,
-            Icon=(target_path, 0),
-            Description="Shortcut to" + p.basename(target_path),
-            StartIn=target_path)
+        shortcut = shell.CreateShortCut(shortcut_file_path)
+        shortcut.Targetpath = target_path
+        shortcut.WorkingDirectory = target_path
+        shortcut.IconLocation = "{},0".format(target_path)
+        shortcut.Description = "Shortcut to" + p.basename(target_path)
+        shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
 

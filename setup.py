@@ -37,8 +37,7 @@ setup(
         "Environment :: Win32 (MS Windows)",
     ],
     packages = ['shortcutter'],
-    install_requires = ['winshell;platform_system=="Windows"',
-                        'pywin32;platform_system=="Windows"'],
+    install_requires = ['pywin32;platform_system=="Windows"'],
     entry_points={
         'console_scripts': [
             'shortcutter = shortcutter:main'
