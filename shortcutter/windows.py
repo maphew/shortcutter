@@ -91,7 +91,9 @@ class ShortCutterWindows(ShortCutter):
         shortcut = shell.CreateShortCut(shortcut_file_path)
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path
-        shortcut.IconLocation = "{},0".format(target_path)
+        if p.isfile(target_path):
+            cmd = self.find_target('cmd')
+            shortcut.IconLocation = "{},0".format(cmd if cmd else sys.executable)
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         shortcut.save()
 
