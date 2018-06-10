@@ -1,4 +1,4 @@
+# install twine to conda environment:
 conda install -c defaults -c conda-forge twine
-# go to this folder:
-python setup.py sdist
-twine upload dist/* --skip-existing
+# run build_to_clipboard.bat
+# paste clipboard to the terminal
