@@ -273,7 +273,9 @@ class ShortCutter(object):
 
     @staticmethod
     def _ascii_name(name):
-        return re.sub(r'[^A-Za-z0-9]', '_', name)
+        w_unicode_name = re.sub(r'\W', '_', name)
+        w_ascii_name = str(w_unicode_name.encode('utf-8'))[1:].strip('"').strip("'").replace('\\', '_')
+        return w_ascii_name
 
     def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
         """

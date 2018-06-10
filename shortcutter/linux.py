@@ -83,9 +83,7 @@ class ShortCutterLinux(ShortCutter):
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        dirs = '_'.join(target_path.split(os.sep)[-3:-1])
-        name = '{}__at__{}'.format(self._ascii_name(shortcut_name), dirs)
-        shortcut_file_path = p.join(shortcut_directory, name + '.desktop')
+        shortcut_file_path = p.join(shortcut_directory, shortcut_name + '.desktop')
 
         with open(shortcut_file_path, "w") as shortcut:
             shortcut.write(script)
