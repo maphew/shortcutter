@@ -402,7 +402,6 @@ class ShortCutter(object):
         if not activate:
             return
 
-        dirs = []
         for check, path, pref in [(desktop, self.desktop_folder, 'Desktop folder'),
                                   (menu, self.menu_folder, 'Menu folder'),
                                   (shortcut_directory is not None, shortcut_directory, 'Directory')]:
@@ -415,10 +414,14 @@ class ShortCutter(object):
                         self.error_log.write(msg + '\n')
                 else:
                     shortcut_name = 'Terminal at ' + p.basename(p.dirname(p.dirname(activate)))
-                    self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None)))
+                    self._safe_create(
+                        lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None))
+                    )
                     if env:
                         shortcut_name = 'Terminal at env ' + p.basename(env)
-                        self._safe_create(lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env)))
+                        self._safe_create(
+                            lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env))
+                        )
 
     # should be overridden
     def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):

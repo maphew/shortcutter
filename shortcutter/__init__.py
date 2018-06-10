@@ -1,4 +1,3 @@
-from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 # get operating system
 import sys
 platform = sys.platform
@@ -20,13 +19,16 @@ def main():
     
     from argparse import ArgumentParser
 
-    parser = ArgumentParser(description="Automatic shortcut creator. Shortcuts auto-activate their environments by default.")
-    parser.add_argument("target", nargs='?', default=None, help="The target executable to create Desktop and Menu shortcuts.")
-    parser.add_argument("-d", "--desktop", help="Only create a desktop shortcut.", action="store_true")
-    parser.add_argument("-m", "--menu", help="Only create a menu shortcut.", action="store_true")
-    parser.add_argument("-s", "--simple", help="Create simple shortcut without activate wrapper.", action="store_true")
-    parser.add_argument("-t", "--terminal", help=("Create shortcut to environment with shortcutter " +
-                                                  "(plus shortcut to root environment in case of conda)."), action="store_true")
+    parser = ArgumentParser(description="Automatic shortcut creator." +
+                                        " Shortcuts auto-activate their environments by default.")
+    parser.add_argument("target", nargs='?', default=None,
+                        help="The target executable to create Desktop and Menu shortcuts.")
+    parser.add_argument("-d", "--desktop", action="store_true", help="Only create a desktop shortcut.")
+    parser.add_argument("-m", "--menu", action="store_true", help="Only create a menu shortcut.")
+    parser.add_argument("-s", "--simple", action="store_true", help="Create simple shortcut without activate wrapper.")
+    parser.add_argument("-t", "--terminal", action="store_true",
+                        help="Create shortcut to environment with shortcutter " +
+                             "(plus shortcut to root environment in case of conda).")
     args = parser.parse_args()
    
     create_desktop = args.desktop
