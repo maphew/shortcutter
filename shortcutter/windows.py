@@ -80,9 +80,12 @@ class ShortCutterWindows(ShortCutter):
         pass
 
     def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
-        return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, True)
 
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory)
+
+    def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, dir_=False):
         """
         Creates a Windows shortcut file.
 
@@ -93,7 +96,7 @@ class ShortCutterWindows(ShortCutter):
         shortcut = shell.CreateShortCut(shortcut_file_path)
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path
-        if p.isfile(target_path):
+        if not dir_:
             shortcut.IconLocation = "{},0".format(self._icon_app_path)
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         shortcut.save()

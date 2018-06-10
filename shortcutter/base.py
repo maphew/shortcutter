@@ -216,7 +216,7 @@ class ShortCutter(object):
                         return p.abspath(activate)
         return None
 
-    def create_desktop_shortcut(self, target, shortcut_name=None):
+    def create_desktop_shortcut(self, target, shortcut_name=None, exists=True):
         """
         Creates a desktop shortcut to a target.
 
@@ -227,6 +227,9 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
+        :param bool exists:
+            Whether target should exist or not.
+            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -237,9 +240,9 @@ class ShortCutter(object):
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
-            return self.create_shortcut(target, self.desktop_folder, shortcut_name)
+            return self.create_shortcut(target, self.desktop_folder, shortcut_name, exists)
 
-    def create_menu_shortcut(self, target, shortcut_name=None):
+    def create_menu_shortcut(self, target, shortcut_name=None, exists=True):
         """
         Creates a menu shortcut to a target.
 
@@ -250,6 +253,9 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
+        :param bool exists:
+            Whether target should exist or not.
+            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -260,7 +266,7 @@ class ShortCutter(object):
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
-            return self.create_shortcut(target, self.menu_folder, shortcut_name)
+            return self.create_shortcut(target, self.menu_folder, shortcut_name, exists)
 
     @classmethod
     def _path_to_name(cls, path):
@@ -299,7 +305,7 @@ class ShortCutter(object):
                 self._make_executable(wrapper_path)
         return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 
-    def create_shortcut(self, target, shortcut_directory, shortcut_name=None):
+    def create_shortcut(self, target, shortcut_directory, shortcut_name=None, exists=True):
         """
         Creates a shortcut to a target.
 
@@ -312,6 +318,9 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
+        :param bool exists:
+            Whether target should exist or not.
+            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -320,9 +329,14 @@ class ShortCutter(object):
 
         # Check if target is dir or file:
         isdir = False
-        if target_path is not None:
+        if target_path:
             if p.isdir(target_path):
                 isdir = True
+
+        if not target_path and not exists:
+            if target.endswith(os.sep):
+                isdir = True
+            target_path = p.abspath('target')
 
         # Set shortcut name:
         if shortcut_name is None:
