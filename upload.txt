@@ -1,4 +1,5 @@
 # install twine to conda environment:
 conda install -c defaults -c conda-forge twine
+# open terminal with activated environment
 # run build_to_clipboard.bat
 # paste clipboard to the terminal
