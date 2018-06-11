@@ -64,9 +64,8 @@ def main():
                     else:
                         shortcutter.create_desktop_shortcut(target_path, name)
                     desktop_created = True
-                except Exception as e:
+                except Exception:
                     print(''.join(traceback.format_exc()))
-                    print(e)
                     print("Failed to create desktop shortcut.")
 
             menu_created = False
@@ -77,18 +76,16 @@ def main():
                     else:
                         shortcutter.create_menu_shortcut(target_path, name)
                     menu_created = True
-                except Exception as e:
+                except Exception:
                     print(''.join(traceback.format_exc()))
-                    print(e)
                     print("Failed to create menu shortcut.")
-                
+
             if desktop_created or menu_created:
                 print("Shortcut created for '{}'".format(args.target))
 
         else:
             print("Shortcut creation failed: unable to find '{}'".format(args.target))
 
-    except Exception as e:
+    except Exception:
         print(''.join(traceback.format_exc()))
-        print(e)
         print("Shortcut creation failed.")

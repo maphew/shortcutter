@@ -380,11 +380,10 @@ class ShortCutter(object):
         else:
             try:
                 ret = create()
-            except Exception as e:
+            except Exception:
                 ret = 'error'
                 if self.error_log is not None:
                     self.error_log.write(''.join(traceback.format_exc()))
-                    self.error_log.write(e)
         return ret
 
     def create_shortcut_to_env_terminal(self, shortcut_name=None, desktop=True, menu=True, shortcut_directory=None):
