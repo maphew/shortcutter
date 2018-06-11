@@ -29,15 +29,17 @@ def main():
                         help="The target executable to create Desktop and Menu shortcuts.")
     parser.add_argument("-d", "--desktop", action="store_true", help="Only create a desktop shortcut.")
     parser.add_argument("-m", "--menu", action="store_true", help="Only create a menu shortcut.")
+    parser.add_argument("-n", "--name", nargs='?', default=None, help="Name of the shortcut without extension (autoname otherwise).")
     parser.add_argument("-s", "--simple", action="store_true", help="Create simple shortcut without activate wrapper.")
     parser.add_argument("-t", "--terminal", action="store_true",
                         help="Create shortcut to environment with shortcutter " +
                              "(plus shortcut to root environment in case of conda).")
     args = parser.parse_args()
-   
+
     create_desktop = args.desktop
     create_menu = args.menu
     activate = not args.simple
+    name = args.name if args.name else None
 
     if not args.target and not args.terminal:
         print('Shortcutter needs target or --terminal arguments to work.')
@@ -58,9 +60,9 @@ def main():
             if create_desktop:
                 try:
                     if args.terminal:
-                        shortcutter.create_activated_terminal_shortcuts(menu=False)
+                        shortcutter.create_shortcut_to_env_terminal(name, menu=False)
                     else:
-                        shortcutter.create_desktop_shortcut(target_path)
+                        shortcutter.create_desktop_shortcut(target_path, name)
                     desktop_created = True
                 except Exception as e:
                     print(e)
@@ -70,9 +72,9 @@ def main():
             if create_menu:    
                 try:
                     if args.terminal:
-                        shortcutter.create_activated_terminal_shortcuts(desktop=False)
+                        shortcutter.create_shortcut_to_env_terminal(name, desktop=False)
                     else:
-                        shortcutter.create_menu_shortcut(target_path)
+                        shortcutter.create_menu_shortcut(target_path, name)
                     menu_created = True
                 except Exception as e:
                     print(e)

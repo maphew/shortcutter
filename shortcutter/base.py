@@ -385,7 +385,7 @@ class ShortCutter(object):
                     self.error_log.write(e)
         return ret
 
-    def create_shortcut_to_env_terminal(self, desktop=True, menu=True, shortcut_directory=None, shortcut_name=None):
+    def create_shortcut_to_env_terminal(self, shortcut_name=None, desktop=True, menu=True, shortcut_directory=None):
         """
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
