@@ -42,12 +42,15 @@ class ShortCutter(object):
     activate: bool
         Whether to create shortcuts that automatically activate
         conda environment / virtual environment.
+    exists: bool
+        Whether target should exist or not.
+        If not then add `/` at the end of the path to get dir shortcut.
     activate_args : tuple(str or None, str or None)
         First is the activate script full path (or None if it's wasn't found) - conda's or venv's.
         Second is the env argument of the activate script (or None if not needed).
     """
 
-    def __init__(self, raise_errors=False, error_log=None, activate=True):
+    def __init__(self, raise_errors=False, error_log=None, activate=True, exists=True):
         """
         Creates ShortCutter.
 
@@ -60,10 +63,14 @@ class ShortCutter(object):
         :param bool activate:
             Whether to create shortcuts that automatically activate
             conda environment / virtual environment.
+        :param bool exists:
+            Whether target should exist or not.
+            If not then add `/` at the end of the path to get dir shortcut.
         """
         self.raise_errors = raise_errors
         self.error_log = error_log
         self.activate = activate
+        self.exists = exists
         self.desktop_folder = self._get_desktop_folder()
         self.menu_folder = self._get_menu_folder()
         self.bin_folder = self._get_bin_folder()
@@ -216,7 +223,7 @@ class ShortCutter(object):
                         return p.abspath(activate)
         return None
 
-    def create_desktop_shortcut(self, target, shortcut_name=None, exists=True):
+    def create_desktop_shortcut(self, target, shortcut_name=None):
         """
         Creates a desktop shortcut to a target.
 
@@ -227,9 +234,6 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
-        :param bool exists:
-            Whether target should exist or not.
-            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -240,9 +244,9 @@ class ShortCutter(object):
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
-            return self.create_shortcut(target, self.desktop_folder, shortcut_name, exists)
+            return self.create_shortcut(target, self.desktop_folder, shortcut_name)
 
-    def create_menu_shortcut(self, target, shortcut_name=None, exists=True):
+    def create_menu_shortcut(self, target, shortcut_name=None):
         """
         Creates a menu shortcut to a target.
 
@@ -253,9 +257,6 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
-        :param bool exists:
-            Whether target should exist or not.
-            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -266,7 +267,7 @@ class ShortCutter(object):
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
         else:
-            return self.create_shortcut(target, self.menu_folder, shortcut_name, exists)
+            return self.create_shortcut(target, self.menu_folder, shortcut_name)
 
     @classmethod
     def _path_to_name(cls, path):
@@ -305,7 +306,7 @@ class ShortCutter(object):
                 self._make_executable(wrapper_path)
         return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 
-    def create_shortcut(self, target, shortcut_directory, shortcut_name=None, exists=True):
+    def create_shortcut(self, target, shortcut_directory, shortcut_name=None):
         """
         Creates a shortcut to a target.
 
@@ -318,9 +319,6 @@ class ShortCutter(object):
         :param str shortcut_name:
             Name of the shortcut without extension (.lnk would be appended if needed).
             If `None` uses the target filename. Defaults to `None`.
-        :param bool exists:
-            Whether target should exist or not.
-            If not then add `/` at the end of the path to get dir shortcut.
 
         Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
@@ -333,7 +331,7 @@ class ShortCutter(object):
             if p.isdir(target_path):
                 isdir = True
 
-        if not target_path and not exists:
+        if not target_path and not self.exists:
             if target.endswith(os.sep):
                 isdir = True
             target_path = p.abspath('target')
@@ -348,6 +346,8 @@ class ShortCutter(object):
 
         # Create shortcut function:
         def create():
+            if not target_path:
+                raise ShortcutError("Target '{}' wasn't found or invalid target/exists ('{}') options combination.".format(target, self.exists))
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
 
@@ -386,21 +386,21 @@ class ShortCutter(object):
                     self.error_log.write(''.join(traceback.format_exc()))
         return ret
 
-    def create_shortcut_to_env_terminal(self, shortcut_name=None, desktop=True, menu=True, shortcut_directory=None):
+    def create_shortcut_to_env_terminal(self, shortcut_name=None, shortcut_directory=None, desktop=True, menu=True):
         """
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
         (plus shortcut to root environment in case of conda).
 
+        :param str shortcut_name:
+            Name of the shortcut without extension (.lnk would be appended if needed).
+            If `None` uses the target filename. Defaults to `None`.
+        :param str shortcut_directory:
+            The directory path where the shortcuts should be created. Default is `None`
         :param bool desktop:
             Whether to create shortcuts on the desktop. Default is `True`
         :param bool menu:
             Whether to create shortcuts in the menu. Default is `True`
-        :param str shortcut_directory:
-            The directory path where the shortcuts should be created. Default is `None`
-        :param str shortcut_name:
-            Name of the shortcut without extension (.lnk would be appended if needed).
-            If `None` uses the target filename. Defaults to `None`.
         """
         activate, env = self.activate_args
         if not activate:
