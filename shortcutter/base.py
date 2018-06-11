@@ -404,6 +404,8 @@ class ShortCutter(object):
             Whether to create shortcuts on the desktop. Default is `True`
         :param bool menu:
             Whether to create shortcuts in the menu. Default is `True`
+
+        Returns `True` if all operations were successful, `False` otherwise.
         """
         activate, env = self.activate_args
         if not activate:
@@ -411,6 +413,7 @@ class ShortCutter(object):
         if not shortcut_name:
             shortcut_name = 'Terminal at '
 
+        ret = []
         for check, path, pref in [(desktop, self.desktop_folder, 'Desktop folder'),
                                   (menu, self.menu_folder, 'Menu folder'),
                                   (shortcut_directory is not None, shortcut_directory, 'Directory')]:
@@ -421,16 +424,18 @@ class ShortCutter(object):
                         raise ShortcutNoDesktopError(msg)
                     elif self.error_log is not None:
                         self.error_log.write(msg + '\n')
+                        ret.append('error')
                 else:
                     name = shortcut_name + p.basename(p.dirname(p.dirname(activate)))
-                    self._safe_create(
+                    ret.append(self._safe_create(
                         lambda: self._create_wrapped_shortcut(name, None, path, (activate, None))
-                    )
+                    ))
                     if env:
                         name = shortcut_name + p.basename(env)
-                        self._safe_create(
+                        ret.append(self._safe_create(
                             lambda: self._create_wrapped_shortcut(name, None, path, (activate, env))
-                        )
+                        ))
+        return False if ('error' in ret) else True
 
     # should be overridden
     def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):

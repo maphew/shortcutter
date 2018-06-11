@@ -48,42 +48,33 @@ def main():
         create_desktop = True
         create_menu = True
 
-    shortcutter = ShortCutter(raise_errors=True, activate=activate)
+    shortcutter = ShortCutter(raise_errors=True, activate=activate, error_log=sys.stdout)
 
-    try:
-        target_path = shortcutter.find_target(args.target)
-        if target_path or args.terminal:
+    target_path = shortcutter.find_target(args.target)
+    if target_path or args.terminal:
 
-            desktop_created = False
-            if create_desktop:
-                try:
-                    if args.terminal:
-                        shortcutter.create_shortcut_to_env_terminal(name, menu=False)
-                    else:
-                        shortcutter.create_desktop_shortcut(target_path, name)
-                    desktop_created = True
-                except Exception:
-                    print(''.join(traceback.format_exc()))
-                    print("Failed to create desktop shortcut.")
+        if create_desktop:
+            if args.terminal:
+                desktop_created = shortcutter.create_shortcut_to_env_terminal(name, menu=False)
+            else:
+                ret = shortcutter.create_desktop_shortcut(target_path, name)
+                shortcut_path = ret[2]
+                desktop_created = bool(shortcut_path)
+            if not desktop_created:
+                print("Failed to create desktop shortcut.")
 
-            menu_created = False
-            if create_menu:    
-                try:
-                    if args.terminal:
-                        shortcutter.create_shortcut_to_env_terminal(name, desktop=False)
-                    else:
-                        shortcutter.create_menu_shortcut(target_path, name)
-                    menu_created = True
-                except Exception:
-                    print(''.join(traceback.format_exc()))
-                    print("Failed to create menu shortcut.")
+        if create_menu:
+            if args.terminal:
+                menu_created = shortcutter.create_shortcut_to_env_terminal(name, desktop=False)
+            else:
+                ret = shortcutter.create_menu_shortcut(target_path, name)
+                shortcut_path = ret[2]
+                menu_created = bool(shortcut_path)
+            if not menu_created:
+                print("Failed to create menu shortcut.")
 
-            if desktop_created or menu_created:
-                print("Shortcut created for '{}'.".format(args.target if not args.terminal else 'Terminal at env'))
+        if desktop_created or menu_created:
+            print("Shortcut created for '{}'.".format(args.target if not args.terminal else 'Terminal at env'))
 
-        else:
-            print("Shortcut creation failed: unable to find '{}'.".format(args.target))
-
-    except Exception:
-        print(''.join(traceback.format_exc()))
-        print("Shortcut creation failed.")
+    else:
+        print("Shortcut creation failed: unable to find '{}'.".format(args.target))
