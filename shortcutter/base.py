@@ -334,7 +334,7 @@ class ShortCutter(object):
         if not target_path and not self.exists:
             if target.endswith(os.sep):
                 isdir = True
-            target_path = p.abspath('target')
+            target_path = p.abspath(target)
 
         # Set shortcut name:
         if shortcut_name is None:
@@ -347,7 +347,10 @@ class ShortCutter(object):
         # Create shortcut function:
         def create():
             if not target_path:
-                raise ShortcutError("Target '{}' wasn't found or invalid target/exists ('{}') options combination.".format(target, self.exists))
+                raise ShortcutError(
+                    "Target '{}' wasn't found or invalid target/exists ('{}') options combination.".format(target,
+                                                                                                           self.exists))
+
             if isdir:
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
 
