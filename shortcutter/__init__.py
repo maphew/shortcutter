@@ -81,10 +81,10 @@ def main():
                     print("Failed to create menu shortcut.")
 
             if desktop_created or menu_created:
-                print("Shortcut created for '{}'".format(args.target))
+                print("Shortcut created for '{}'.".format(args.target if not args.terminal else 'Terminal at env'))
 
         else:
-            print("Shortcut creation failed: unable to find '{}'".format(args.target))
+            print("Shortcut creation failed: unable to find '{}'.".format(args.target))
 
     except Exception:
         print(''.join(traceback.format_exc()))
