@@ -1,6 +1,7 @@
 import sys
 import os
 from os import path as p
+
 # import win32com
 # this often fails due to unable to find DLLs
 # so dynamically change the path if required
@@ -90,34 +91,40 @@ class ShortCutterWindows(ShortCutter):
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
         return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory)
 
-    def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, dir_=False):
+    def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False):
         """
         Creates a Windows shortcut file.
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        working_directory = target_path if dir_ else p.dirname(target_path)
-        dir_bat = False
-        if dir_ and not p.exists(target_path):
-            # create bat that opens dir:
-            wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__' + shortcut_name + '__folder'))
+        icon = None
+        if not folder:
+            shortcut_target_path = target_path
+            working_directory = p.dirname(target_path)
+            ext = p.splitext(target_path)[1].upper()
+            if ext in self._executable_file_extensions:
+                icon = self._exe_icon_app_path
+
+        elif not p.isdir(target_path):
+            # create bat that opens folder:
+            wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__dir__' + self._path_to_name(target_path)))
             with open(wrapper_path, 'w') as f:
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
-            dir_bat = True 
+            shortcut_target_path = wrapper_path
+            working_directory = self.bin_folder
+            icon = self._dir_icon_app_path
+
+        else:
+            shortcut_target_path = target_path
+            working_directory = target_path
 
         shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
-
         shortcut = shell.CreateShortCut(shortcut_file_path)
-        shortcut.Targetpath = target_path
+        shortcut.Targetpath = shortcut_target_path
         shortcut.WorkingDirectory = working_directory
         shortcut.Description = "Shortcut to" + p.basename(target_path)
-        if not dir_:
-            ext = p.splitext(target_path)[1].upper()
-            # is the file executable?
-            if ext in self._executable_file_extensions:
-                shortcut.IconLocation = "{},0".format(self._exe_icon_app_path)
-        elif dir_bat:
-            shortcut.IconLocation = "{},0".format(self._dir_icon_app_path)
+        if icon:
+            shortcut.IconLocation = "{},0".format(icon)
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
