@@ -47,7 +47,7 @@ cmd /k
 
 class ShortCutterWindows(ShortCutter):
     def _set_win_vars(self):
-        self._executable_file_extensions = os.environ['PATHEXT'].split(os.pathsep)
+        self._executable_file_extensions = [ext.upper() for ext in os.environ['PATHEXT'].split(os.pathsep)]
         cmd = self.find_target('cmd')
         self._icon_app_path = cmd if cmd else sys.executable
 
@@ -94,12 +94,26 @@ class ShortCutterWindows(ShortCutter):
         shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
 
         shortcut = shell.CreateShortCut(shortcut_file_path)
+        to_clean = False
+        if not p.isdir(target_path) and dir_:
+            
+            
+            first_new_dir = f(target_path)
+            os.makedirs(target_path)
+            to_clean = True
+
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path if dir_ else p.dirname(target_path)
-        if not dir_:
+        # is the file executable?
+        ext = p.splitext(target_path)[1].upper()
+        if not dir_ and (ext in self._executable_file_extensions):
             shortcut.IconLocation = "{},0".format(self._icon_app_path)
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         shortcut.save()
+
+        if to_clean:
+            move_to_tmp(first_new_dir)
+            
 
         return shortcut_name, target_path, shortcut_file_path
 
