@@ -2,6 +2,7 @@ import os
 from os import path as p
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 import re
+import traceback
 
 
 class ShortCutter(object):
@@ -382,6 +383,7 @@ class ShortCutter(object):
             except Exception as e:
                 ret = 'error'
                 if self.error_log is not None:
+                    self.error_log.write(''.join(traceback.format_exc()))
                     self.error_log.write(e)
         return ret
 

@@ -20,7 +20,7 @@ else:
 
 
 def main():
-    
+    import traceback
     from argparse import ArgumentParser
 
     parser = ArgumentParser(description="Automatic shortcut creator." +
@@ -65,8 +65,9 @@ def main():
                         shortcutter.create_desktop_shortcut(target_path, name)
                     desktop_created = True
                 except Exception as e:
+                    print(''.join(traceback.format_exc()))
                     print(e)
-                    print("Failed to create desktop shortcut")
+                    print("Failed to create desktop shortcut.")
 
             menu_created = False
             if create_menu:    
@@ -77,8 +78,9 @@ def main():
                         shortcutter.create_menu_shortcut(target_path, name)
                     menu_created = True
                 except Exception as e:
+                    print(''.join(traceback.format_exc()))
                     print(e)
-                    print("Failed to create menu shortcut")
+                    print("Failed to create menu shortcut.")
                 
             if desktop_created or menu_created:
                 print("Shortcut created for '{}'".format(args.target))
@@ -87,4 +89,6 @@ def main():
             print("Shortcut creation failed: unable to find '{}'".format(args.target))
 
     except Exception as e:
-        print("Shortcut creation failed: '{}'".format(e))
+        print(''.join(traceback.format_exc()))
+        print(e)
+        print("Shortcut creation failed.")
