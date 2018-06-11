@@ -9,12 +9,10 @@ ACTIVATE = """#!/bin/bash
 source "{activate}"
 "{executable}" "$@"
 source "{bin}/deactivate"
-
 """
 
 ACTIVATE_PROMPT = """#!/bin/bash
 bash --rcfile <(echo 'export PATH="{bin}:$PATH"; source "{activate}"; cd $HOME')
-
 """
 
 
