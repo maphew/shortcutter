@@ -92,28 +92,18 @@ class ShortCutterWindows(ShortCutter):
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
         shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
+        if not p.exists(target_path) and dir_:
+            pass  # create bat that opens dir
 
         shortcut = shell.CreateShortCut(shortcut_file_path)
-        to_clean = False
-        if not p.isdir(target_path) and dir_:
-            
-            
-            first_new_dir = f(target_path)
-            os.makedirs(target_path)
-            to_clean = True
-
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path if dir_ else p.dirname(target_path)
+        shortcut.Description = "Shortcut to" + p.basename(target_path)
         # is the file executable?
         ext = p.splitext(target_path)[1].upper()
         if not dir_ and (ext in self._executable_file_extensions):
             shortcut.IconLocation = "{},0".format(self._icon_app_path)
-        shortcut.Description = "Shortcut to" + p.basename(target_path)
         shortcut.save()
-
-        if to_clean:
-            move_to_tmp(first_new_dir)
-            
 
         return shortcut_name, target_path, shortcut_file_path
 
