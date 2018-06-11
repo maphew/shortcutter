@@ -385,7 +385,7 @@ class ShortCutter(object):
                     self.error_log.write(e)
         return ret
 
-    def create_shortcut_to_env_terminal(self, desktop=True, menu=True, shortcut_directory=None):
+    def create_shortcut_to_env_terminal(self, desktop=True, menu=True, shortcut_directory=None, shortcut_name=None):
         """
         Creates shortcuts for console (terminal) that
         has already activated the environment we are installing to
@@ -397,10 +397,15 @@ class ShortCutter(object):
             Whether to create shortcuts in the menu. Default is `True`
         :param str shortcut_directory:
             The directory path where the shortcuts should be created. Default is `None`
+        :param str shortcut_name:
+            Name of the shortcut without extension (.lnk would be appended if needed).
+            If `None` uses the target filename. Defaults to `None`.
         """
         activate, env = self.activate_args
         if not activate:
             return
+        if not shortcut_name:
+            shortcut_name = 'Terminal at '
 
         for check, path, pref in [(desktop, self.desktop_folder, 'Desktop folder'),
                                   (menu, self.menu_folder, 'Menu folder'),
@@ -413,12 +418,12 @@ class ShortCutter(object):
                     elif self.error_log is not None:
                         self.error_log.write(msg + '\n')
                 else:
-                    shortcut_name = 'Terminal at ' + p.basename(p.dirname(p.dirname(activate)))
+                    shortcut_name = shortcut_name + p.basename(p.dirname(p.dirname(activate)))
                     self._safe_create(
                         lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None))
                     )
                     if env:
-                        shortcut_name = 'Terminal at env ' + p.basename(env)
+                        shortcut_name = shortcut_name + p.basename(env)
                         self._safe_create(
                             lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env))
                         )
