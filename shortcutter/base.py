@@ -468,16 +468,16 @@ class ShortCutter(object):
         Single-worded targets like `'app'` are always searched in the PATH
         You should prepend `./app` to tell that the file is in the CWD.
         """
-        if p.basename(target) == target:
-            targets = self.search_for_target(target)
-            if len(targets) > 0:
-                return p.abspath(targets[0])
-            else:
-                return None
-        elif p.isfile(target) or p.isdir(target):
-            return p.abspath(target)
-        else:
-            return None
+        if target:
+            if p.basename(target) == target:
+                targets = self.search_for_target(target)
+                if len(targets) > 0:
+                    return p.abspath(targets[0])
+                else:
+                    return None
+            elif p.isfile(target) or p.isdir(target):
+                return p.abspath(target)
+        return None
 
     def search_for_target(self, target):
         """
