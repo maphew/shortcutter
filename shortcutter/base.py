@@ -419,14 +419,14 @@ class ShortCutter(object):
                     elif self.error_log is not None:
                         self.error_log.write(msg + '\n')
                 else:
-                    shortcut_name = shortcut_name + p.basename(p.dirname(p.dirname(activate)))
+                    name = shortcut_name + p.basename(p.dirname(p.dirname(activate)))
                     self._safe_create(
-                        lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, None))
+                        lambda: self._create_wrapped_shortcut(name, None, path, (activate, None))
                     )
                     if env:
-                        shortcut_name = shortcut_name + p.basename(env)
+                        name = shortcut_name + p.basename(env)
                         self._safe_create(
-                            lambda: self._create_wrapped_shortcut(shortcut_name, None, path, (activate, env))
+                            lambda: self._create_wrapped_shortcut(name, None, path, (activate, env))
                         )
 
     # should be overridden
