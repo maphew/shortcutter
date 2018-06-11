@@ -49,7 +49,9 @@ class ShortCutterWindows(ShortCutter):
     def _set_win_vars(self):
         self._executable_file_extensions = [ext.upper() for ext in os.environ['PATHEXT'].split(os.pathsep)]
         cmd = self.find_target('cmd')
-        self._icon_app_path = cmd if cmd else sys.executable
+        self._exe_icon_app_path = cmd if cmd else sys.executable
+        explorer = self.find_target('explorer')
+        self._dir_icon_app_path = explorer if explorer else sys.executable
 
     @staticmethod
     def _get_desktop_folder():
@@ -91,18 +93,22 @@ class ShortCutterWindows(ShortCutter):
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
-        if not p.exists(target_path) and dir_:
+        if dir_ and not p.exists(target_path):
             pass  # create bat that opens dir
+
+        shortcut_file_path = p.join(shortcut_directory, shortcut_name + ".lnk")
 
         shortcut = shell.CreateShortCut(shortcut_file_path)
         shortcut.Targetpath = target_path
         shortcut.WorkingDirectory = target_path if dir_ else p.dirname(target_path)
         shortcut.Description = "Shortcut to" + p.basename(target_path)
-        # is the file executable?
-        ext = p.splitext(target_path)[1].upper()
-        if not dir_ and (ext in self._executable_file_extensions):
-            shortcut.IconLocation = "{},0".format(self._icon_app_path)
+        if not dir_:
+            ext = p.splitext(target_path)[1].upper()
+            # is the file executable?
+            if ext in self._executable_file_extensions:
+                shortcut.IconLocation = "{},0".format(self._exe_icon_app_path)
+        elif not p.exists(target_path):
+            shortcut.IconLocation = "{},0".format(self._dir_icon_app_path)
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
