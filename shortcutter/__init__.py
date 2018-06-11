@@ -2,19 +2,17 @@ from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 
-# get operating system
+import os
 import sys
-platform = sys.platform
-if sys.platform.startswith("linux"):
-    platform = "linux"
 
 # operating system specific imports
-if platform == "win32":
+if os.name == 'nt':
     from .windows import ShortCutterWindows as ShortCutter
-elif platform == "linux":
-    from .linux import ShortCutterLinux as ShortCutter
-elif platform == "darwin":
-    from .macos import ShortCutterMacOS as ShortCutter
+elif os.name == 'posix':
+    if sys.platform == 'darwin':
+        from .macos import ShortCutterMacOS as ShortCutter
+    else:
+        from .linux import ShortCutterLinux as ShortCutter
 else:
     raise Exception("Error: '{}' platform is not supported.")
 
