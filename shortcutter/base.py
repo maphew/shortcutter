@@ -146,18 +146,6 @@ class ShortCutter(object):
         else:
             return script_name
 
-    def _activate_wrapper(self, activate, env, target_path=None):
-        """
-        Returns shell script wrapper source for shortcut with activation.
-        """
-        def r(path):
-            return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""
-        return (self._ACTIVATE if target_path else self._ACTIVATE_PROMPT).format(
-            activate=r(activate) + ('" "' + r(env) if env else ''),
-            executable=r(target_path),
-            bin=r(p.dirname(activate))
-        )
-
     def _get_activate_args(self):
         """
         Returns tuple: (str or None, str or None).
@@ -286,8 +274,12 @@ class ShortCutter(object):
 
     def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
         """
+        Creates shell script wrapper for shortcut with activation.
+        
         Providing activate_args optional argument switches to creation
-        of shortcut to terminal with activated environment. 
+        of shortcut to terminal with activated environment.
+        
+        Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
         """
         if activate_args is None:
             activate, env = self.activate_args
@@ -301,8 +293,16 @@ class ShortCutter(object):
 
         wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__' + name))
         if target_path or terminals:
+            def r(path):
+                return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""
+
+            script = (self._ACTIVATE_PROMPT if terminals else self._ACTIVATE).format(
+                activate=r(activate) + ('" "' + r(env) if env else ''),
+                executable=r(target_path),
+                bin=r(p.dirname(activate))
+            )
             with open(wrapper_path, 'w') as f:
-                f.write(self._activate_wrapper(activate, env, target_path))
+                f.write(script)
                 self._make_executable(wrapper_path)
         return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
 

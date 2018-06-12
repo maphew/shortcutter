@@ -43,9 +43,14 @@ cd %USERPROFILE%
 cmd /k
 """
 
-FOLDER_SHORTCUT = """@echo off
-cd /d "{path}"
-start .
+FOLDER_SHORTCUT = r"""@echo off
+if exist "{path}\" (
+    cd /d "{path}"
+    start .
+) else (
+    echo Folder doesn't exist: "{path}"
+    pause
+)
 """
 
 
@@ -106,7 +111,7 @@ class ShortCutterWindows(ShortCutter):
                 icon = self._exe_icon_app_path
 
         elif not p.isdir(target_path):
-            # create bat that opens folder:
+            # create a bat script that opens the folder:
             wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__dir__' + self._path_to_name(target_path)))
             with open(wrapper_path, 'w') as f:
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
