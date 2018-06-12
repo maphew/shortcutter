@@ -53,6 +53,7 @@ def main():
     target_path = sc.find_target(args.target)
     if target_path or args.terminal:
 
+        desktop_created = False
         if create_desktop:
             if args.terminal:
                 desktop_created = sc.create_shortcut_to_env_terminal(name, menu=False)
@@ -62,6 +63,7 @@ def main():
             if not desktop_created:
                 print("Failed to create desktop shortcut.")
 
+        menu_created = False
         if create_menu:
             if args.terminal:
                 menu_created = sc.create_shortcut_to_env_terminal(name, desktop=False)
