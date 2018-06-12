@@ -73,8 +73,12 @@ def main():
             if not menu_created:
                 print("Failed to create menu shortcut.")
 
-        if desktop_created or menu_created:
-            print("Shortcut created for '{}'.".format(args.target if not args.terminal else 'Terminal at env'))
-
+        msg = "created for '{}'.".format(args.target if not args.terminal else 'terminal at environment')
+        if desktop_created and menu_created:
+            print('Desktop and menu shortcuts were ' + msg)
+        elif desktop_created and not menu_created:
+            print('Desktop shortcut was ' + msg)
+        elif not desktop_created and menu_created:
+            print('Menu shortcut was ' + msg)
     else:
         print("Shortcut creation failed: unable to find '{}'.".format(args.target))
