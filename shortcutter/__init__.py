@@ -48,7 +48,7 @@ def main():
         create_desktop = True
         create_menu = True
 
-    sc = ShortCutter(raise_errors=True, activate=activate, error_log=sys.stdout)
+    sc = ShortCutter(activate=activate, error_log=sys.stdout)
 
     target_path = sc.find_target(args.target)
     if target_path or args.terminal:
