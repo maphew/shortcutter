@@ -58,8 +58,7 @@ def main():
                 desktop_created = shortcutter.create_shortcut_to_env_terminal(name, menu=False)
             else:
                 ret = shortcutter.create_desktop_shortcut(target_path, name)
-                shortcut_path = ret[2]
-                desktop_created = bool(shortcut_path)
+                desktop_created = bool(ret[2])  # shortcut_path = ret[2]
             if not desktop_created:
                 print("Failed to create desktop shortcut.")
 
@@ -68,8 +67,7 @@ def main():
                 menu_created = shortcutter.create_shortcut_to_env_terminal(name, desktop=False)
             else:
                 ret = shortcutter.create_menu_shortcut(target_path, name)
-                shortcut_path = ret[2]
-                menu_created = bool(shortcut_path)
+                menu_created = bool(ret[2])  # shortcut_path = ret[2]
             if not menu_created:
                 print("Failed to create menu shortcut.")
 
