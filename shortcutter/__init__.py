@@ -48,25 +48,25 @@ def main():
         create_desktop = True
         create_menu = True
 
-    shortcutter = ShortCutter(raise_errors=True, activate=activate, error_log=sys.stdout)
+    sc = ShortCutter(raise_errors=True, activate=activate, error_log=sys.stdout)
 
-    target_path = shortcutter.find_target(args.target)
+    target_path = sc.find_target(args.target)
     if target_path or args.terminal:
 
         if create_desktop:
             if args.terminal:
-                desktop_created = shortcutter.create_shortcut_to_env_terminal(name, menu=False)
+                desktop_created = sc.create_shortcut_to_env_terminal(name, menu=False)
             else:
-                ret = shortcutter.create_desktop_shortcut(target_path, name)
+                ret = sc.create_desktop_shortcut(target_path, name)
                 desktop_created = bool(ret[2])  # shortcut_path = ret[2]
             if not desktop_created:
                 print("Failed to create desktop shortcut.")
 
         if create_menu:
             if args.terminal:
-                menu_created = shortcutter.create_shortcut_to_env_terminal(name, desktop=False)
+                menu_created = sc.create_shortcut_to_env_terminal(name, desktop=False)
             else:
-                ret = shortcutter.create_menu_shortcut(target_path, name)
+                ret = sc.create_menu_shortcut(target_path, name)
                 menu_created = bool(ret[2])  # shortcut_path = ret[2]
             if not menu_created:
                 print("Failed to create menu shortcut.")
