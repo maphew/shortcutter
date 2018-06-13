@@ -57,10 +57,8 @@ if exist "{path}\" (
 class ShortCutterWindows(ShortCutter):
     def _set_win_vars(self):
         self._executable_file_extensions = [ext.upper() for ext in os.environ['PATHEXT'].split(os.pathsep)]
-        cmd = self.find_target('cmd')
-        self._exe_icon_app_path = cmd if cmd else sys.executable
-        explorer = self.find_target('explorer')
-        self._dir_icon_app_path = explorer if explorer else sys.executable
+        self._exe_icon_path = p.expandvars(r'%WINDIR%\System32\imageres.dll') + ',11'
+        self._dir_icon_path = p.expandvars(r'%WINDIR%\System32\imageres.dll') + ',4'
 
     @staticmethod
     def _get_desktop_folder():
@@ -108,7 +106,7 @@ class ShortCutterWindows(ShortCutter):
             working_directory = p.dirname(target_path)
             ext = p.splitext(target_path)[1].upper()
             if ext in self._executable_file_extensions:
-                icon = self._exe_icon_app_path
+                icon = self._exe_icon_path
 
         elif not p.isdir(target_path):
             # create a bat script that opens the folder:
@@ -117,7 +115,7 @@ class ShortCutterWindows(ShortCutter):
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
             shortcut_target_path = wrapper_path
             working_directory = self.bin_folder
-            icon = self._dir_icon_app_path
+            icon = self._dir_icon_path
 
         else:
             shortcut_target_path = target_path
@@ -129,7 +127,7 @@ class ShortCutterWindows(ShortCutter):
         shortcut.WorkingDirectory = working_directory
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         if icon:
-            shortcut.IconLocation = "{},0".format(icon)
+            shortcut.IconLocation = icon
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
