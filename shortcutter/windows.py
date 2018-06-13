@@ -57,8 +57,8 @@ if exist "{path}\" (
 class ShortCutterWindows(ShortCutter):
     def _set_win_vars(self):
         self._executable_file_extensions = [ext.upper() for ext in os.environ['PATHEXT'].split(os.pathsep)]
-        self._exe_icon_path = p.expandvars(r'%WINDIR%\System32\imageres.dll') + ',11'
-        self._dir_icon_path = p.expandvars(r'%WINDIR%\System32\imageres.dll') + ',4'
+        self._exe_icon_path = r'%SystemRoot%\System32\imageres.dll,11'
+        self._dir_icon_path = r'%SystemRoot%\System32\imageres.dll,4'
 
     @staticmethod
     def _get_desktop_folder():
