@@ -67,19 +67,12 @@ class ShortCutterLinux(ShortCutter):
         """
         Creates a Linux shortcut file to folder.
         """
-        # is the file executable?
-        if os.access(target_path, os.X_OK) or (not p.exists(target_path) and 
-                                               p.basename(p.dirname(target_path)) == 'bin'):
-            icon = 'Icon=terminal.png\n'
-        else:
-            icon = ''
         return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
                                            '[Desktop Entry]\n' +
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
                                            'Exec="{}" %F\n'.format(target_path) +
-                                           'Terminal=true\n' +
-                                           icon)
+                                           'Terminal=true\n')
 
     def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script):
         """
