@@ -27,7 +27,7 @@ Table of contents
 
 * [Install](#install)
 * [Command line interface](#command-line-interface)
-* [Python API](api/api.rst)
+* [Python API](api.rst)
 * [Operating Systems](#operating-systems)
 * [Status](#status)
 * [Change log](CHANGE_LOG.md)
@@ -78,8 +78,10 @@ optional arguments:
 ```
 
 
-[Python API](api/api.rst)
+[Python API](api.rst)
 =========================
+
+[Python API](api.rst).
 
 
 Operating Systems
@@ -112,3 +114,5 @@ experienced and API changes are possible.
 
 [Change log](CHANGE_LOG.md)
 ===========================
+
+[Change log](CHANGE_LOG.md).

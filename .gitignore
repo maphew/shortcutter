@@ -1,5 +1,6 @@
 __pycache__/
 .doctrees/
+docs/_build
 
 *.py[cdo]
 pythonhosted/

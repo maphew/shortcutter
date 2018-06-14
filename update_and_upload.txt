@@ -1,7 +1,14 @@
-# install twine, sphinx, sphinxcontrib-restbuilder>=0.2 and pandoc to conda environment:
-conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder pandoc
+# install to conda environment:
+#   twine
+#   sphinx
+#   sphinxcontrib-restbuilder>=0.2
+#   pandoc>=2.2
+#   shortcutter (latest version)
+
+conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder "pandoc>=2.2"
 conda uninstall sphinxcontrib-restbuilder
 pip install sphinxcontrib-restbuilder
+pip install git+https://github.com/kiwi0fruit/shortcutter.git
 
 # run update_version.bat to update version
 
