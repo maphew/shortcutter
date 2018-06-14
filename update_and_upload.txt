@@ -7,9 +7,9 @@ pip install sphinxcontrib-restbuilder
 
 # open terminal with activated environment
 # to upload:
-#   run build_to_clipboard.bat
+#   run upload__to_clip.bat
 #   paste clipboard to the terminal
 
 # to update rst:
-#   run update_rst_to_clipboard.bat
+#   run update_rst__to_clip.bat
 #   paste clipboard to the terminal
