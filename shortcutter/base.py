@@ -35,17 +35,15 @@ class ShortCutter(object):
         Directory used when creating desktop shortcuts
     menu_folder : str
         Directory used when creating menu shortcuts
-    site_packages : str
-        Site packages dir path
-        (the one to where setup.py installs if use `ShortCutter()` from setup.py)
-        Works on Windows, on Miniconda on Linux (tested).
     bin_folder : str
-        `Scripts` or `bin` dir path
-        (the one to where setup.py installs if use `ShortCutter()` from setup.py)
-        Works on Windows, on Miniconda on Linux (tested).
+        `Scripts` or `bin` dir path.
+        Simply derived from python executable path.
+    site_packages : str
+        Site packages dir path.
+        Simply the one where `__file__` (`shortcutter/base.py`) resides after installation.
     local_root : str
         Root directory path of the current python environment/installation.
-        Works on Windows, on Miniconda on Linux (tested).
+        Derived from python executable path.
     activate: bool
         Whether to create shortcuts that automatically activate
         conda environment / virtual environment.
