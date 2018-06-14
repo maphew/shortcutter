@@ -78,6 +78,10 @@ optional arguments:
 ```
 
 
+[Python API](api/api.rst)
+=========================
+
+
 Operating Systems
 =================
 
