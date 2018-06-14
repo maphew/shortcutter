@@ -1,3 +1,6 @@
+__pycache__/
+.doctrees/
+
 *.py[cdo]
 pythonhosted/
 
@@ -29,6 +32,3 @@ coverage
 .coverage
 .tox
 .cache
-
-# Generated documentation
-docs/_build

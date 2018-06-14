@@ -27,7 +27,7 @@ Table of contents
 
 * [Install](#install)
 * [Command line interface](#command-line-interface)
-* [Python API](https://shortcut.readthedocs.io/en/latest/api.html)
+* [Python API](api/api.rst)
 * [Operating Systems](#operating-systems)
 * [Status](#status)
 * [Change log](CHANGE_LOG.md)

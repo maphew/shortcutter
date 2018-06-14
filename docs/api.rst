@@ -1,7 +1,7 @@
 API
 ===
 
-.. automodule:: shortcut.base
+.. automodule:: shortcutter.base
 
 ShortCutter
 -----------

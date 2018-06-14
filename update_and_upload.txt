@@ -1,0 +1,15 @@
+# install twine, sphinx, sphinxcontrib-restbuilder>=0.2 and pandoc to conda environment:
+conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder pandoc
+conda uninstall sphinxcontrib-restbuilder
+pip install sphinxcontrib-restbuilder
+
+# run update_version.bat to update version
+
+# open terminal with activated environment
+# to upload:
+#   run build_to_clipboard.bat
+#   paste clipboard to the terminal
+
+# to update rst:
+#   run update_rst_to_clipboard.bat
+#   paste clipboard to the terminal

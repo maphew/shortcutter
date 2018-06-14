@@ -113,8 +113,7 @@ class ShortCutter(object):
     def _make_executable(file_path):
         raise ShortcutError("_make_executable needs overriding")
 
-    @staticmethod
-    def exe(app_name):
+    def exe(self, app_name):
         """
         Returns platform independent executable name:
 
@@ -126,8 +125,7 @@ class ShortCutter(object):
         else:
             return app_name
 
-    @staticmethod
-    def ba(script_name):
+    def ba(self, script_name):
         """
         Returns platform independent shell script (bash/batch) name:
 
