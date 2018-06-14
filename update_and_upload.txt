@@ -20,3 +20,5 @@ pip install git+https://github.com/kiwi0fruit/shortcutter.git
 # to update rst:
 #   run update_rst__to_clip.bat
 #   paste clipboard to the terminal
+
+'         *' -> '          *'

@@ -2,4 +2,4 @@
 
 source_suffix = '.rst'
 master_doc = 'api'
-extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.restbuilder']
+extensions = ['sphinx.ext.napoleon', 'sphinxcontrib.restbuilder']

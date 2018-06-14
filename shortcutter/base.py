@@ -9,7 +9,7 @@ class ShortCutter(object):
     """
     Creates applicaton shortcuts for Windows, MacOS and Linux operating systems.
 
-    To create desktop and menu shortcuts to `python`::
+    To create desktop and menu shortcuts to ``python``::
 
         from shortcut import ShortCutter
         s = ShortCutter()
@@ -18,30 +18,30 @@ class ShortCutter(object):
 
     Attributes:
     -----------
-    raise_errors : bool, default False
-        Whether to raise exceptions or skip errors and continue
-    error_log : object, default None
-        File object where to write errors when raise_errors=False.
-        Default is `None` - do not write errors.
-        Can also be `sys.stderr` or `io.StringIO()`.
+    raise_errors : bool=False
+        Whether to raise exceptions or skip errors and continue.
+    error_log : object=None
+        File object where to write errors when ``raise_errors=False``.
+        Default is None - do not write errors.
+        Can also be ``sys.stderr`` or ``io.StringIO()``.
     desktop_folder : str
-        Directory used when creating desktop shortcuts
+        Directory used when creating desktop shortcuts.
     menu_folder : str
-        Directory used when creating menu shortcuts
+        Directory used when creating menu shortcuts.
     bin_folder_pyexe : str
-        `Scripts` or `bin` dir path. Simply closest to python executable path.
+        ``Scripts`` or ``bin`` dir path. Simply closest to python executable path.
     bin_folder_shcut : str or None
-        `Scripts` or `bin` dir path where shortcutter executable was installed.
+        ``Scripts`` or ``bin`` dir path where shortcutter executable was installed.
     local_root : str
-        Root directory path of the current python environment/installation.
+        Root directory path of the current python environment / installation.
         Derived from python executable path.
-    activate: bool
+    activate : bool=True
         Whether to create shortcuts that automatically activate
         conda environment / virtual environment.
-    exists: bool
-        Whether target should exist or not.
-        If not then add `/` at the end of the path to get dir shortcut.
-    activate_args : tuple(str or None, str or None)
+    exists : bool=True
+        Whether the target should exist or not.
+        If not then add ``/`` (``\\`` on Windows) at the end of the path to get dir shortcut.
+    activate_args : tuple (str or None, str or None)
         First is the activate script full path (or None if it's wasn't found) - conda's or venv's.
         Second is the env argument of the activate script (or None if not needed).
     """
@@ -50,18 +50,20 @@ class ShortCutter(object):
         """
         Creates ShortCutter.
 
-        :param bool raise_errors:
+        Parameters
+        ----------
+        raise_errors : bool=False
             Whether to raise exceptions or skip errors and continue.
-        :param error_log:
-            File object where to write errors when raise_errors=False.
-            Default is `None` - do not write errors.
-            Can also be `sys.stderr` or `io.StringIO()`.
-        :param bool activate:
+        error_log : object=None
+            File object where to write errors when ``raise_errors=False``.
+            Default is None - do not write errors.
+            Can also be ``sys.stderr`` or ``io.StringIO()``.
+        activate : bool=True
             Whether to create shortcuts that automatically activate
             conda environment / virtual environment.
-        :param bool exists:
-            Whether target should exist or not.
-            If not then add `/` at the end of the path to get dir shortcut.
+        exists : bool=True
+            Whether the target should exist or not.
+            If not then add ``/`` (``\\`` on Windows) at the end of the path to get dir shortcut.
         """
         self._set_win_vars()  # important on Windows
 
@@ -117,8 +119,8 @@ class ShortCutter(object):
         """
         Returns platform independent executable name:
 
-          * app -> app (on Unix)
-          * app -> app.exe (on Windows)
+        * app > app (on Unix)
+        * app > app.exe (on Windows)
         """
         if os.name == 'nt':
             return app_name + '.exe'
@@ -129,8 +131,8 @@ class ShortCutter(object):
         """
         Returns platform independent shell script (bash/batch) name:
 
-          * run -> run (on Unix)
-          * run -> run.bat (on Windows)
+        * run > run (on Unix)
+        * run > run.bat (on Windows)
         """
         if os.name == 'nt':
             return script_name + '.bat'
@@ -206,15 +208,20 @@ class ShortCutter(object):
         """
         Creates a desktop shortcut to a target.
 
-        :param str target:
+        Parameters
+        ----------
+        target : str
             The target to create a shortcut for, it can be a fully qualified
-            file path `/path/to/my_program` or a simple application name 
-            `my_program`.
-        :param str shortcut_name:
-            Name of the shortcut without extension (.lnk would be appended if needed).
-            If `None` uses the target filename. Defaults to `None`.
+            file path ``/path/to/my_program`` or a simple application name 
+            ``my_program``.
+        shortcut_name : str=None
+            Name of the shortcut without extension (``.lnk`` would be appended if needed).
+            If None uses the target filename.
 
-        Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
+        Returns
+        -------
+        tuple (str, str, str or None)
+            (shortcut_name, target_path, shortcut_file_path)
         """
         if not p.isdir(self.desktop_folder):
             msg = "Desktop folder '{}' not found.".format(self.desktop_folder)
@@ -229,15 +236,20 @@ class ShortCutter(object):
         """
         Creates a menu shortcut to a target.
 
-        :param str target:
+        Parameters
+        ----------
+        target : str
             The target to create a shortcut for, it can be a fully qualified
-            file path `/path/to/my_program` or a simple application name 
-            `my_program`.
-        :param str shortcut_name:
-            Name of the shortcut without extension (.lnk would be appended if needed).
-            If `None` uses the target filename. Defaults to `None`.
+            file path ``/path/to/my_program`` or a simple application name 
+            ``my_program``.
+        shortcut_name : str=None
+            Name of the shortcut without extension (``.lnk`` would be appended if needed).
+            If None uses the target filename.
 
-        Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
+        Returns
+        -------
+        tuple (str, str, str or None)
+            (shortcut_name, target_path, shortcut_file_path)
         """
         if not p.isdir(self.menu_folder):
             msg = "Menu folder '{}' not found.".format(self.menu_folder)
@@ -301,17 +313,22 @@ class ShortCutter(object):
         """
         Creates a shortcut to a target.
 
-        :param str target:
+        Parameters
+        ----------
+        target : str
             The target to create a shortcut for, it can be a fully qualified
-            file path `/path/to/my_program` or a simple application name 
-            `my_program`.
-        :param str shortcut_directory:
+            file path ``/path/to/my_program`` or a simple application name 
+            ``my_program``.
+        shortcut_directory : str
             The directory path where the shortcut should be created.
-        :param str shortcut_name:
-            Name of the shortcut without extension (.lnk would be appended if needed).
-            If `None` uses the target filename. Defaults to `None`.
+        shortcut_name : str=None
+            Name of the shortcut without extension (``.lnk`` would be appended if needed).
+            If None uses the target filename.
 
-        Returns a tuple of (shortcut_name, target_path, shortcut_file_path)
+        Returns
+        -------
+        tuple (str, str, str or None)
+            (shortcut_name, target_path, shortcut_file_path)
         """
         # Set the target path:
         target_path = self.find_target(target)
@@ -386,17 +403,22 @@ class ShortCutter(object):
         has already activated the environment we are installing to
         (plus shortcut to root environment in case of conda).
 
-        :param str shortcut_name:
-            Name of the shortcut without extension (.lnk would be appended if needed).
-            If `None` uses the target filename. Defaults to `None`.
-        :param str shortcut_directory:
-            The directory path where the shortcuts should be created. Default is `None`
-        :param bool desktop:
-            Whether to create shortcuts on the desktop. Default is `True`
-        :param bool menu:
-            Whether to create shortcuts in the menu. Default is `True`
+        Parameters
+        ----------
+        shortcut_name : str=None
+            Name of the shortcut without extension (``.lnk`` would be appended if needed).
+            If None uses the target filename.
+        shortcut_directory : str=None
+            The directory path where the shortcuts should be created.
+        desktop : bool=True
+            Whether to create shortcuts on the desktop.
+        menu : bool=True
+            Whether to create shortcuts in the menu.
 
-        Returns `True` if all operations were successful, `False` otherwise.
+        Returns
+        -------
+        bool
+            True if all operations were successful, False otherwise.
         """
         activate, env = self.activate_args
         if not activate:
@@ -439,12 +461,17 @@ class ShortCutter(object):
     def makedirs(self, *args):
         """
         Recursively creates dirs if they don't exist.
-        Utilizes self.raise_errors and self.error_log
-
-        :param args:
+        Utilizes ``self.raise_errors`` and ``self.error_log``.
+        
+        Parameters
+        ----------
+        \*args : str
             Multiple paths (str) for folders to create.
 
-        Returns True on success False of failure
+        Returns
+        -------
+        bool
+            True on success False of failure.
         """
         ret = []
         for path in args:
@@ -456,16 +483,20 @@ class ShortCutter(object):
     def find_target(self, target):
         """
         Finds a file path for a target application.
+        Single-worded targets like ``'app'`` are always searched in the PATH.
+        You should prepend ``./app`` to tell that the file is in the CWD.
 
-        :param str target:
+        Parameters
+        ----------
+        target : str
             The target to find, it can be a fully qualified
-            file path `/path/to/my_program` or a simple application name 
-            `my_program`.
+            file path ``/path/to/my_program`` or a simple application name 
+            ``my_program``.
 
-        Returns a single target file path or `None` if a path can't be found.
-
-        Single-worded targets like `'app'` are always searched in the PATH
-        You should prepend `./app` to tell that the file is in the CWD.
+        Returns
+        -------
+        str or None
+            Returns a single target file path or ``None`` if a path can't be found.
         """
         if target:
             if p.basename(target) == target:
@@ -482,11 +513,15 @@ class ShortCutter(object):
         """
         Searches for a target application.
 
-        :param str target:
+        Parameters
+        ----------
+        target : str
             The target to find.
 
-        Returns a list of potential target file paths, it no paths are found an empty list is returned.
-        Works (tested) only on Miniconda.
+        Returns
+        -------
+        list(str)
+            Returns a list of potential target file paths, it no paths are found an empty list is returned.
         """
         # potential list of app paths
         target_paths = []
