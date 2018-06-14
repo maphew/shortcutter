@@ -38,9 +38,6 @@ class ShortCutter(object):
     bin_folder : str
         `Scripts` or `bin` dir path.
         Simply derived from python executable path.
-    site_packages : str
-        Site packages dir path.
-        Simply the one where `__file__` (`shortcutter/base.py`) resides after installation.
     local_root : str
         Root directory path of the current python environment/installation.
         Derived from python executable path.
@@ -81,7 +78,6 @@ class ShortCutter(object):
         self.desktop_folder = self._get_desktop_folder()
         self.menu_folder = self._get_menu_folder()
         self.bin_folder = self._get_bin_folder()
-        self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
 
@@ -134,7 +130,11 @@ class ShortCutter(object):
         else:
             raise ShortcutError("'{}' file doesn't exist. ".format(shortcutter) + UNSUPPORTED)
 
-    def _get_site_packages():
+    def site_packages():
+        """
+        Returns site packages dir path.
+        Simply the one where `__file__` (`shortcutter/base.py`) resides after installation.
+        """
         site_packages = self._get_default_site_packages()
         base_py = p.abspath(p.join(site_packages, 'shortcutter', 'base.py'))
         if base_py == p.abspath(__file__):
