@@ -1,7 +1,6 @@
 import os
 from os import path as p
 import sys
-import site
 import stat
 from .base import ShortCutter
 
@@ -37,10 +36,6 @@ class ShortCutterLinux(ShortCutter):
     @staticmethod
     def _get_local_root():
         return p.dirname(p.dirname(sys.executable))
-
-    @staticmethod
-    def _get_default_site_packages():
-        return site.getsitepackages()[0]
 
     @staticmethod
     def _get_activate_wrapper_templates():

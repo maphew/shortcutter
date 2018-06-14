@@ -75,10 +75,6 @@ class ShortCutterWindows(ShortCutter):
         return p.dirname(sys.executable)
 
     @staticmethod
-    def _get_default_site_packages():
-        return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
-
-    @staticmethod
     def _get_activate_wrapper_templates():
         return ACTIVATE, ACTIVATE_PROMPT
 

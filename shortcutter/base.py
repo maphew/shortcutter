@@ -109,11 +109,6 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
-    def _get_default_site_packages():
-        raise ShortcutError("_get_default_site_packages needs overriding")
-
-    # should be overridden
-    @staticmethod
     def _get_activate_wrapper_templates():
         raise ShortcutError("_get_activate_wrapper_templates needs overriding")
 
@@ -129,18 +124,6 @@ class ShortCutter(object):
             return bin
         else:
             raise ShortcutError("'{}' file doesn't exist. ".format(shortcutter) + UNSUPPORTED)
-
-    def site_packages():
-        """
-        Returns site packages dir path.
-        Simply the one where `__file__` (`shortcutter/base.py`) resides after installation.
-        """
-        site_packages = self._get_default_site_packages()
-        base_py = p.abspath(p.join(site_packages, 'shortcutter', 'base.py'))
-        if base_py == p.abspath(__file__):
-            return site_packages
-        else:
-            raise ShortcutError("'{}' doesn't match __file__. ".format(base_py) + UNSUPPORTED)
 
     @staticmethod
     def exe(app_name):
