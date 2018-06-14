@@ -4,6 +4,13 @@ from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuErro
 import re
 import traceback
 
+UNSUPPORTED = (
+    "Shortcutter supports only virtual environments, Anaconda, Miniconda, " +
+    "conda environments, sudo pip install, unsplit Windows installation. " +
+    "Shortcutter can run only after it was installed. " +
+    "If you are interested in other use-cases please elaborate."
+)
+
 
 class ShortCutter(object):
     """
@@ -28,12 +35,12 @@ class ShortCutter(object):
         Directory used when creating desktop shortcuts
     menu_folder : str
         Directory used when creating menu shortcuts
-    bin_folder : str
-        `Scripts` or `bin` dir path
-        (the one to where setup.py installs if use `ShortCutter()` from setup.py)
-        Works on Windows, on Miniconda on Linux (tested).
     site_packages : str
         Site packages dir path
+        (the one to where setup.py installs if use `ShortCutter()` from setup.py)
+        Works on Windows, on Miniconda on Linux (tested).
+    bin_folder : str
+        `Scripts` or `bin` dir path
         (the one to where setup.py installs if use `ShortCutter()` from setup.py)
         Works on Windows, on Miniconda on Linux (tested).
     local_root : str
@@ -67,6 +74,8 @@ class ShortCutter(object):
             Whether target should exist or not.
             If not then add `/` at the end of the path to get dir shortcut.
         """
+        self._set_win_vars()  # important on Windows
+
         self.raise_errors = raise_errors
         self.error_log = error_log
         self.activate = activate
@@ -76,10 +85,9 @@ class ShortCutter(object):
         self.bin_folder = self._get_bin_folder()
         self.site_packages = self._get_site_packages()
         self.local_root = self._get_local_root()
-        self._set_win_vars()  # important on Windows
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
-        # should be run the last:
-        self.activate_args = self._get_activate_args()
+
+        self.activate_args = self._get_activate_args()  # should be run the last
 
     # might be overridden if needed
     def _set_win_vars(self):
@@ -97,8 +105,8 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
-    def _get_bin_folder():
-        raise ShortcutError("_get_bin_folder needs overriding")
+    def _get_default_bin_folder():
+        raise ShortcutError("_get_default_bin_folder needs overriding")
 
     # should be overridden
     @staticmethod
@@ -107,8 +115,8 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
-    def _get_site_packages():
-        raise ShortcutError("_get_site_packages needs overriding")
+    def _get_default_site_packages():
+        raise ShortcutError("_get_default_site_packages needs overriding")
 
     # should be overridden
     @staticmethod
@@ -119,6 +127,22 @@ class ShortCutter(object):
     @staticmethod
     def _make_executable(file_path):
         raise ShortcutError("_make_executable needs overriding")
+
+    def _get_bin_folder():
+        bin = self._get_default_bin_folder()
+        shortcutter = p.join(bin, self.exe('shortcutter'))
+        if p.isfile(shortcutter):
+            return bin
+        else:
+            raise ShortcutError("'{}' file doesn't exist. ".format(shortcutter) + UNSUPPORTED)
+
+    def _get_site_packages():
+        site_packages = self._get_default_site_packages()
+        base_py = p.abspath(p.join(site_packages, 'shortcutter', 'base.py'))
+        if base_py == p.abspath(__file__):
+            return site_packages
+        else:
+            raise ShortcutError("'{}' doesn't match __file__. ".format(base_py) + UNSUPPORTED)
 
     @staticmethod
     def exe(app_name):
@@ -134,9 +158,9 @@ class ShortCutter(object):
             return app_name
 
     @staticmethod
-    def sh(script_name):
+    def ba(script_name):
         """
-        Returns platform independent shell script name:
+        Returns platform independent shell script (bash/batch) name:
 
           * run -> run (on Unix)
           * run -> run.bat (on Windows)
@@ -186,7 +210,7 @@ class ShortCutter(object):
             return None, self.local_root
         else:
             # check if we are installing to venv:
-            activate = p.join(self.bin_folder, self.sh('activate'))
+            activate = p.join(self.bin_folder, self.ba('activate'))
             if p.isfile(activate):
                 return activate, None
 
@@ -206,7 +230,7 @@ class ShortCutter(object):
                                self.exe('conda'))
                 # check if the file executable:
                 if p.isfile(conda) and os.access(conda, os.X_OK):
-                    activate = p.join(p.dirname(conda), self.sh('activate'))
+                    activate = p.join(p.dirname(conda), self.ba('activate'))
                     if p.isfile(activate):
                         return p.abspath(activate)
         return None
@@ -291,7 +315,7 @@ class ShortCutter(object):
             target_path = None
             name = self._ascii_name(shortcut_name)
 
-        wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__' + name))
+        wrapper_path = p.join(self.bin_folder, self.ba('shortcutter__' + name))
         if target_path or terminals:
             def r(path):
                 return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""

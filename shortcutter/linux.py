@@ -31,7 +31,7 @@ class ShortCutterLinux(ShortCutter):
         return p.join(p.expanduser('~'), '.local', 'share', 'applications')
 
     @staticmethod
-    def _get_bin_folder():
+    def _get_default_bin_folder():
         return p.dirname(sys.executable)
 
     @staticmethod
@@ -39,7 +39,7 @@ class ShortCutterLinux(ShortCutter):
         return p.dirname(p.dirname(sys.executable))
 
     @staticmethod
-    def _get_site_packages():
+    def _get_default_site_packages():
         return site.getsitepackages()[0]
 
     @staticmethod

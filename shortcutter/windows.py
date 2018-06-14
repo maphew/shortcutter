@@ -67,7 +67,7 @@ class ShortCutterWindows(ShortCutter):
         return shell.SpecialFolders("Programs")
 
     @staticmethod
-    def _get_bin_folder():
+    def _get_default_bin_folder():
         return p.join(p.dirname(sys.executable), "Scripts")
 
     @staticmethod
@@ -75,7 +75,7 @@ class ShortCutterWindows(ShortCutter):
         return p.dirname(sys.executable)
 
     @staticmethod
-    def _get_site_packages():
+    def _get_default_site_packages():
         return p.join(p.dirname(sys.executable), 'Lib', 'site-packages')
 
     @staticmethod
@@ -108,7 +108,7 @@ class ShortCutterWindows(ShortCutter):
 
         elif not p.isdir(target_path):
             # create a bat script that opens the folder:
-            wrapper_path = p.join(self.bin_folder, self.sh('shortcutter__dir__' + self._path_to_name(target_path)))
+            wrapper_path = p.join(self.bin_folder, self.ba('shortcutter__dir__' + self._path_to_name(target_path)))
             with open(wrapper_path, 'w') as f:
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
             shortcut_target_path = wrapper_path
