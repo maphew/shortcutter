@@ -1,4 +1,5 @@
 import sys
+import site
 import os
 from os import path as p
 
@@ -151,6 +152,8 @@ class ShortCutterWindows(ShortCutter):
         Returns a list of paths.
         """
         root = p.dirname(sys.executable)
+        user_root = p.dirname(site.USER_SITE)
         return [root,
                 p.join(root, 'Scripts'),
-                p.join(root, 'Library', 'bin')] + os.environ['PATH'].split(os.pathsep)
+                p.join(root, 'Library', 'bin')
+               ] + os.environ['PATH'].split(os.pathsep) + [p.join(user_root, 'Scripts')]

@@ -1,6 +1,6 @@
+import sys
 import os
 from os import path as p
-import sys
 import stat
 from .base import ShortCutter
 
