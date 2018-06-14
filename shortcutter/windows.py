@@ -67,7 +67,7 @@ class ShortCutterWindows(ShortCutter):
         return shell.SpecialFolders("Programs")
 
     @staticmethod
-    def _get_default_bin_folder():
+    def _get_bin_folder_pyexe():
         return p.join(p.dirname(sys.executable), "Scripts")
 
     @staticmethod
@@ -104,11 +104,12 @@ class ShortCutterWindows(ShortCutter):
 
         elif not p.isdir(target_path):
             # create a bat script that opens the folder:
-            wrapper_path = p.join(self.bin_folder, self.ba('shortcutter__dir__' + self._path_to_name(target_path)))
+            
+            wrapper_path = p.join(self.bin_folder_shcut, self.ba('shortcutter__dir__' + self._path_to_name(target_path)))
             with open(wrapper_path, 'w') as f:
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
             shortcut_target_path = wrapper_path
-            working_directory = self.bin_folder
+            working_directory = self.bin_folder_shcut
             icon = r'%SystemRoot%\explorer.exe,0'
 
         else:

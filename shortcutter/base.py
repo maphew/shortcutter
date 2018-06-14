@@ -4,13 +4,6 @@ from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuErro
 import re
 import traceback
 
-UNSUPPORTED = (
-    "Shortcutter supports only virtual environments, Anaconda, Miniconda, " +
-    "conda environments, sudo pip install, unsplit Windows installation. " +
-    "Shortcutter can run only after it was installed. " +
-    "If you are interested in other use-cases please elaborate."
-)
-
 
 class ShortCutter(object):
     """
@@ -35,9 +28,10 @@ class ShortCutter(object):
         Directory used when creating desktop shortcuts
     menu_folder : str
         Directory used when creating menu shortcuts
-    bin_folder : str
-        `Scripts` or `bin` dir path.
-        Simply derived from python executable path.
+    bin_folder_pyexe : str
+        `Scripts` or `bin` dir path. Simply closest to python executable path.
+    bin_folder_shcut : str or None
+        `Scripts` or `bin` dir path where shortcutter executable was installed.
     local_root : str
         Root directory path of the current python environment/installation.
         Derived from python executable path.
@@ -77,7 +71,9 @@ class ShortCutter(object):
         self.exists = exists
         self.desktop_folder = self._get_desktop_folder()
         self.menu_folder = self._get_menu_folder()
-        self.bin_folder = self._get_bin_folder()
+        self.bin_folder_pyexe = self._get_bin_folder_pyexe()
+        shortcutter = self.find_target('shortcutter')
+        self.bin_folder_shcut = p.dirname(shortcutter) if shortcutter else self.bin_folder_pyexe
         self.local_root = self._get_local_root()
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
 
@@ -99,8 +95,8 @@ class ShortCutter(object):
 
     # should be overridden
     @staticmethod
-    def _get_default_bin_folder():
-        raise ShortcutError("_get_default_bin_folder needs overriding")
+    def _get_bin_folder_pyexe():
+        raise ShortcutError("_get_bin_folder_pyexe needs overriding")
 
     # should be overridden
     @staticmethod
@@ -116,14 +112,6 @@ class ShortCutter(object):
     @staticmethod
     def _make_executable(file_path):
         raise ShortcutError("_make_executable needs overriding")
-
-    def _get_bin_folder():
-        bin = self._get_default_bin_folder()
-        shortcutter = p.join(bin, self.exe('shortcutter'))
-        if p.isfile(shortcutter):
-            return bin
-        else:
-            raise ShortcutError("'{}' file doesn't exist. ".format(shortcutter) + UNSUPPORTED)
 
     @staticmethod
     def exe(app_name):
@@ -191,7 +179,7 @@ class ShortCutter(object):
             return None, self.local_root
         else:
             # check if we are installing to venv:
-            activate = p.join(self.bin_folder, self.ba('activate'))
+            activate = p.join(self.bin_folder_pyexe, self.ba('activate'))
             if p.isfile(activate):
                 return activate, None
 
@@ -207,7 +195,7 @@ class ShortCutter(object):
         if path is not None:
             if p.isdir(p.join(path, 'conda-meta')):
                 conda = p.join(path,
-                               p.basename(self.bin_folder),
+                               p.basename(self.bin_folder_pyexe),
                                self.exe('conda'))
                 # check if the file executable:
                 if p.isfile(conda) and os.access(conda, os.X_OK):
@@ -296,7 +284,7 @@ class ShortCutter(object):
             target_path = None
             name = self._ascii_name(shortcut_name)
 
-        wrapper_path = p.join(self.bin_folder, self.ba('shortcutter__' + name))
+        wrapper_path = p.join(self.bin_folder_shcut, self.ba('shortcutter__' + name))
         if target_path or terminals:
             def r(path):
                 return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""

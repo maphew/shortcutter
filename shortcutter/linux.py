@@ -30,7 +30,7 @@ class ShortCutterLinux(ShortCutter):
         return p.join(p.expanduser('~'), '.local', 'share', 'applications')
 
     @staticmethod
-    def _get_default_bin_folder():
+    def _get_bin_folder_pyexe():
         return p.dirname(sys.executable)
 
     @staticmethod

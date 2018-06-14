@@ -45,7 +45,10 @@ setup(
         "Environment :: Win32 (MS Windows)",
     ],
     packages = find_packages(exclude=['docs', 'tests']),
-    install_requires = ['pywin32;platform_system=="Windows"'],
+    # install_requires = ['pywin32;platform_system=="Windows"'],
+    extras_require = {
+        ':sys_platform == "win32"': ['pywin32',],
+    },
     entry_points={
         'console_scripts': [
             'shortcutter = shortcutter:main'
