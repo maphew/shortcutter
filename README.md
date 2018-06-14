@@ -87,3 +87,7 @@ Alpha - tested and works but
 experienced and API changes are possible.
 
 It should work with Windows, MacOS and Linux operating systems.
+
+
+[Change log](CHANGE_LOG.md)
+==========
