@@ -11,7 +11,7 @@ To create desktop and menu shortcuts for `python`:
 
         shortcutter python
 
--   Using the Python API:
+-   Using the Python API for example in `setup.py`:
     ```py
     from shortcutter import ShortCutter
     s = ShortCutter()
@@ -19,9 +19,7 @@ To create desktop and menu shortcuts for `python`:
     s.create_menu_shortcut("python")
     ```
 
-It was created to solve a simple problem - if you install a python
-package using `pip` there is no simple way of creating a shortcut to the
-program it installs.
+It was created to solve a simple problem - if you install a python package using `pip` there is no simple way of creating a shortcut to the program it installs.
 
 
 Table of contents
@@ -29,7 +27,7 @@ Table of contents
 
 * [Install](#install)
 * [Command line interface](#command-line-interface)
-* [API](https://shortcut.readthedocs.io/en/latest/api.html)
+* [Python API](https://shortcut.readthedocs.io/en/latest/api.html)
 * [Operating Systems](#operating-systems)
 * [Status](#status)
 * [Change log](CHANGE_LOG.md)
@@ -38,8 +36,7 @@ Table of contents
 Install
 =======
 
-Shortcut is available on
-[pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
+Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
 - Windows :
 
@@ -61,7 +58,7 @@ shortcutter --help
 ```
 usage: shortcutter [-h] [-d] [-m] [-n [NAME]] [-s] [-t] [target]
 
-Automatic shortcut creator. Shortcuts auto-activate their environments by
+Automatic shortcut creator. Shortcuts auto-activate their environments by 
 default.
 
 positional arguments:
