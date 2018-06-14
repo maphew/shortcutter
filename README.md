@@ -1,9 +1,6 @@
 Shortcutter
 ===========
 
-[![Latest Version](https://badge.fury.io/py/shortcut.svg)](https://badge.fury.io/py/bluedot)
-[![Docs](https://readthedocs.org/projects/shortcut/badge/)](https://readthedocs.org/projects/shortcut/)
-
 Shortcutter is a cross platform API for creating shortcuts for python applications meant to be used in setup.py script or as a command line application (fork of the Shortcut).
 
 Shortcutter creates shortcucts that activate python environment prior launching the app. It supports virtual environments, Anaconda/Miniconda, conda environments, `sudo pip install`, `pip install --user`. Shortcutter will do its best to find your app, searching for the usual suspects in the usual places (i.e. those in the PATH), or you can give it a full path.
@@ -32,11 +29,10 @@ Table of contents
 
 * [Install](#install)
 * [Command line interface](#command-line-interface)
+* [API](https://shortcut.readthedocs.io/en/latest/api.html)
 * [Operating Systems](#operating-systems)
 * [Status](#status)
 * [Change log](CHANGE_LOG.md)
-
-There is comprehensive documentation at [shortcut.readthedocs.io](https://shortcut.readthedocs.io).
 
 
 Install
@@ -92,15 +88,15 @@ Shortcut support Windows, MacOS and Linux.
 
 The way shortcuts are provide and applications launched depends on the operating system.
 
-## Windows 
+### Windows 
 
 `.lnk` files pointing directly to the application paths are created in the User Desktop and Programs folders.
 
-## MacOS
+### MacOS
 
 MacOS applications are created which run the application via a terminal and copied to the User Desktop (`~/Desktop`) and Launchpad (`/Applications`).
 
-## Linux
+### Linux
 
 `.desktop` files are created which start the application via the shell and created in the User Desktop and applications menu (`~/.local/share/applications`).
 
@@ -114,4 +110,4 @@ experienced and API changes are possible.
 
 
 [Change log](CHANGE_LOG.md)
-==========
+===========================
