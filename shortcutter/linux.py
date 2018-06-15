@@ -101,4 +101,4 @@ class ShortCutterLinux(ShortCutter):
 
         Returns a list of paths.
         """
-        return [p.dirname(sys.executable)] + os.environ['PATH'].split(os.pathsep)
+        return [p.dirname(sys.executable)] + os.environ['PATH'].split(os.pathsep) + [p.join(p.expanduser('~'), '.local', 'bin')]
