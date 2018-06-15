@@ -12,7 +12,7 @@ _
 
 ======
 
-class ``shortcutter.ShortCutter`` (*raise_errors=False, error_log=None, activate=True, exists=True*)
+class shortcutter.ShortCutter (*raise_errors=False, error_log=None, activate=True, exists=True*)
 ------
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating
@@ -79,7 +79,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``__init__`` (*raise_errors=False, error_log=None, activate=True, exists=True*)
+__init__ (*raise_errors=False, error_log=None, activate=True, exists=True*)
 ------
 
    Creates ShortCutter.
@@ -104,7 +104,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``ba`` (*script_name*)
+ba (*script_name*)
 ------
 
    Returns platform independent shell script (bash/batch) name:
@@ -116,7 +116,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``create_desktop_shortcut`` (*target, shortcut_name=None*)
+create_desktop_shortcut (*target, shortcut_name=None*)
 ------
 
    Creates a desktop shortcut to a target.
@@ -140,7 +140,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``create_menu_shortcut`` (*target, shortcut_name=None*)
+create_menu_shortcut (*target, shortcut_name=None*)
 ------
 
    Creates a menu shortcut to a target.
@@ -164,7 +164,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``create_shortcut`` (*target, shortcut_directory, shortcut_name=None*)
+create_shortcut (*target, shortcut_directory, shortcut_name=None*)
 ------
 
    Creates a shortcut to a target.
@@ -191,7 +191,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``create_shortcut_to_env_terminal`` (*shortcut_name=None, shortcut_directory=None, desktop=True, menu=True*)
+create_shortcut_to_env_terminal (*shortcut_name=None, shortcut_directory=None, desktop=True, menu=True*)
 ------
 
    Creates shortcuts for console (terminal) that has already
@@ -221,7 +221,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``exe`` (*app_name*)
+exe (*app_name*)
 ------
 
    Returns platform independent executable name:
@@ -233,7 +233,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``find_target`` (*target*)
+find_target (*target*)
 ------
 
    Finds a file path for a target application. Single-worded
@@ -255,7 +255,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``makedirs`` (*\*args*)
+makedirs (*\*args*)
 ------
 
    Recursively creates dirs if they don’t exist. Utilizes
@@ -274,7 +274,7 @@ activate_args (*tuple (str or None, str or None)*)
 
 ======
 
-``search_for_target`` (*target*)
+search_for_target (*target*)
 ------
 
    Searches for a target application.

@@ -34,7 +34,7 @@ def to_header(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
         r'(?:\n|^){dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
-        lambda m: '\n\n======\n\n``{}`` (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),
+        lambda m: '\n\n======\n\n{} (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),
         text
     )
 
@@ -57,7 +57,7 @@ def rep(text):
     m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
     text = attr_rep(m.group(1)) + m.group(2)
     #
-    text = text.replace('``class shortcutter.base', 'class ``shortcutter')
+    text = text.replace('class shortcutter.base', 'class shortcutter')
     return hat + text
 
 def main():
