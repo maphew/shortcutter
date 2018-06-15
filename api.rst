@@ -5,15 +5,14 @@ _
 ++++++
 _
 ??????
-
-ShortCutter
+_
 ~~~~~~~~~~~
 
 
 
 ======
 
-``class shortcutter.ShortCutter`` (*raise_errors=False, error_log=None, activate=True, exists=True*)
+class ``shortcutter.ShortCutter`` (*raise_errors=False, error_log=None, activate=True, exists=True*)
 ------
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating

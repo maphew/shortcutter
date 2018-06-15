@@ -11,8 +11,7 @@ _
 ++++++
 _
 ??????
-
-ShortCutter
+_
 ~~~~~~~~~~~
 
 """
@@ -48,8 +47,6 @@ def attr_rep(text):
 def rep(text):
     # fix parameters tables on GitHub:
     text = text.replace('\n         * ', '\n          * ')
-    #
-    text = text.replace('class shortcutter.base', 'class shortcutter')
     # make broken bold lines whole again:
     text = join_lines(join_lines(text, 0), 3)
     # bold lines to left plus ==== underline:
@@ -58,6 +55,7 @@ def rep(text):
     m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
     text = attr_rep(m.group(1).replace('\n   ', '\n')) + m.group(2).replace('\n      ', '\n')
     #
+    text = text.replace('``class shortcutter.base', 'class ``shortcutter')
     return hat + text
 
 def main():
