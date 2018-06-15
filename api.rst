@@ -173,7 +173,7 @@ error_log=None, activate=True, exists=True)**
       should prepend ``./app`` to tell that the file is in the CWD.
 
       :Parameters:
-          **target** (*str*) – The target to find, it can be a fully
+         **target** (*str*) – The target to find, it can be a fully
          qualified file path ``/path/to/my_program`` or a simple
          application name ``my_program``.
 
@@ -190,7 +190,7 @@ error_log=None, activate=True, exists=True)**
       ``self.raise_errors`` and ``self.error_log``.
 
       :Parameters:
-          ***args** (*str*) – Multiple paths (str) for folders to
+         ***args** (*str*) – Multiple paths (str) for folders to
          create.
 
       :Returns:
@@ -204,7 +204,7 @@ error_log=None, activate=True, exists=True)**
       Searches for a target application.
 
       :Parameters:
-          **target** (*str*) – The target to find.
+         **target** (*str*) – The target to find.
 
       :Returns:
          Returns a list of potential target file paths, it no paths

@@ -2,7 +2,7 @@ import sys
 import re
 
 def rep(text):
-    text = text.replace('\n         *', '\n          *')
+    text = text.replace('\n         * ', '\n          * ')
     # text = re.sub(
     #     r'((?<=[^\\]ˎ)|(?<=^ˎ))[^ˎ]*(?=ˎ)',
     #     lambda m: sugartex.replace(m.group(0)),
