@@ -53,7 +53,7 @@ def rep(text):
     text = to_header(to_header(text, 0), 3)
     # remove quotes before and after 2nd ====:
     m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
-    text = attr_rep(m.group(1).replace('\n   ', '\n')) + m.group(2).replace('\n      ', '\n')
+    text = attr_rep(m.group(1).replace('\n   ', '\n')) + m.group(2).replace('\n   ', '\n')
     #
     text = text.replace('``class shortcutter.base', 'class ``shortcutter')
     return hat + text
