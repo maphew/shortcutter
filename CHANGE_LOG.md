@@ -11,7 +11,8 @@ Change log
 * Better support for setup.py use-cases:
   * Folder shortcuts,
   * Shortcuts can be created to yet non-existing targets,
-  * Added 'silent' and log mode when errors are not raised, 
+  * Added 'silent' and log mode when errors are not raised,
+  * Added folder creation method that nicely plays with 'silent' and log mode.
 * Documentation moved to GitHub,
 * Added versioneer (auto version based on GitHub commit),
 * Only one dependence on Windows: pywin32 (available on conda-forge),

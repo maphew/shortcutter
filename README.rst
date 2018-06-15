@@ -12,6 +12,9 @@ Shortcutter will do its best to find your app, searching for the usual
 suspects in the usual places (i.e. those in the PATH), or you can give
 it a full path.
 
+Additioanlly special command/method can create shortcut to the terminal
+at activated environment (plus terminal shortcut at conda root).
+
 To create desktop and menu shortcuts for ``python``:
 
 -  Using the app:
@@ -19,15 +22,17 @@ To create desktop and menu shortcuts for ``python``:
    ::
 
       shortcutter python
+      shortcutter --terminal
 
 -  Using the Python API for example in ``setup.py``:
 
    .. code:: py
 
       from shortcutter import ShortCutter
-      s = ShortCutter()
-      s.create_desktop_shortcut("python")
-      s.create_menu_shortcut("python")
+      sc = ShortCutter()
+      sc.create_desktop_shortcut("python")
+      sc.create_menu_shortcut("python")
+      sc.create_shortcut_to_env_terminal()
 
 It was created to solve a simple problem - if you install a python
 package using ``pip`` there is no simple way of creating a shortcut to
