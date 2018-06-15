@@ -42,13 +42,20 @@ Install
 
 Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
-- Windows :
+- Anaconda/Miniconda on Windows:
+
+        conda install pywin32
+        pip install shortcutter
+
+- System Python 3 on MacOS or Linux:
+
+        pip3 install shortcutter
+
+- All other cases:
 
         pip install shortcutter
 
-- MacOS or Linux :
-
-        pip3 install shortcutter
+Note: if `pip3 install --user` (simply `pip3 install` on Ubuntu) then you might need to add `%APPDATA%\Python\Python36\Scripts` (on Windows) / `~/.local/bin` (on Linux) to the PATH.
 
 
 Command line interface
