@@ -44,7 +44,12 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
 
 - Anaconda/Miniconda on Windows:
   ```
-  conda install pywin32
+  conda install pywin32 "pip>=10.0.1"
+  pip install shortcutter
+  ```
+- Anaconda/Miniconda on MacOS or Linux:
+  ```
+  conda install "pip>=10.0.1"
   pip install shortcutter
   ```
 - System Python 3 on MacOS or Linux:
@@ -56,6 +61,8 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
   pip install shortcutter
   ```
 Note: if `pip3 install --user` (simply `pip3 install` on Ubuntu) then you might need to add `%APPDATA%\Python\Python36\Scripts` (on Windows) / `~/.local/bin` (on Linux) to the PATH.
+
+Shortcutter should work on Python 2 or can easily be bugfixed if you post an issue.
 
 
 Command line interface
