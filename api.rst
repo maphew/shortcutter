@@ -5,8 +5,11 @@ Python API
 ShortCutter
 -----------
 
-**class shortcutter.ShortCutter(raise_errors=False,
-error_log=None, activate=True, exists=True)**
+
+
+========
+
+**class shortcutter.ShortCutter** (*raise_errors=False, error_log=None, activate=True, exists=True*)
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating
 systems.
@@ -15,84 +18,84 @@ To create desktop and menu shortcuts to ``python``:
 
 ::
 
-   from shortcut import ShortCutter
-   s = ShortCutter()
-   s.create_desktop_shortcut("python")
-   s.create_menu_shortcut("python")
+from shortcut import ShortCutter
+s = ShortCutter()
+s.create_desktop_shortcut("python")
+s.create_menu_shortcut("python")
 
 raise_errors : bool=False
-   Whether to raise exceptions or skip errors and continue.
+Whether to raise exceptions or skip errors and continue.
 
 error_log : object=None
-   File object where to write errors when ``raise_errors=False``.
-   Default is None - do not write errors. Can also be
-   ``sys.stderr`` or ``io.StringIO()``.
+File object where to write errors when ``raise_errors=False``.
+Default is None - do not write errors. Can also be
+``sys.stderr`` or ``io.StringIO()``.
 
 desktop_folder : str
-   Directory used when creating desktop shortcuts.
+Directory used when creating desktop shortcuts.
 
 menu_folder : str
-   Directory used when creating menu shortcuts.
+Directory used when creating menu shortcuts.
 
 bin_folder_pyexe : str
-   ``Scripts`` or ``bin`` dir path. Simply closest to python
-   executable path.
+``Scripts`` or ``bin`` dir path. Simply closest to python
+executable path.
 
 bin_folder_shcut : str or None
-   ``Scripts`` or ``bin`` dir path where shortcutter executable was
-   installed.
+``Scripts`` or ``bin`` dir path where shortcutter executable was
+installed.
 
 local_root : str
-   Root directory path of the current python environment /
-   installation. Derived from python executable path.
+Root directory path of the current python environment /
+installation. Derived from python executable path.
 
 activate : bool=True
-   Whether to create shortcuts that automatically activate conda
-   environment / virtual environment.
+Whether to create shortcuts that automatically activate conda
+environment / virtual environment.
 
 exists : bool=True
-   Whether the target should exist or not. If not then add ``/``
-   (``\`` on Windows) at the end of the path to get dir shortcut.
+Whether the target should exist or not. If not then add ``/``
+(``\`` on Windows) at the end of the path to get dir shortcut.
 
 activate_args : tuple (str or None, str or None)
-   First is the activate script full path (or None if it’s wasn’t
-   found) - conda’s or venv’s. Second is the env argument of the
-   activate script (or None if not needed).
+First is the activate script full path (or None if it’s wasn’t
+found) - conda’s or venv’s. Second is the env argument of the
+activate script (or None if not needed).
 
 
 ========
 
 **__init__** (*raise_errors=False, error_log=None, activate=True, exists=True*)
 
-   Creates ShortCutter.
+Creates ShortCutter.
 
-   :Parameters:
-       * **raise_errors** (*bool=False*) – Whether to raise
-         exceptions or skip errors and continue.
+:Parameters:
+    * **raise_errors** (*bool=False*) – Whether to raise
+      exceptions or skip errors and continue.
 
-       * **error_log** (*object=None*) – File object where to write
-         errors when ``raise_errors=False``. Default is None - do
-         not write errors. Can also be ``sys.stderr`` or
-         ``io.StringIO()``.
+    * **error_log** (*object=None*) – File object where to write
+      errors when ``raise_errors=False``. Default is None - do
+      not write errors. Can also be ``sys.stderr`` or
+      ``io.StringIO()``.
 
-       * **activate** (*bool=True*) – Whether to create shortcuts
-         that automatically activate conda environment / virtual
-         environment.
+    * **activate** (*bool=True*) – Whether to create shortcuts
+      that automatically activate conda environment / virtual
+      environment.
 
-       * **exists** (*bool=True*) – Whether the target should exist
-         or not. If not then add ``/`` (``\`` on Windows) at the
-         end of the path to get dir shortcut.
+    * **exists** (*bool=True*) – Whether the target should exist
+      or not. If not then add ``/`` (``\`` on Windows) at the
+      end of the path to get dir shortcut.
 
 
 ========
 
 **ba** (*script_name*)
 
-   Returns platform independent shell script (bash/batch) name:
+Returns platform independent shell script (bash/batch) name:
 
-   * run > run (on Unix)
+* run > run (on Unix)
 
-   * run > run.bat (on Windows)
+* run > run.bat (on Windows)
 
 
 ========

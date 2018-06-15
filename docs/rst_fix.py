@@ -17,19 +17,19 @@ ShortCutter
 def join_lines(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
-        r'\r?(\n{dent}\*\*[^\r\n]+)\r?\n{dent}([^\s\r\n][^\r\n]*\*\*\r?\n)'.format(dent=indentation),
+        r'((?:\n|^){dent}\*\*[^\r\n]+)\r?\n{dent}([^\s\r\n][^\r\n]*\*\*\r?\n)'.format(dent=indentation),
         lambda m: '{} {}'.format(m.group(1), m.group(2)),
         text
     )
 
 
-def to_header(text: str, indent: int, header: str):
+def to_header(text: str, indent: int):
     """
     ``========`` denotes top header
     """
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
-        r'\r?\n{dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
+        r'(?:\n|^){dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
         lambda m: '\n\n{}\n\n**{}** (*{}*)\n'.format('========', m.group(1), m.group(2)),
         text
     )
@@ -43,12 +43,11 @@ def rep(text):
     # make broken bold lines whole again:
     text = join_lines(join_lines(text, 0), 3)
     # bold lines to left plus ==== underline:
-    text = to_header(to_header(text, 0, '-'), 3, '-')
-    # remove quotes before third ====:
+    text = to_header(to_header(text, 0), 3)
+    # remove quotes before 1st ====:
     text = text.replace('\n   ', '\n')
-    # remove quotes after third ====:
-    block = r'.*?\n===[=]+\r?\n'
-    m = re.search(r'({b}{b}{b})(.*)'.format(b=block), text, re.DOTALL)
+    # remove quotes after 1st ====:
+    m = re.search(r'(.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
     text = m.group(1) + m.group(2).replace('\n   ', '\n')
     #
     return hat + text
