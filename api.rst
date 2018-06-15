@@ -1,15 +1,19 @@
 
 Python API
 ==========
+_
+++++++
+_
+??????
 
 ShortCutter
------------
+~~~~~~~~~~~
 
 
 
 ========
 
-**class shortcutter.ShortCutter** (*raise_errors=False, error_log=None, activate=True, exists=True*)
+**``class shortcutter.ShortCutter``** (*raise_errors=False, error_log=None, activate=True, exists=True*)
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating
 systems.
@@ -65,7 +69,7 @@ activate_args : tuple (str or None, str or None)
 
 ========
 
-**__init__** (*raise_errors=False, error_log=None, activate=True, exists=True*)
+**``__init__``** (*raise_errors=False, error_log=None, activate=True, exists=True*)
 
 Creates ShortCutter.
 
@@ -89,7 +93,7 @@ Creates ShortCutter.
 
 ========
 
-**ba** (*script_name*)
+**``ba``** (*script_name*)
 
 Returns platform independent shell script (bash/batch) name:
 
@@ -100,7 +104,7 @@ Returns platform independent shell script (bash/batch) name:
 
 ========
 
-**create_desktop_shortcut** (*target, shortcut_name=None*)
+**``create_desktop_shortcut``** (*target, shortcut_name=None*)
 
 Creates a desktop shortcut to a target.
 
@@ -123,7 +127,7 @@ Creates a desktop shortcut to a target.
 
 ========
 
-**create_menu_shortcut** (*target, shortcut_name=None*)
+**``create_menu_shortcut``** (*target, shortcut_name=None*)
 
 Creates a menu shortcut to a target.
 
@@ -146,7 +150,7 @@ Creates a menu shortcut to a target.
 
 ========
 
-**create_shortcut** (*target, shortcut_directory, shortcut_name=None*)
+**``create_shortcut``** (*target, shortcut_directory, shortcut_name=None*)
 
 Creates a shortcut to a target.
 
@@ -172,7 +176,7 @@ Creates a shortcut to a target.
 
 ========
 
-**create_shortcut_to_env_terminal** (*shortcut_name=None, shortcut_directory=None, desktop=True, menu=True*)
+**``create_shortcut_to_env_terminal``** (*shortcut_name=None, shortcut_directory=None, desktop=True, menu=True*)
 
 Creates shortcuts for console (terminal) that has already
 activated the environment we are installing to (plus shortcut to
@@ -201,7 +205,7 @@ root environment in case of conda).
 
 ========
 
-**exe** (*app_name*)
+**``exe``** (*app_name*)
 
 Returns platform independent executable name:
 
@@ -212,7 +216,7 @@ Returns platform independent executable name:
 
 ========
 
-**find_target** (*target*)
+**``find_target``** (*target*)
 
 Finds a file path for a target application. Single-worded
 targets like ``'app'`` are always searched in the PATH. You
@@ -233,7 +237,7 @@ should prepend ``./app`` to tell that the file is in the CWD.
 
 ========
 
-**makedirs** (*\*args*)
+**``makedirs``** (*\*args*)
 
 Recursively creates dirs if they don’t exist. Utilizes
 ``self.raise_errors`` and ``self.error_log``.
@@ -251,7 +255,7 @@ Recursively creates dirs if they don’t exist. Utilizes
 
 ========
 
-**search_for_target** (*target*)
+**``search_for_target``** (*target*)
 
 Searches for a target application.
 
