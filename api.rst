@@ -28,41 +28,51 @@ To create desktop and menu shortcuts to ``python``:
    s.create_desktop_shortcut("python")
    s.create_menu_shortcut("python")
 
-raise_errors : bool=False
+raise_errors (*bool=False*)
+------
    Whether to raise exceptions or skip errors and continue.
 
-error_log : object=None
+error_log (*object=None*)
+------
    File object where to write errors when ``raise_errors=False``.
    Default is None - do not write errors. Can also be
    ``sys.stderr`` or ``io.StringIO()``.
 
-desktop_folder : str
+desktop_folder (*str*)
+------
    Directory used when creating desktop shortcuts.
 
-menu_folder : str
+menu_folder (*str*)
+------
    Directory used when creating menu shortcuts.
 
-bin_folder_pyexe : str
+bin_folder_pyexe (*str*)
+------
    ``Scripts`` or ``bin`` dir path. Simply closest to python
    executable path.
 
-bin_folder_shcut : str or None
+bin_folder_shcut (*str or None*)
+------
    ``Scripts`` or ``bin`` dir path where shortcutter executable was
    installed.
 
-local_root : str
+local_root (*str*)
+------
    Root directory path of the current python environment /
    installation. Derived from python executable path.
 
-activate : bool=True
+activate (*bool=True*)
+------
    Whether to create shortcuts that automatically activate conda
    environment / virtual environment.
 
-exists : bool=True
+exists (*bool=True*)
+------
    Whether the target should exist or not. If not then add ``/``
    (``\`` on Windows) at the end of the path to get dir shortcut.
 
-activate_args : tuple (str or None, str or None)
+activate_args (*tuple (str or None, str or None)*)
+------
    First is the activate script full path (or None if it’s wasn’t
    found) - conda’s or venv’s. Second is the env argument of the
    activate script (or None if not needed).

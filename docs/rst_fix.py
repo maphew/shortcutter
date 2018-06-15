@@ -17,10 +17,6 @@ ShortCutter
 
 """
 
-"""
-------
-    ...
-"""
 
 def join_lines(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
@@ -39,10 +35,15 @@ def to_header(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
         r'(?:\n|^){dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
-        lambda m: '\n\n{}\n\n``{}`` (*{}*)\n{}\n'.format('======', m.group(1), m.group(2).replace('*', '\\*'), '------'),
+        lambda m: '\n\n======\n\n``{}`` (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),
         text
     )
 
+
+def attr_rep(text):
+    return re.sub(r'\n(.*?) : (.*?)\r?\n',  # [^\S\r\n]+
+                  lambda m: '\n{} (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),  # '    '
+                  text)
 
 def rep(text):
     # fix parameters tables on GitHub:
@@ -53,11 +54,9 @@ def rep(text):
     text = join_lines(join_lines(text, 0), 3)
     # bold lines to left plus ==== underline:
     text = to_header(to_header(text, 0), 3)
-    # remove quotes before 1st ====:
-    text = text.replace('\n   ', '\n')
-    # remove quotes after 1st ====:
+    # remove quotes before and after 2nd ====:
     m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
-    text = m.group(1) + m.group(2).replace('\n   ', '\n')
+    text = attr_rep(m.group(1).replace('\n   ', '\n')) + m.group(2).replace('\n      ', '\n')
     #
     return hat + text
 
