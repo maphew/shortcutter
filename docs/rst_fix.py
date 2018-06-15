@@ -1,13 +1,29 @@
 import sys
 import re
 
+
+def join_lines(text: str, indent: int):
+    indentation = ''.join([' ' for i in range(indent)])
+    return re.sub(
+        r'\r?(\n{dent}\*\*[^\r\n]+)\r?\n{dent}([^\s\r\n][^\r\n]*\*\*\r?\n)'.format(dent=indentation),
+        lambda m: '{} {}'.format(m.group(1), m.group(2)),
+        text
+    )
+
+
+def to_header(text: str, indent: int, header: str):
+    indentation = ''.join([' ' for i in range(indent)])
+    return re.sub(
+        r'\r?\n{dent}\*\*([^\n]+)\*\*\r?\n'.format(dent=indentation),
+        lambda m: '\n{}\n{}\n'.format(m.group(1), ''.join([header for i in range(len(m.group(1)))])),
+        text
+    )
+
+
 def rep(text):
     text = text.replace('\n         * ', '\n          * ')
-    # text = re.sub(
-    #     r'((?<=[^\\]ˎ)|(?<=^ˎ))[^ˎ]*(?=ˎ)',
-    #     lambda m: sugartex.replace(m.group(0)),
-    #     text
-    # )
+    text = join_lines(join_lines(text, 0), 3)
+    text = to_header(to_header(text, 0, '='), 3, '~')
     return text
 
 def main():

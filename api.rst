@@ -1,13 +1,14 @@
 
 Python API
-**********
+******
+======
 
 
 ShortCutter
 ===========
 
-**class shortcutter.base.ShortCutter(raise_errors=False,
-error_log=None, activate=True, exists=True)**
+class shortcutter.base.ShortCutter(raise_errors=False, error_log=None, activate=True, exists=True)
+==================================================================================================
 
    Creates applicaton shortcuts for Windows, MacOS and Linux operating
    systems.
@@ -60,7 +61,8 @@ error_log=None, activate=True, exists=True)**
       found) - conda’s or venv’s. Second is the env argument of the
       activate script (or None if not needed).
 
-   **ba(script_name)**
+ba(script_name)
+~~~~~~~~~~~~~~~
 
       Returns platform independent shell script (bash/batch) name:
 
@@ -68,7 +70,8 @@ error_log=None, activate=True, exists=True)**
 
       * run > run.bat (on Windows)
 
-   **create_desktop_shortcut(target, shortcut_name=None)**
+create_desktop_shortcut(target, shortcut_name=None)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       Creates a desktop shortcut to a target.
 
@@ -88,7 +91,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          tuple (str, str, str or None)
 
-   **create_menu_shortcut(target, shortcut_name=None)**
+create_menu_shortcut(target, shortcut_name=None)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       Creates a menu shortcut to a target.
 
@@ -108,7 +112,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          tuple (str, str, str or None)
 
-   **create_shortcut(target, shortcut_directory, shortcut_name=None)**
+create_shortcut(target, shortcut_directory, shortcut_name=None)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       Creates a shortcut to a target.
 
@@ -131,8 +136,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          tuple (str, str, str or None)
 
-   **create_shortcut_to_env_terminal(shortcut_name=None,
-   shortcut_directory=None, desktop=True, menu=True)**
+create_shortcut_to_env_terminal(shortcut_name=None, shortcut_directory=None, desktop=True, menu=True)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       Creates shortcuts for console (terminal) that has already
       activated the environment we are installing to (plus shortcut to
@@ -158,7 +163,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          bool
 
-   **exe(app_name)**
+exe(app_name)
+~~~~~~~~~~~~~
 
       Returns platform independent executable name:
 
@@ -166,7 +172,8 @@ error_log=None, activate=True, exists=True)**
 
       * app > app.exe (on Windows)
 
-   **find_target(target)**
+find_target(target)
+~~~~~~~~~~~~~~~~~~~
 
       Finds a file path for a target application. Single-worded
       targets like ``'app'`` are always searched in the PATH. You
@@ -184,7 +191,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          str or None
 
-   **makedirs(*args)**
+makedirs(*args)
+~~~~~~~~~~~~~~~
 
       Recursively creates dirs if they don’t exist. Utilizes
       ``self.raise_errors`` and ``self.error_log``.
@@ -199,7 +207,8 @@ error_log=None, activate=True, exists=True)**
       :Return type:
          bool
 
-   **search_for_target(target)**
+search_for_target(target)
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
       Searches for a target application.
 
