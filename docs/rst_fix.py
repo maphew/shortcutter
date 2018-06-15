@@ -47,7 +47,7 @@ def rep(text):
     # remove quotes before 1st ====:
     text = text.replace('\n   ', '\n')
     # remove quotes after 1st ====:
-    m = re.search(r'(.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
+    m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
     text = m.group(1) + m.group(2).replace('\n   ', '\n')
     #
     return hat + text
