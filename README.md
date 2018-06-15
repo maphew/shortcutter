@@ -47,12 +47,12 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
   conda install pywin32 "pip>=10.0.1"
   pip install shortcutter
   ```
-- Anaconda/Miniconda on MacOS or Linux:
+- Anaconda/Miniconda on macOS or Linux:
   ```
   conda install "pip>=10.0.1"
   pip install shortcutter
   ```
-- System Python 3 on MacOS or Linux:
+- System Python 3 on macOS or Linux:
   ```
   pip3 install shortcutter
   ```
@@ -105,7 +105,7 @@ optional arguments:
 Operating Systems
 =================
 
-Shortcut support Windows, MacOS and Linux.
+Shortcut support Windows, macOS and Linux.
 
 The way shortcuts are provide and applications launched depends on the operating system.
 
@@ -113,9 +113,9 @@ The way shortcuts are provide and applications launched depends on the operating
 
 `.lnk` files pointing directly to the application paths are created in the User Desktop and Programs folders.
 
-### MacOS
+### macOS
 
-MacOS applications are created which run the application via a terminal and copied to the User Desktop (`~/Desktop`) and Launchpad (`/Applications`).
+macOS applications are created which run the application via a terminal and copied to the User Desktop (`~/Desktop`) and Launchpad (`/Applications`).
 
 ### Linux
 

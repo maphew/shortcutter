@@ -62,14 +62,14 @@ using ``pip``:
       conda install pywin32 "pip>=10.0.1"
       pip install shortcutter
 
--  Anaconda/Miniconda on MacOS or Linux:
+-  Anaconda/Miniconda on macOS or Linux:
 
    ::
 
       conda install "pip>=10.0.1"
       pip install shortcutter
 
--  System Python 3 on MacOS or Linux:
+-  System Python 3 on macOS or Linux:
 
    ::
 
@@ -128,7 +128,7 @@ API <https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst>`__.
 Operating Systems
 =================
 
-Shortcut support Windows, MacOS and Linux.
+Shortcut support Windows, macOS and Linux.
 
 The way shortcuts are provide and applications launched depends on the
 operating system.
@@ -139,10 +139,10 @@ Windows
 ``.lnk`` files pointing directly to the application paths are created in
 the User Desktop and Programs folders.
 
-MacOS
+macOS
 ~~~~~
 
-MacOS applications are created which run the application via a terminal
+macOS applications are created which run the application via a terminal
 and copied to the User Desktop (``~/Desktop``) and Launchpad
 (``/Applications``).
 
