@@ -8,11 +8,11 @@ hat = """
 Python API
 ==========
 _
-++++++
+++++++++++
 _
-??????
+??????????
 _
-~~~~~~~~~~~
+~~~~~~~~~~
 
 """
 
@@ -51,9 +51,11 @@ def rep(text):
     text = join_lines(join_lines(text, 0), 3)
     # bold lines to left plus ==== underline:
     text = to_header(to_header(text, 0), 3)
-    # remove quotes before and after 2nd ====:
+    # remove 2nd quotes:
+    text = text.replace('\n   ', '\n')
+    # before and after 2nd ====:
     m = re.search(r'(.*?\n===[=]+\r?\n.*?\n===[=]+\r?\n)(.*)', text, re.DOTALL)
-    text = attr_rep(m.group(1).replace('\n   ', '\n')) + m.group(2).replace('\n   ', '\n')
+    text = attr_rep(m.group(1)) + m.group(2)
     #
     text = text.replace('``class shortcutter.base', 'class ``shortcutter')
     return hat + text
