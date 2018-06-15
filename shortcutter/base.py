@@ -16,8 +16,6 @@ class ShortCutter(object):
         s.create_desktop_shortcut("python")
         s.create_menu_shortcut("python")
 
-    **Attributes**:
-
     Attributes:
     -----------
     raise_errors : bool=False

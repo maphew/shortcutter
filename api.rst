@@ -1,15 +1,12 @@
 
 Python API
-**********
-
+==========
 
 ShortCutter
-***********
+-----------
 
-class shortcutter.ShortCutter(raise_errors=False, error_log=None, activate=True, exists=True)
----------------------------------------------------------------------------------------------
-
-********
+**class shortcutter.ShortCutter(raise_errors=False,
+error_log=None, activate=True, exists=True)**
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating
 systems.
@@ -22,8 +19,6 @@ To create desktop and menu shortcuts to ``python``:
    s = ShortCutter()
    s.create_desktop_shortcut("python")
    s.create_menu_shortcut("python")
-
-**Attributes**:
 
 raise_errors : bool=False
    Whether to raise exceptions or skip errors and continue.
@@ -64,45 +59,45 @@ activate_args : tuple (str or None, str or None)
    found) - conda’s or venv’s. Second is the env argument of the
    activate script (or None if not needed).
 
-__init__(raise_errors=False, error_log=None, activate=True, exists=True)
-------------------------------------------------------------------------
 
-********
+========
 
-Creates ShortCutter.
+**__init__** (*raise_errors=False, error_log=None, activate=True, exists=True*)
 
-:Parameters:
-    * **raise_errors** (*bool=False*) – Whether to raise
-      exceptions or skip errors and continue.
+   Creates ShortCutter.
 
-    * **error_log** (*object=None*) – File object where to write
-      errors when ``raise_errors=False``. Default is None - do
-      not write errors. Can also be ``sys.stderr`` or
-      ``io.StringIO()``.
+   :Parameters:
+       * **raise_errors** (*bool=False*) – Whether to raise
+         exceptions or skip errors and continue.
 
-    * **activate** (*bool=True*) – Whether to create shortcuts
-      that automatically activate conda environment / virtual
-      environment.
+       * **error_log** (*object=None*) – File object where to write
+         errors when ``raise_errors=False``. Default is None - do
+         not write errors. Can also be ``sys.stderr`` or
+         ``io.StringIO()``.
 
-    * **exists** (*bool=True*) – Whether the target should exist
-      or not. If not then add ``/`` (``\`` on Windows) at the
-      end of the path to get dir shortcut.
+       * **activate** (*bool=True*) – Whether to create shortcuts
+         that automatically activate conda environment / virtual
+         environment.
 
-ba(script_name)
----------------
+       * **exists** (*bool=True*) – Whether the target should exist
+         or not. If not then add ``/`` (``\`` on Windows) at the
+         end of the path to get dir shortcut.
 
-********
 
-Returns platform independent shell script (bash/batch) name:
+========
 
-* run > run (on Unix)
+**ba** (*script_name*)
 
-* run > run.bat (on Windows)
+   Returns platform independent shell script (bash/batch) name:
 
-create_desktop_shortcut(target, shortcut_name=None)
----------------------------------------------------
+   * run > run (on Unix)
 
-********
+   * run > run.bat (on Windows)
+
+
+========
+
+**create_desktop_shortcut** (*target, shortcut_name=None*)
 
 Creates a desktop shortcut to a target.
 
@@ -122,10 +117,10 @@ Creates a desktop shortcut to a target.
 :Return type:
    tuple (str, str, str or None)
 
-create_menu_shortcut(target, shortcut_name=None)
-------------------------------------------------
 
-********
+========
+
+**create_menu_shortcut** (*target, shortcut_name=None*)
 
 Creates a menu shortcut to a target.
 
@@ -145,10 +140,10 @@ Creates a menu shortcut to a target.
 :Return type:
    tuple (str, str, str or None)
 
-create_shortcut(target, shortcut_directory, shortcut_name=None)
----------------------------------------------------------------
 
-********
+========
+
+**create_shortcut** (*target, shortcut_directory, shortcut_name=None*)
 
 Creates a shortcut to a target.
 
@@ -171,10 +166,10 @@ Creates a shortcut to a target.
 :Return type:
    tuple (str, str, str or None)
 
-create_shortcut_to_env_terminal(shortcut_name=None, shortcut_directory=None, desktop=True, menu=True)
------------------------------------------------------------------------------------------------------
 
-********
+========
+
+**create_shortcut_to_env_terminal** (*shortcut_name=None, shortcut_directory=None, desktop=True, menu=True*)
 
 Creates shortcuts for console (terminal) that has already
 activated the environment we are installing to (plus shortcut to
@@ -200,10 +195,10 @@ root environment in case of conda).
 :Return type:
    bool
 
-exe(app_name)
--------------
 
-********
+========
+
+**exe** (*app_name*)
 
 Returns platform independent executable name:
 
@@ -211,10 +206,10 @@ Returns platform independent executable name:
 
 * app > app.exe (on Windows)
 
-find_target(target)
--------------------
 
-********
+========
+
+**find_target** (*target*)
 
 Finds a file path for a target application. Single-worded
 targets like ``'app'`` are always searched in the PATH. You
@@ -232,10 +227,10 @@ should prepend ``./app`` to tell that the file is in the CWD.
 :Return type:
    str or None
 
-makedirs(*args)
----------------
 
-********
+========
+
+**makedirs** (**args*)
 
 Recursively creates dirs if they don’t exist. Utilizes
 ``self.raise_errors`` and ``self.error_log``.
@@ -250,10 +245,10 @@ Recursively creates dirs if they don’t exist. Utilizes
 :Return type:
    bool
 
-search_for_target(target)
--------------------------
 
-********
+========
+
+**search_for_target** (*target*)
 
 Searches for a target application.
 

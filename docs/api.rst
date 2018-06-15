@@ -1,9 +1,3 @@
-Python API
-**********
-
-ShortCutter
-***********
-
 .. automodule:: shortcutter.base
 
 .. autoclass:: ShortCutter
