@@ -41,7 +41,7 @@ def to_header(text: str, indent: int):
 
 def attr_rep(text):
     return re.sub(r'\n(.*?) : (.*?)\r?\n',  # [^\S\r\n]+
-                  lambda m: '\n{} (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),  # '    '
+                  lambda m: '\n{} (*{}*)\n------\n'.format(m.group(1), m.group(2).replace('*', '\\*')),
                   text)
 
 def rep(text):
@@ -49,7 +49,7 @@ def rep(text):
     text = text.replace('\n         * ', '\n          * ')
     # make broken bold lines whole again:
     text = join_lines(join_lines(text, 0), 3)
-    # bold lines to left plus ==== underline:
+    # bold lines to smallest header, plus ==== above:
     text = to_header(to_header(text, 0), 3)
     # remove 2nd quotes:
     text = text.replace('\n   ', '\n')
