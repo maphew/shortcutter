@@ -59,24 +59,34 @@ using ``pip``:
 
    ::
 
-        conda install pywin32
-        pip install shortcutter
+      conda install pywin32 "pip>=10.0.1"
+      pip install shortcutter
+
+-  Anaconda/Miniconda on MacOS or Linux:
+
+   ::
+
+      conda install "pip>=10.0.1"
+      pip install shortcutter
 
 -  System Python 3 on MacOS or Linux:
 
    ::
 
-        pip3 install shortcutter
+      pip3 install shortcutter
 
 -  All other cases:
 
    ::
 
-        pip install shortcutter
+      pip install shortcutter
 
-Note: if ``pip3 install --user`` (simply ``pip3 install`` on Ubuntu)
-then you might need to add ``%APPDATA%\Python\Python36\Scripts`` (on
-Windows) / ``~/.local/bin`` (on Linux) to the PATH.
+   Note: if ``pip3 install --user`` (simply ``pip3 install`` on Ubuntu)
+   then you might need to add ``%APPDATA%\Python\Python36\Scripts`` (on
+   Windows) / ``~/.local/bin`` (on Linux) to the PATH.
+
+Shortcutter should work on Python 2 or can easily be bugfixed if you
+post an issue.
 
 Command line interface
 ======================
