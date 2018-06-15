@@ -61,11 +61,12 @@ error_log=None, activate=True, exists=True)**
       activate script (or None if not needed).
 
 
-method:
+
+
+
+__init__(raise_errors=False, error_log=None, activate=True, exists=True)
 ~~~~~~~
 
-   **__init__(raise_errors=False, error_log=None, activate=True,
-   exists=True)**
 
       Creates ShortCutter.
 
