@@ -1,7 +1,7 @@
 Change log
 ==========
 
-## 0.1.1 - 2018-06-15
+## 0.1.3 - 2018-06-15
 
 * Forked shortcut > shortcutter,
 * Renamed CLI app to `shortcutter`,
@@ -29,5 +29,5 @@ Change log
 ## 0.0.1 - 2018-02-25
 
 * initial alpha release
-* support for Windows, MacOS & Linux
+* support for Windows, macOS & Linux
 * `shortcut` app and `ShortCutter` API
