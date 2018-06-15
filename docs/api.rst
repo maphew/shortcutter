@@ -1,10 +1,10 @@
 Python API
-==========
-
-.. automodule:: shortcutter.base
+**********
 
 ShortCutter
------------
+***********
+
+.. automodule:: shortcutter.base
 
 .. autoclass:: ShortCutter
     :members:

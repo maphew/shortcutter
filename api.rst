@@ -4,10 +4,12 @@ Python API
 
 
 ShortCutter
-===========
+***********
 
 class shortcutter.ShortCutter(raise_errors=False, error_log=None, activate=True, exists=True)
-=============================================================================================
+---------------------------------------------------------------------------------------------
+
+********
 
 Creates applicaton shortcuts for Windows, MacOS and Linux operating
 systems.
@@ -20,6 +22,8 @@ To create desktop and menu shortcuts to ``python``:
    s = ShortCutter()
    s.create_desktop_shortcut("python")
    s.create_menu_shortcut("python")
+
+**Attributes**:
 
 raise_errors : bool=False
    Whether to raise exceptions or skip errors and continue.
@@ -63,6 +67,8 @@ activate_args : tuple (str or None, str or None)
 __init__(raise_errors=False, error_log=None, activate=True, exists=True)
 ------------------------------------------------------------------------
 
+********
+
 Creates ShortCutter.
 
 :Parameters:
@@ -85,6 +91,8 @@ Creates ShortCutter.
 ba(script_name)
 ---------------
 
+********
+
 Returns platform independent shell script (bash/batch) name:
 
 * run > run (on Unix)
@@ -93,6 +101,8 @@ Returns platform independent shell script (bash/batch) name:
 
 create_desktop_shortcut(target, shortcut_name=None)
 ---------------------------------------------------
+
+********
 
 Creates a desktop shortcut to a target.
 
@@ -115,6 +125,8 @@ Creates a desktop shortcut to a target.
 create_menu_shortcut(target, shortcut_name=None)
 ------------------------------------------------
 
+********
+
 Creates a menu shortcut to a target.
 
 :Parameters:
@@ -135,6 +147,8 @@ Creates a menu shortcut to a target.
 
 create_shortcut(target, shortcut_directory, shortcut_name=None)
 ---------------------------------------------------------------
+
+********
 
 Creates a shortcut to a target.
 
@@ -159,6 +173,8 @@ Creates a shortcut to a target.
 
 create_shortcut_to_env_terminal(shortcut_name=None, shortcut_directory=None, desktop=True, menu=True)
 -----------------------------------------------------------------------------------------------------
+
+********
 
 Creates shortcuts for console (terminal) that has already
 activated the environment we are installing to (plus shortcut to
@@ -187,6 +203,8 @@ root environment in case of conda).
 exe(app_name)
 -------------
 
+********
+
 Returns platform independent executable name:
 
 * app > app (on Unix)
@@ -195,6 +213,8 @@ Returns platform independent executable name:
 
 find_target(target)
 -------------------
+
+********
 
 Finds a file path for a target application. Single-worded
 targets like ``'app'`` are always searched in the PATH. You
@@ -215,6 +235,8 @@ should prepend ``./app`` to tell that the file is in the CWD.
 makedirs(*args)
 ---------------
 
+********
+
 Recursively creates dirs if they don’t exist. Utilizes
 ``self.raise_errors`` and ``self.error_log``.
 
@@ -230,6 +252,8 @@ Recursively creates dirs if they don’t exist. Utilizes
 
 search_for_target(target)
 -------------------------
+
+********
 
 Searches for a target application.
 
