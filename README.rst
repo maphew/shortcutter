@@ -38,10 +38,10 @@ Table of contents
 
 -  `Install <#install>`__
 -  `Command line interface <#command-line-interface>`__
--  `Python API <api.rst>`__
+-  `Python API <#python-api>`__
 -  `Operating Systems <#operating-systems>`__
 -  `Status <#status>`__
--  `Change log <CHANGE_LOG.md>`__
+-  `Change log <#change-log>`__
 
 Install
 =======
@@ -93,10 +93,11 @@ The ``-h`` or ``--help`` option will display the help:
      -t, --terminal        Create shortcut to environment with shortcutter (plus
                            shortcut to root environment in case of conda).
 
-`Python API <api.rst>`__
-========================
+`Python API <https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst>`__
+==============================================================================
 
-`Python API <api.rst>`__.
+`Python
+API <https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst>`__.
 
 Operating Systems
 =================
@@ -133,7 +134,8 @@ Alpha - tested and works but
 `issues <https://github.com/kiwi0fruit/shortcutter/issues>`__ maybe
 experienced and API changes are possible.
 
-`Change log <CHANGE_LOG.md>`__
-==============================
+`Change log <https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md>`__
+====================================================================================
 
-`Change log <CHANGE_LOG.md>`__.
+`Change
+log <https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md>`__.

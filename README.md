@@ -27,10 +27,10 @@ Table of contents
 
 * [Install](#install)
 * [Command line interface](#command-line-interface)
-* [Python API](api.rst)
+* [Python API](#python-api)
 * [Operating Systems](#operating-systems)
 * [Status](#status)
-* [Change log](CHANGE_LOG.md)
+* [Change log](#change-log)
 
 
 Install
@@ -78,10 +78,10 @@ optional arguments:
 ```
 
 
-[Python API](api.rst)
+[Python API](https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst)
 =========================
 
-[Python API](api.rst).
+[Python API](https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst).
 
 
 Operating Systems
@@ -112,7 +112,7 @@ Alpha - tested and works but
 experienced and API changes are possible.
 
 
-[Change log](CHANGE_LOG.md)
+[Change log](https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md)
 ===========================
 
-[Change log](CHANGE_LOG.md).
+[Change log](https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md).
