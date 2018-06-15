@@ -17,6 +17,10 @@ ShortCutter
 
 """
 
+"""
+------
+    ...
+"""
 
 def join_lines(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
@@ -29,12 +33,13 @@ def join_lines(text: str, indent: int):
 
 def to_header(text: str, indent: int):
     """
-    ``========`` denotes top header
+    ``======`` denotes top header
+    ``------`` denotes smallest header
     """
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
         r'(?:\n|^){dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
-        lambda m: '\n\n{}\n\n**``{}``** (*{}*)\n'.format('========', m.group(1), m.group(2).replace('*', '\\*')),
+        lambda m: '\n\n{}\n\n``{}`` (*{}*)\n{}\n'.format('======', m.group(1), m.group(2).replace('*', '\\*'), '------'),
         text
     )
 
