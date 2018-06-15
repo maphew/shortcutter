@@ -25,6 +25,8 @@ def rep(text):
     text = join_lines(join_lines(text, 0), 3)
     text = to_header(to_header(text, 0, '='), 3, '-')
     text = text.replace('\n   ', '\n')
+    m = re.search(r'(.*?\n---[-]+\r?\n)(.*)', text, re.DOTALL)
+    text = m.group(1) + m.group(2).replace('\n   ', '\n')
     return text
 
 def main():
