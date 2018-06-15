@@ -4,7 +4,9 @@ Change log
 ## 0.1.1 - 2018-06-15
 
 * Forked shortcut > shortcutter,
+* Renamed CLI app to `shortcutter`,
 * Added support for virtual environments, Anaconda/Miniconda, conda environments: shortcuts activate env before starting the target,
+* Special command/method can create shortcut to the terminal at activated environment (plus terminal shortcut at conda root),
 * Shortcut name now can be set,
 * Better support for setup.py use-cases:
   * Folder shortcuts,
@@ -12,7 +14,9 @@ Change log
   * Added 'silent' and log mode when errors are not raised, 
 * Documentation moved to GitHub,
 * Added versioneer (auto version based on GitHub commit),
-* Only one dependence on Windows: pywin32 (available on conda-forge).
+* Only one dependence on Windows: pywin32 (available on conda-forge),
+* Changed docstrings style to NumPy style,
+* Removed some unpythonic code. 
 
 
 ## 0.0.2 - 2018-02-25
@@ -25,4 +29,4 @@ Change log
 
 * initial alpha release
 * support for Windows, MacOS & Linux
-* `shortcutter` app and `ShortCutter` API
+* `shortcut` app and `ShortCutter` API
