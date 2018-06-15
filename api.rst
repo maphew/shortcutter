@@ -233,7 +233,7 @@ should prepend ``./app`` to tell that the file is in the CWD.
 
 ========
 
-**makedirs** (**args*)
+**makedirs** (*\*args*)
 
 Recursively creates dirs if they don’t exist. Utilizes
 ``self.raise_errors`` and ``self.error_log``.

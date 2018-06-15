@@ -30,7 +30,7 @@ def to_header(text: str, indent: int):
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
         r'(?:\n|^){dent}\*\*([^\*\n\(\)]+[^\n\(\)]*)\(([^\n]*?)\)\*\*\r?\n'.format(dent=indentation),
-        lambda m: '\n\n{}\n\n**{}** (*{}*)\n'.format('========', m.group(1), m.group(2)),
+        lambda m: '\n\n{}\n\n**{}** (*{}*)\n'.format('========', m.group(1), m.group(2).replace('*', '\\*')),
         text
     )
 
