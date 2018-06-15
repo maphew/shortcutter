@@ -9,19 +9,19 @@ Additioanlly special command/method can create shortcut to the terminal at activ
 
 To create desktop and menu shortcuts for `python`:
 
--   Using the app:
-
-        shortcutter python
-        shortcutter --terminal
-
--   Using the Python API for example in `setup.py`:
-    ```py
-    from shortcutter import ShortCutter
-    sc = ShortCutter()
-    sc.create_desktop_shortcut("python")
-    sc.create_menu_shortcut("python")
-    sc.create_shortcut_to_env_terminal()
-    ```
+- Using the app:
+  ```
+  shortcutter python
+  shortcutter --terminal
+  ```
+- Using the Python API for example in `setup.py`:
+  ```py
+  from shortcutter import ShortCutter
+  sc = ShortCutter()
+  sc.create_desktop_shortcut("python")
+  sc.create_menu_shortcut("python")
+  sc.create_shortcut_to_env_terminal()
+  ```
 
 It was created to solve a simple problem - if you install a python package using `pip` there is no simple way of creating a shortcut to the program it installs.
 
@@ -43,18 +43,18 @@ Install
 Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
 - Anaconda/Miniconda on Windows:
-
-        conda install pywin32
-        pip install shortcutter
-
+  ```
+  conda install pywin32
+  pip install shortcutter
+  ```
 - System Python 3 on MacOS or Linux:
-
-        pip3 install shortcutter
-
+  ```
+  pip3 install shortcutter
+  ```
 - All other cases:
-
-        pip install shortcutter
-
+  ```
+  pip install shortcutter
+  ```
 Note: if `pip3 install --user` (simply `pip3 install` on Ubuntu) then you might need to add `%APPDATA%\Python\Python36\Scripts` (on Windows) / `~/.local/bin` (on Linux) to the PATH.
 
 
