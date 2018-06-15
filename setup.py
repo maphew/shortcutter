@@ -21,7 +21,7 @@ setup(
     name='shortcutter',
     version = versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    description = 'A cross platform simple api for setup.py and command line application for creating shortcuts (fork of Shortcut)',
+    description = 'Easy cross-platform creation of shortcuts supporting virtual and Anaconda environments (fork of Shortcut)',
     long_description=long_description,
     url = 'https://github.com/kiwi0fruit/shortcutter',
     author = "Martin O'Hanlon, Peter Zagubisalo",
