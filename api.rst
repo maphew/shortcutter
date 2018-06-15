@@ -60,6 +60,10 @@ error_log=None, activate=True, exists=True)**
       found) - conda’s or venv’s. Second is the env argument of the
       activate script (or None if not needed).
 
+
+method:
+~~~~~~~
+
    **__init__(raise_errors=False, error_log=None, activate=True,
    exists=True)**
 
@@ -82,6 +86,9 @@ error_log=None, activate=True, exists=True)**
             or not. If not then add ``/`` (``\`` on Windows) at the
             end of the path to get dir shortcut.
 
+method:
+~~~~~~~
+
    **ba(script_name)**
 
       Returns platform independent shell script (bash/batch) name:
@@ -89,6 +96,9 @@ error_log=None, activate=True, exists=True)**
       * run > run (on Unix)
 
       * run > run.bat (on Windows)
+
+method:
+~~~~~~~
 
    **create_desktop_shortcut(target, shortcut_name=None)**
 
