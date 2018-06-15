@@ -14,16 +14,17 @@ def join_lines(text: str, indent: int):
 def to_header(text: str, indent: int, header: str):
     indentation = ''.join([' ' for i in range(indent)])
     return re.sub(
-        r'\r?\n{dent}\*\*([^\n]+)\*\*\r?\n'.format(dent=indentation),
+        r'\r?\n{dent}\*\*([^\*\n]+[^\n]*)\*\*\r?\n'.format(dent=indentation),
         lambda m: '\n{}\n{}\n'.format(m.group(1), ''.join([header for i in range(len(m.group(1)))])),
         text
     )
 
 
 def rep(text):
-    text = text.replace('\n         * ', '\n          * ')
+    text = text.replace('\n         * ', '\n          * ').replace('class shortcutter.base', 'class shortcutter')
     text = join_lines(join_lines(text, 0), 3)
-    text = to_header(to_header(text, 0, '='), 3, '~')
+    text = to_header(to_header(text, 0, '='), 3, '-')
+    text = text.replace('\n   ', '\n')
     return text
 
 def main():
