@@ -5,13 +5,14 @@ import stat
 from .base import ShortCutter
 
 ACTIVATE = """#!/bin/bash
+export PYTHONNOUSERSITE=1
 source "{activate}"
 "{executable}" "$@"
 source "{bin}/deactivate"
 """
 
 ACTIVATE_PROMPT = """#!/bin/bash
-bash --rcfile <(echo 'export PATH="{bin}:$PATH"; source "{activate}"; cd $HOME')
+bash --rcfile <(echo 'export PATH="{bin}:$PATH"; export PYTHONNOUSERSITE=1; source "{activate}"; cd $HOME')
 """
 
 
