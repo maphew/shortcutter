@@ -1,6 +1,11 @@
 Change log
 ==========
 
+## 0.1.4 - 2018-06-17
+
+* `PYTHONNOUSERSITE=1` is set before `activate` in the wrapper shortcuts.
+
+
 ## 0.1.3 - 2018-06-15
 
 * Forked shortcut > shortcutter,
