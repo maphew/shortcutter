@@ -1,6 +1,11 @@
 Change log
 ==========
 
+## 0.1.5 - 2018-06-19
+
+* Activated terminal shortcut bugfix 
+
+
 ## 0.1.4 - 2018-06-17
 
 * `PYTHONNOUSERSITE=1` is set before `activate` in the wrapper shortcuts.

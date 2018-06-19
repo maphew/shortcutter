@@ -42,7 +42,7 @@ set PYTHONNOUSERSITE=1
 call "{activate}"
 chcp 65001 > NUL
 set "PYTHONIOENCODING=utf-8"
-cd %USERPROFILE%
+cd /d %USERPROFILE%
 cmd /k
 """
 
