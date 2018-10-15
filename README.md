@@ -25,6 +25,10 @@ To create desktop and menu shortcuts for `python`:
 
 It was created to solve a simple problem - if you install a python package using `pip` there is no simple way of creating a shortcut to the program it installs.
 
+**Shortcuts without entry points**
+
+The default use-case for Shortcutter is to create shortcuts for entry-points executables auto created by setup.py. But sometimes such entry-points do not work (like when using Qt for Python with Enaml). See example how to work-around this: [Enaml video app](https://github.com/kiwi0fruit/enaml-video-app) (it uses [shell scripts](https://github.com/kiwi0fruit/enaml-video-app/tree/master/enaml-video-app/scripts)).
+
 
 Table of contents
 =================
