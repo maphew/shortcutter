@@ -22,7 +22,7 @@ To create desktop and menu shortcuts to ``python``:
 
 ::
 
-   from shortcut import ShortCutter
+   from shortcutter import ShortCutter
    s = ShortCutter()
    s.create_desktop_shortcut("python")
    s.create_menu_shortcut("python")
