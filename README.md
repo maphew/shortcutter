@@ -29,7 +29,7 @@ It was created to solve a simple problem - if you install a python package using
 Shortcuts without entry points (for GUI)
 ----------------------------------------
 
-The default use-case for Shortcutter is to create shortcuts for entry-points executables auto created by setup.py or conda. But sometimes such entry-points do not work (like when using Qt for Python with Enaml or using pythonw on macOS -- python.app package). See example how to work-around this: [Enaml video app](https://github.com/kiwi0fruit/enaml-video-app) (the main idea is in [bash](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-app), [batch](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-app.bat) and [\_\_main\_\_](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/enaml_video_app/__main__.py) scripts).
+The default use-case for Shortcutter is to create shortcuts for entry-points executables auto created by setup.py or conda. But sometimes such entry-points do not work (like when using Qt for Python with Enaml or using pythonw on macOS with python.app package). See example how to work-around this: [Enaml video app](https://github.com/kiwi0fruit/enaml-video-app) (the main idea is in [bash](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-app), [batch](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-app.bat) and [\_\_main\_\_](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/enaml_video_app/__main__.py) scripts).
 
 
 Table of contents
