@@ -32,7 +32,7 @@ set PYTHONNOUSERSITE=1
 call "{activate}"
 chcp 65001 > NUL
 set "PYTHONIOENCODING=utf-8"
-"{executable}" %*
+{call}"{executable}" %*
 call "{bin}\deactivate.bat"
 """
 

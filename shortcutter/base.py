@@ -301,14 +301,15 @@ class ShortCutter(object):
 
             def call_batch(path):
                 if os.name == 'nt' and (path.endswith('.bat') or path.endswith('.cmd')):
-                    return 'call ' + path
+                    return 'call '
                 else:
-                    return path
+                    return ''
 
             script = (self._ACTIVATE_PROMPT if terminals else self._ACTIVATE).format(
                 activate=r(activate) + ('" "' + r(env) if env else ''),
-                executable=call_batch(r(target_path)),
-                bin=r(p.dirname(activate))
+                executable=r(target_path),
+                bin=r(p.dirname(activate)),
+                call=call_batch(target_path)
             )
             with open(wrapper_path, 'w') as f:
                 f.write(script)
