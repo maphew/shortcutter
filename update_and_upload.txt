@@ -1,22 +1,16 @@
-# install to conda environment:
-#   twine
-#   sphinx
-#   sphinxcontrib-restbuilder>=0.2
-#   pandoc>=2.2
-#   shortcutter (latest version)
+install to conda environment:
+* twine
+* sphinx
+* sphinxcontrib-restbuilder>=0.2
+* pandoc>=2.2.1
+* shortcutter (latest version)
 
-conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder "pandoc>=2.2"
+conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder "pandoc>=2.2.1"
 conda uninstall sphinxcontrib-restbuilder
 pip install sphinxcontrib-restbuilder
 pip install git+https://github.com/kiwi0fruit/shortcutter.git
 
-# run update_version.bat to update version
-
-# open terminal with activated environment
-# to upload:
-#   run upload__to_clip.bat
-#   paste clipboard to the terminal
-
-# to update rst:
-#   run update_rst__to_clip.bat
-#   paste clipboard to the terminal
+* run `update_version.bat` to update version
+* open terminal with activated environment
+  * to update rst drag and drop `update_rst.bat` to the terminal
+  * to upload package to pypi drag and drop `upload.bat` to the terminal

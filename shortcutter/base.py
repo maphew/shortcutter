@@ -299,9 +299,15 @@ class ShortCutter(object):
             def r(path):
                 return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""
 
+            def call_batch(path):
+                if os.name == 'nt' and (path.endswith('.bat') or path.endswith('.cmd')):
+                    return 'call ' + path
+                else:
+                    return path
+
             script = (self._ACTIVATE_PROMPT if terminals else self._ACTIVATE).format(
                 activate=r(activate) + ('" "' + r(env) if env else ''),
-                executable=r(target_path),
+                executable=call_batch(r(target_path)),
                 bin=r(p.dirname(activate))
             )
             with open(wrapper_path, 'w') as f:

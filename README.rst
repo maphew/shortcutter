@@ -38,8 +38,27 @@ It was created to solve a simple problem - if you install a python
 package using ``pip`` there is no simple way of creating a shortcut to
 the program it installs.
 
+Shortcuts without entry points (for GUI)
+----------------------------------------
+
+The default use-case for Shortcutter is to create shortcuts for
+entry-points executables auto created by setup.py or conda. But
+sometimes such entry-points do not work (like when using pythonw on
+macOS with python.app package). See example how to work-around this:
+`Enaml video app <https://github.com/kiwi0fruit/enaml-video-app>`__ (the
+main idea is in
+`bash <https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-appw>`__
+and
+`\__main_\_ <https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/enaml_video_app/gui/__main__.py>`__
+scripts).
+
 Table of contents
 =================
+
+-  `Shortcutter <#shortcutter>`__
+
+   -  `Shortcuts without entry points (for
+      GUI) <#shortcuts-without-entry-points-for-gui>`__
 
 -  `Install <#install>`__
 -  `Command line interface <#command-line-interface>`__

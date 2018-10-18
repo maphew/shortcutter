@@ -14,11 +14,10 @@ elif os.name == 'posix':
     else:
         from .linux import ShortCutterLinux as ShortCutter
 else:
-    raise Exception("Error: '{}' platform is not supported.")
+    raise Exception("Error: '{}' platform is not supported.".format(sys.platform))
 
 
 def main():
-    import traceback
     from argparse import ArgumentParser
 
     parser = ArgumentParser(description="Automatic shortcut creator." +
