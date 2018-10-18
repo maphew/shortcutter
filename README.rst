@@ -48,9 +48,7 @@ macOS with python.app package). See example how to work-around this:
 `Enaml video app <https://github.com/kiwi0fruit/enaml-video-app>`__ (the
 main idea is in
 `bash <https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-appw>`__
-and
-`\__main_\_ <https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/enaml_video_app/gui/__main__.py>`__
-scripts).
+script).
 
 Table of contents
 =================
