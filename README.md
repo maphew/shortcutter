@@ -51,9 +51,15 @@ Install
 Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
 - Anaconda/Miniconda on Windows:
-  ```
+  ```bat
   conda install pywin32 "pip>=10.0.1"
-  pip install shortcutter
+  pip install --progress-bar shortcutter
+  :: if pip install fails try to change codepage:
+  :: chcp 1252
+  ```
+- Pure pip install on Windows:
+  ```
+  pip install --progress-bar shortcutter
   ```
 - Anaconda/Miniconda on macOS or Linux:
   ```
@@ -64,7 +70,7 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
   ```
   pip3 install shortcutter
   ```
-- All other cases:
+- All other cases on macOS or Linux:
   ```
   pip install shortcutter
   ```
