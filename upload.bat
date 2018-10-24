@@ -1,5 +1,5 @@
-set "script_dir=%~dp0"
-cd /d "%script_dir%"
+
+cd /d "%~dp0"
 
 python setup.py sdist
 twine upload dist/* --skip-existing
