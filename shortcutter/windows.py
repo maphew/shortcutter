@@ -30,8 +30,6 @@ shell = Dispatch('WScript.Shell')
 ACTIVATE = r"""@echo off
 set PYTHONNOUSERSITE=1
 call "{activate}"
-chcp 65001 > NUL
-set "PYTHONIOENCODING=utf-8"
 {call}"{executable}" %*
 call "{bin}\deactivate.bat"
 """
@@ -40,8 +38,8 @@ ACTIVATE_PROMPT = """@echo off
 set "PATH={bin};%PATH%"
 set PYTHONNOUSERSITE=1
 call "{activate}"
-chcp 65001 > NUL
-set "PYTHONIOENCODING=utf-8"
+set "u=chcp 65001 && set PYTHONIOENCODING=utf-8"
+set "a=chcp 1252 && set PYTHONIOENCODING="
 cd /d %USERPROFILE%
 cmd /k
 """

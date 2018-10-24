@@ -5,7 +5,7 @@ Shortcutter is a cross platform API for creating shortcuts for python applicatio
 
 Shortcutter creates shortcucts that activate python environment prior launching the app. It supports virtual environments, Anaconda/Miniconda, conda environments, `sudo pip install`, `pip install --user`. Shortcutter will do its best to find your app, searching for the usual suspects in the usual places (i.e. those in the PATH), or you can give it a full path.
 
-Additioanlly special command/method can create shortcut to the terminal at activated environment (plus terminal shortcut at conda root).
+Additioanlly special command/method can create shortcut to the terminal at activated environment (plus terminal shortcut at conda root). In case of Windows special env vars `%u%` and `%a%` defined that switch encodings.
 
 To create desktop and menu shortcuts for `python`:
 
