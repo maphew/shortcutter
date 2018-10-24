@@ -297,10 +297,15 @@ class ShortCutter(object):
         wrapper_path = p.join(self.bin_folder_shcut, self.ba('shortcutter__' + name))
         if target_path or terminals:
             def r(path):
-                return path.replace('"', r'\"').replace("'", r"\'") if (path is not None) else ""
+                if path is None:
+                    return ''
+                else:
+                    return path.replace('"', r'\"').replace("'", r"\'")
 
             def call_batch(path):
-                if os.name == 'nt' and (path.endswith('.bat') or path.endswith('.cmd')):
+                if path is None:
+                    return ''
+                elif os.name == 'nt' and (path.endswith('.bat') or path.endswith('.cmd')):
                     return 'call '
                 else:
                     return ''
