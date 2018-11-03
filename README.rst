@@ -15,7 +15,7 @@ it a full path.
 Additioanlly special command/method can create shortcut to the terminal
 at activated environment (plus terminal shortcut at conda root). In case
 of Windows special env vars ``%u%`` and ``%a%`` defined that switch
-encodings.
+encodings and ``%b%`` var that sets UTF-8 encoding and starts Bash.
 
 To create desktop and menu shortcuts for ``python``:
 
@@ -79,10 +79,9 @@ using ``pip``:
    .. code:: bat
 
       conda install pywin32 "pip>=10.0.1"
-      pip install --progress-bar shortcutter
-      :: if pip install fails try to change codepage:
-      :: chcp 1252
+      pip install shortcutter
 
+   if pip install fails try to change codepage: ``chcp 1252``,
 -  Pure pip install on Windows:
 
    ::
