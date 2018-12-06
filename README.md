@@ -58,8 +58,9 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
   if pip install fails try to change codepage: `chcp 1252`,
 - Pure pip install on Windows:
   ```
-  pip install --progress-bar shortcutter
+  pip install shortcutter
   ```
+  if pip install fails try to change codepage: `chcp 1252`,
 - Anaconda/Miniconda on macOS or Linux:
   ```
   conda install "pip>=10.0.1"
