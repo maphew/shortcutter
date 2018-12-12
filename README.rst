@@ -86,8 +86,9 @@ using ``pip``:
 
    ::
 
-      pip install --progress-bar shortcutter
+      pip install shortcutter
 
+   if pip install fails try to change codepage: ``chcp 1252``,
 -  Anaconda/Miniconda on macOS or Linux:
 
    ::
