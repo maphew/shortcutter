@@ -2,3 +2,6 @@
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 pandoc README.md -o README.rst
+sphinx-build -b rst ./docs ./docs/_build
+cat ./docs/_build/api.rst | python ./docs/rst_fix.py > api.rst
+rm -rf ./docs/_build
