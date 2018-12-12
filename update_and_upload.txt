@@ -1,16 +1,36 @@
-install to conda environment:
+Install to conda environment:
+
 * twine
 * sphinx
 * sphinxcontrib-restbuilder>=0.2
 * pandoc>=2.2.1
 * shortcutter (latest version)
 
-conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder "pandoc>=2.2.1"
-conda uninstall sphinxcontrib-restbuilder
-pip install sphinxcontrib-restbuilder
-pip install git+https://github.com/kiwi0fruit/shortcutter.git
+    conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder "pandoc>=2.2.1"
+    conda uninstall sphinxcontrib-restbuilder
+    pip install "sphinxcontrib-restbuilder>=0.2"
+    pip install git+https://github.com/kiwi0fruit/shortcutter
 
-* run `update_version.bat` to update version
+* On Windows install Git together with Bash.
+
+
+Scripts:
+
+To run the script open Bash terminal, then type <code>. </code> (dot with space), then
+drag and drop the script to the Bash terminal (the script will change CWD itself).
+
+* run `update_version` to update version
 * open terminal with activated environment
-  * to update rst drag and drop `update_rst.bat` to the terminal
-  * to upload package to pypi drag and drop `upload.bat` to the terminal
+  * to update all rst run `update_rst`
+  * to update only readme rst run `update_readme_rst`
+  * to upload package to pypi run `upload`
+
+
+Hint: Easily create shortcut to activated environment via Shortcutter:
+
+* Windows only preparation:
+    conda install pywin32
+* Cross-platform installation:
+    pip install shortcutter
+    shortcutter --terminal
+* To start Bash on windows type `%b%` in the terminal created via Shortcutter
