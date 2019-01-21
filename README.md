@@ -1,5 +1,4 @@
-Shortcutter
-===========
+# Shortcutter
 
 Shortcutter is a cross platform API for creating shortcuts for python applications meant to be used in setup.py script or as a command line application (fork of the Shortcut).
 
@@ -26,14 +25,12 @@ To create desktop and menu shortcuts for `python`:
 It was created to solve a simple problem - if you install a python package using `pip` there is no simple way of creating a shortcut to the program it installs.
 
 
-Shortcuts without entry points (for GUI)
-----------------------------------------
+## Shortcuts without entry points (for GUI)
 
 The default use-case for Shortcutter is to create shortcuts for entry-points executables auto created by setup.py or conda. But sometimes such entry-points do not work (like when using pythonw on macOS with python.app package). See example how to work-around this: [Enaml video app](https://github.com/kiwi0fruit/enaml-video-app) (the main idea is in [bash](https://github.com/kiwi0fruit/enaml-video-app/blob/master/enaml-video-app/scripts/enaml-video-appw) script).
 
 
-Table of contents
-=================
+# Table of contents
 
 * [Shortcutter](#shortcutter)
   * [Shortcuts without entry points (for GUI)](#shortcuts-without-entry-points-for-gui)
@@ -45,8 +42,7 @@ Table of contents
 * [Change log](#change-log)
 
 
-Install
-=======
+# Install
 
 Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
@@ -79,8 +75,7 @@ Note: if `pip3 install --user` (simply `pip3 install` on Ubuntu) then you might 
 Shortcutter should work on Python 2 or can easily be bugfixed if you post an issue.
 
 
-Command line interface
-======================
+# Command line interface
 
 The `-h` or `--help` option will display the help:
 ```
@@ -110,14 +105,12 @@ optional arguments:
 ```
 
 
-[Python API](https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst)
-=========================
+# Python API
 
 [Python API](https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst).
 
 
-Operating Systems
-=================
+# Operating Systems
 
 Shortcut support Windows, macOS and Linux.
 
@@ -136,15 +129,13 @@ macOS applications are created which run the application via a terminal and copi
 `.desktop` files are created which start the application via the shell and created in the User Desktop and applications menu (`~/.local/share/applications`).
 
 
-Status
-======
+# Status
 
 Alpha - tested and works but
 [issues](https://github.com/kiwi0fruit/shortcutter/issues) maybe
 experienced and API changes are possible.
 
 
-[Change log](https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md)
-===========================
+# Change log
 
 [Change log](https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md).
