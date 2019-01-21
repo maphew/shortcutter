@@ -21,20 +21,20 @@ To create desktop and menu shortcuts for ``python``:
 
 -  Using the app:
 
-   ::
+::
 
-      shortcutter python
-      shortcutter --terminal
+   shortcutter python
+   shortcutter --terminal
 
 -  Using the Python API for example in ``setup.py``:
 
-   .. code:: py
+.. code:: py
 
-      from shortcutter import ShortCutter
-      sc = ShortCutter()
-      sc.create_desktop_shortcut("python")
-      sc.create_menu_shortcut("python")
-      sc.create_shortcut_to_env_terminal()
+   from shortcutter import ShortCutter
+   sc = ShortCutter()
+   sc.create_desktop_shortcut("python")
+   sc.create_menu_shortcut("python")
+   sc.create_shortcut_to_env_terminal()
 
 It was created to solve a simple problem - if you install a python
 package using ``pip`` there is no simple way of creating a shortcut to
@@ -76,41 +76,39 @@ using ``pip``:
 
 -  Anaconda/Miniconda on Windows:
 
-   .. code:: bat
+.. code:: bat
 
-      conda install pywin32 "pip>=10.0.1"
-      pip install shortcutter
+   conda install pywin32 "pip>=10.0.1"
+   pip install shortcutter
 
-   if pip install fails try to change codepage: ``chcp 1252``,
 -  Pure pip install on Windows:
 
-   ::
+::
 
-      pip install shortcutter
+   pip install shortcutter
 
-   if pip install fails try to change codepage: ``chcp 1252``,
 -  Anaconda/Miniconda on macOS or Linux:
 
-   ::
+::
 
-      conda install "pip>=10.0.1"
-      pip install shortcutter
+   conda install "pip>=10.0.1"
+   pip install shortcutter
 
 -  System Python 3 on macOS or Linux:
 
-   ::
+::
 
-      pip3 install shortcutter
+   pip3 install shortcutter
 
 -  All other cases on macOS or Linux:
 
-   ::
+::
 
-      pip install shortcutter
+   pip install shortcutter
 
-   Note: if ``pip3 install --user`` (simply ``pip3 install`` on Ubuntu)
-   then you might need to add ``%APPDATA%\Python\Python36\Scripts`` (on
-   Windows) / ``~/.local/bin`` (on Linux) to the PATH.
+Note: if ``pip3 install --user`` (simply ``pip3 install`` on Ubuntu)
+then you might need to add ``%APPDATA%\Python\Python36\Scripts`` (on
+Windows) / ``~/.local/bin`` (on Linux) to the PATH.
 
 Shortcutter should work on Python 2 or can easily be bugfixed if you
 post an issue.
