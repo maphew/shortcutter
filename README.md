@@ -49,23 +49,15 @@ The default use-case for Shortcutter is to create shortcuts for entry-points exe
 
 Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and can be installed using `pip`:
 
-* Anaconda/Miniconda on Windows:
+* Using Anaconda/Miniconda:
 
 ```bat
-conda install pywin32 "pip>=10.0.1"
-pip install shortcutter
+conda install shortcutter
 ```
 
-* Pure pip install on Windows:
+* Using pip:
 
 ```
-pip install shortcutter
-```
-
-* Anaconda/Miniconda on macOS or Linux:
-
-```
-conda install "pip>=10.0.1"
 pip install shortcutter
 ```
 
@@ -73,12 +65,6 @@ pip install shortcutter
 
 ```
 pip3 install shortcutter
-```
-
-* All other cases on macOS or Linux:
-
-```
-pip install shortcutter
 ```
 
 Note: if `pip3 install --user` (simply `pip3 install` on Ubuntu) then you might need to add `%APPDATA%\Python\Python36\Scripts` (on Windows) / `~/.local/bin` (on Linux) to the PATH.
