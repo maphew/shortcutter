@@ -2,6 +2,7 @@ import sys
 from setuptools import setup, find_packages
 from os import path as p
 import versioneer
+import io
 
 if sys.version_info[0] == 2:
     if not sys.version_info >= (2, 7):
@@ -13,7 +14,7 @@ else:
     raise ValueError('Unrecognized major version of Python')
 
 here = p.abspath(p.dirname(__file__))
-with open(p.join(here, 'README.md'), encoding='utf-8') as f:
+with io.open(p.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 
