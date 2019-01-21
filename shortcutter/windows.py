@@ -17,8 +17,7 @@ except ImportError as e:
         except ImportError as ee:
             dll = os.listdir(path)
             dll = [p.join(path, _) for _ in dll if "dll" in _]
-            # TODO: Python version 2.7 does not support this syntax:
-            raise ImportError("Failed to import win32com, due to missing DLL:\n" + "\n".join(dll)) from e
+            raise ImportError("{}\n Failed to import win32com, due to missing DLL:\n".format(ee) + "\n".join(dll))
     else:
         raise e
 
