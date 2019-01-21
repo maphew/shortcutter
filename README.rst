@@ -146,8 +146,8 @@ The ``-h`` or ``--help`` option will display the help:
      -t, --terminal        Create shortcut to environment with shortcutter (plus
                            shortcut to root environment in case of conda).
 
-`Python API <https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst>`__
-==============================================================================
+Python API
+==========
 
 `Python
 API <https://github.com/kiwi0fruit/shortcutter/blob/master/api.rst>`__.
@@ -187,8 +187,8 @@ Alpha - tested and works but
 `issues <https://github.com/kiwi0fruit/shortcutter/issues>`__ maybe
 experienced and API changes are possible.
 
-`Change log <https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md>`__
-====================================================================================
+Change log
+==========
 
 `Change
 log <https://github.com/kiwi0fruit/shortcutter/blob/master/CHANGE_LOG.md>`__.
