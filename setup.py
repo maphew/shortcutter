@@ -23,6 +23,7 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     description = 'Easy cross-platform creation of shortcuts supporting virtual and Anaconda environments (fork of Shortcut)',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url = 'https://github.com/kiwi0fruit/shortcutter',
     author = "Martin O'Hanlon, Peter Zagubisalo",
     author_email = 'peter.zagubisalo@gmail.com',
