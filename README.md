@@ -52,7 +52,7 @@ Shortcut is available on [pypi](https://pypi.python.org/pypi/shortcutter) and ca
 * Using Anaconda/Miniconda:
 
 ```bat
-conda install shortcutter
+conda install -c defaults -c conda-forge shortcutter
 ```
 
 * Using pip:
