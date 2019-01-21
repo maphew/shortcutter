@@ -1,2 +1,3 @@
 include shortcutter/*
 include versioneer.py
+include LICENSE
