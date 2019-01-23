@@ -6,8 +6,8 @@ Install to conda environment:
 * shortcutter (latest version)
 
     conda install -c defaults -c conda-forge twine sphinx sphinxcontrib-restbuilder
-    conda uninstall sphinxcontrib-restbuilder
-    pip install "sphinxcontrib-restbuilder>=0.2"
+    conda uninstall shortcutter
+    pip uninstall shortcutter
     pip install git+https://github.com/kiwi0fruit/shortcutter
 
 * On Windows install Git together with Bash.
