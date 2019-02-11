@@ -1,5 +1,5 @@
 {% set name = "shortcutter" %}
-{% set version = "0.1.13" %}
+{% set version = "0.1.17" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 82304e59cf69f737e4bb04f3f198012b8539055b97e58818eeb3aebe3ceab039
+  sha256: 7ae5644e05fbe093b097b3c425230bc14c9c053ef9f51f68767d6bc6cc24c01e
 
 build:
   number: 0
