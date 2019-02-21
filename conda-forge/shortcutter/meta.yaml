@@ -28,8 +28,8 @@ test:
     - shortcutter
   commands:
     - shortcutter --help
-    - shortcutter -t
-    - shortcutter python
+    - shortcutter -t  # [not linux]
+    - shortcutter python  # [not linux]
 
 about:
   home: https://github.com/kiwi0fruit/shortcutter
