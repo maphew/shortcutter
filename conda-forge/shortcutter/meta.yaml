@@ -1,5 +1,5 @@
 {% set name = "shortcutter" %}
-{% set version = "0.1.17" %}
+{% set version = "0.1.18" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 7ae5644e05fbe093b097b3c425230bc14c9c053ef9f51f68767d6bc6cc24c01e
+  sha256: f4134959965af5ef0118f78fee89ed8839e803bdaa70ee70a1f0e8007dc3ddfa
 
 build:
   number: 0
@@ -28,6 +28,8 @@ test:
     - shortcutter
   commands:
     - shortcutter --help
+    - shortcutter -t
+    - shortcutter python
 
 about:
   home: https://github.com/kiwi0fruit/shortcutter
