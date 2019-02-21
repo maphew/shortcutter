@@ -23,7 +23,7 @@ class ShortCutterLinux(ShortCutter):
         try:
             return subprocess.check_output(['xdg-user-dir',
                                             'DESKTOP']).decode('utf-8').strip()
-        except subprocess.CalledProcessError:
+        except Exception:
             return p.join(p.expanduser('~'), 'Desktop')
 
     @staticmethod
