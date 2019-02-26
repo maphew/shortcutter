@@ -69,11 +69,7 @@ class ShortCutterWindows(ShortCutter):
 
     @staticmethod
     def _get_bin_folder_pyexe():
-        return p.join(p.dirname(sys.executable), "Scripts")
-
-    @staticmethod
-    def _get_local_root():
-        return p.dirname(sys.executable)
+        return p.join(sys.prefix, "Scripts")
 
     @staticmethod
     def _get_activate_wrapper_templates():

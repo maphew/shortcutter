@@ -35,10 +35,6 @@ class ShortCutterLinux(ShortCutter):
         return p.dirname(sys.executable)
 
     @staticmethod
-    def _get_local_root():
-        return p.dirname(p.dirname(sys.executable))
-
-    @staticmethod
     def _get_activate_wrapper_templates():
         return ACTIVATE, ACTIVATE_PROMPT
 

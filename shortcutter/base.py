@@ -1,4 +1,5 @@
 import os
+import sys
 from os import path as p
 from .exception import ShortcutError, ShortcutNoDesktopError, ShortcutNoMenuError
 import re
@@ -76,7 +77,7 @@ class ShortCutter(object):
         self.bin_folder_pyexe = self._get_bin_folder_pyexe()
         shortcutter = self.find_target('shortcutter')
         self.bin_folder_shcut = p.dirname(shortcutter) if shortcutter else self.bin_folder_pyexe
-        self.local_root = self._get_local_root()
+        self.local_root = sys.prefix
         self._ACTIVATE, self._ACTIVATE_PROMPT = self._get_activate_wrapper_templates()
 
         self.activate_args = self._get_activate_args()  # should be run the last
@@ -99,11 +100,6 @@ class ShortCutter(object):
     @staticmethod
     def _get_bin_folder_pyexe():
         raise ShortcutError("_get_bin_folder_pyexe needs overriding")
-
-    # should be overridden
-    @staticmethod
-    def _get_local_root():
-        raise ShortcutError("_get_local_root needs overriding")
 
     # should be overridden
     @staticmethod

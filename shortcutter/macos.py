@@ -2,7 +2,7 @@ from os import path as p
 from .exception import ShortcutError
 from .linux import ShortCutterLinux
 from tempfile import NamedTemporaryFile
-import subprocess
+import subprocess as sp
 
 
 def create_shortcut(shortcut_name, target_path, shortcut_directory, script):
@@ -19,10 +19,15 @@ def create_shortcut(shortcut_name, target_path, shortcut_directory, script):
     sf.flush()
 
     # compile the script into an application
-    result = subprocess.run(["osacompile", "-o", shortcut_file_path, sf.name], stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE)
-    if len(result.stderr):
-        raise ShortcutError("Error occured creating app - {}".format(str(result.stderr)))
+    proc = sp.Popen(["osacompile", "-o", shortcut_file_path, sf.name],
+                    stdout=sp.PIPE, stderr=sp.PIPE)
+    out, err = proc.communicate()
+    if err or (proc.returncode != 0):
+        raise ShortcutError(
+            "Error occured creating app. Return code: {}, Error message: {}".format(
+                proc.returncode,
+                err.decode()
+            ))
 
     sf.close()
 
