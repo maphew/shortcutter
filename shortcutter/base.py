@@ -180,7 +180,7 @@ class ShortCutter(object):
                 return activate, None
 
         return None, None
- 
+     
     def _check_if_conda_root(self, path):
         """
         Checks if provided path is conda root. It should have
@@ -200,7 +200,7 @@ class ShortCutter(object):
                         return p.abspath(activate)
         return None
 
-    def create_desktop_shortcut(self, target, shortcut_name=None):
+    def create_desktop_shortcut(self, target, shortcut_name=None, icon=None):
         """
         Creates a desktop shortcut to a target.
 
@@ -213,12 +213,15 @@ class ShortCutter(object):
         shortcut_name : str=None
             Name of the shortcut without extension (``.lnk`` would be appended if needed).
             If None uses the target filename.
+        icon : str=None
+            Path to icon file
 
         Returns
         -------
         tuple (str or None, str or None, str or None)
             (shortcut_name, target_path, shortcut_file_path)
         """
+        print('create_desktop_shortcut() %s' % icon)
         if not p.isdir(self.desktop_folder):
             msg = "Desktop folder '{}' not found.".format(self.desktop_folder)
             if self.raise_errors:
@@ -227,9 +230,9 @@ class ShortCutter(object):
                 self.error_log.write(msg + '\n')
                 return None, None, None
         else:
-            return self.create_shortcut(target, self.desktop_folder, shortcut_name)
+            return self.create_shortcut(target, self.desktop_folder, shortcut_name, icon)
 
-    def create_menu_shortcut(self, target, shortcut_name=None):
+    def create_menu_shortcut(self, target, shortcut_name=None, icon=None):
         """
         Creates a menu shortcut to a target.
 
@@ -242,6 +245,8 @@ class ShortCutter(object):
         shortcut_name : str=None
             Name of the shortcut without extension (``.lnk`` would be appended if needed).
             If None uses the target filename.
+        icon : str=None
+            Path to icon file
 
         Returns
         -------
@@ -273,7 +278,7 @@ class ShortCutter(object):
         w_ascii_name = str(w_unicode_name.encode('utf-8'))[1:].strip('"').strip("'").replace('\\', '_')
         return w_ascii_name
 
-    def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None):
+    def _create_wrapped_shortcut(self, shortcut_name, target_path, shortcut_directory, activate_args=None, icon=None):
         """
         Creates shell script wrapper for shortcut with activation.
         
@@ -317,9 +322,9 @@ class ShortCutter(object):
             with open(wrapper_path, 'w') as f:
                 f.write(script)
                 self._make_executable(wrapper_path)
-        return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory)
+        return self._create_shortcut_file(shortcut_name, wrapper_path, shortcut_directory, icon)
 
-    def create_shortcut(self, target, shortcut_directory, shortcut_name=None):
+    def create_shortcut(self, target, shortcut_directory, shortcut_name=None, icon=None):
         """
         Creates a shortcut to a target.
 
@@ -340,6 +345,7 @@ class ShortCutter(object):
         tuple (str, str, str or None)
             (shortcut_name, target_path, shortcut_file_path)
         """
+        print('create_shortcut() %s' % icon)
         # Set the target path:
         target_path = self.find_target(target)
 
@@ -370,12 +376,12 @@ class ShortCutter(object):
                                                                                                            self.exists))
 
             if isdir:
-                return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory)
+                return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory, icon)
 
             elif self.activate:
                 activate, env = self.activate_args
                 if activate:
-                    return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory)
+                    return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory, icon)
 
                 elif (not activate) and env:
                     raise ShortcutError('Shortcutter failed to find conda root (or activate script there). ' +
@@ -384,9 +390,10 @@ class ShortCutter(object):
                                         'Checked `CONDA_ROOT` environment variable. ' +
                                         'Searched `conda` executable in the PATH.')
             # Use simple shortcuts if self.activate=False or we are installing to common python installation:
-            return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory)
+            return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory, icon)
 
         ret = self._safe_create(create)
+        print('//create_shortcut() %s' % icon)    
         return ret if (ret != 'error') else (shortcut_name, target_path, None)
 
     def _safe_create(self, create):

@@ -80,10 +80,10 @@ class ShortCutterWindows(ShortCutter):
         pass
 
     def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
-        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, True)
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon, True)
 
-    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
-        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory)
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon)
 
     def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False, icon=None):
         """
@@ -91,7 +91,7 @@ class ShortCutterWindows(ShortCutter):
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        icon = r"D:\code-maphew\leo-editor\leo\Icons\LeoApp.ico"
+        print('_create_shortcut_win(): %s' % icon)
         if not folder:
             shortcut_target_path = target_path
             working_directory = p.dirname(target_path)
@@ -121,10 +121,10 @@ class ShortCutterWindows(ShortCutter):
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         if icon:
             shortcut.IconLocation = icon
+            print('//_create_shortcut_win %s' % icon)
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
-
     def _is_file_the_target(self, target, file_name, file_path):
         match = False
         # does the target have an extension?
