@@ -85,20 +85,21 @@ class ShortCutterWindows(ShortCutter):
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
         return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory)
 
-    def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False):
+    def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False, icon=None):
         """
         Creates a Windows shortcut file.
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        icon = None
+        icon = r"D:\code-maphew\leo-editor\leo\Icons\LeoApp.ico"
         if not folder:
             shortcut_target_path = target_path
             working_directory = p.dirname(target_path)
             ext = p.splitext(target_path)[1].upper()
-            if ext in self._executable_file_extensions:
-                icon = r'%SystemRoot%\System32\imageres.dll,11'
-
+            if not icon:
+                if ext in self._executable_file_extensions:
+                    icon = r'%SystemRoot%\System32\imageres.dll,11'
+        
         elif not p.isdir(target_path):
             # create a bat script that opens the folder:
             
