@@ -83,7 +83,8 @@ class ShortCutterWindows(ShortCutter):
         return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon, True)
 
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
-        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon)
+        print('_create_shortcut_file(): %s' % icon)
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon=icon)
 
     def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False, icon=None):
         """
@@ -91,7 +92,7 @@ class ShortCutterWindows(ShortCutter):
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        print('_create_shortcut_win(): %s' % icon)
+        print(f'_create_shortcut_win(): {self}, {shortcut_name}, {target_path}, {shortcut_directory}, {folder}, {icon}')
         if not folder:
             shortcut_target_path = target_path
             working_directory = p.dirname(target_path)

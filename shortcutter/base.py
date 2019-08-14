@@ -219,7 +219,7 @@ class ShortCutter(object):
         Returns
         -------
         tuple (str or None, str or None, str or None)
-            (shortcut_name, target_path, shortcut_file_path)
+            (shortcut_name, target_path, shortcut_file_path, icon_file_path)
         """
         print('create_desktop_shortcut() %s' % icon)
         if not p.isdir(self.desktop_folder):
@@ -228,7 +228,7 @@ class ShortCutter(object):
                 raise ShortcutNoDesktopError(msg)
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
-                return None, None, None
+                return None, None, None, None
         else:
             return self.create_shortcut(target, self.desktop_folder, shortcut_name, icon)
 
