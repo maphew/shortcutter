@@ -221,7 +221,6 @@ class ShortCutter(object):
         tuple (str or None, str or None, str or None)
             (shortcut_name, target_path, shortcut_file_path, icon_file_path)
         """
-        print('create_desktop_shortcut() %s' % icon)
         if not p.isdir(self.desktop_folder):
             msg = "Desktop folder '{}' not found.".format(self.desktop_folder)
             if self.raise_errors:
@@ -230,7 +229,7 @@ class ShortCutter(object):
                 self.error_log.write(msg + '\n')
                 return None, None, None, None
         else:
-            return self.create_shortcut(target, self.desktop_folder, shortcut_name, icon)
+            return self.create_shortcut(target, self.desktop_folder, shortcut_name, icon=icon)
 
     def create_menu_shortcut(self, target, shortcut_name=None, icon=None):
         """
@@ -250,8 +249,8 @@ class ShortCutter(object):
 
         Returns
         -------
-        tuple (str or None, str or None, str or None)
-            (shortcut_name, target_path, shortcut_file_path)
+        tuple (str or None, str or None, str or None, str or None)
+            (shortcut_name, target_path, shortcut_file_path, icon_file_path)
         """
         if not p.isdir(self.menu_folder):
             msg = "Menu folder '{}' not found.".format(self.menu_folder)
@@ -259,9 +258,9 @@ class ShortCutter(object):
                 raise ShortcutNoMenuError(msg)
             elif self.error_log is not None:
                 self.error_log.write(msg + '\n')
-                return None, None, None
+                return None, None, None, None
         else:
-            return self.create_shortcut(target, self.menu_folder, shortcut_name)
+            return self.create_shortcut(target, self.menu_folder, shortcut_name, icon=icon)
 
     @classmethod
     def _path_to_name(cls, path):
@@ -339,13 +338,14 @@ class ShortCutter(object):
         shortcut_name : str=None
             Name of the shortcut without extension (``.lnk`` would be appended if needed).
             If None uses the target filename.
+        icon : str=None
+            File path to icon file
 
         Returns
         -------
-        tuple (str, str, str or None)
-            (shortcut_name, target_path, shortcut_file_path)
+        tuple (str, str, str or None, str or None)
+            (shortcut_name, target_path, shortcut_file_path, icon_file_path)
         """
-        print('22:create_shortcut() %s' % icon)
         # Set the target path:
         target_path = self.find_target(target)
 
@@ -367,7 +367,6 @@ class ShortCutter(object):
             else:
                 # getting the file name and removing the extension:
                 shortcut_name = p.splitext(p.basename(target))[0]
-        print('44:')
         # Create shortcut function:
         def create():
             if not target_path:
@@ -376,13 +375,11 @@ class ShortCutter(object):
                                                                                                            self.exists))
 
             if isdir:
-                print('53: isdir is True')
                 return self._create_shortcut_to_dir(shortcut_name, target_path, shortcut_directory, icon)
 
             elif self.activate:
                 activate, env = self.activate_args
                 if activate:
-                    print('59:{},{},{},{}'.format(shortcut_name, target_path, shortcut_directory, icon))
                     return self._create_wrapped_shortcut(shortcut_name, target_path, shortcut_directory, icon)
 
                 elif (not activate) and env:
@@ -393,10 +390,7 @@ class ShortCutter(object):
                                         'Searched `conda` executable in the PATH.')
             # Use simple shortcuts if self.activate=False or we are installing to common python installation:
             return self._create_shortcut_file(shortcut_name, target_path, shortcut_directory, icon)
-        print('70:')
         ret = self._safe_create(create)
-        print('ret: {}'.format(ret))
-        print('//73:create_shortcut() %s' % icon)    
         return ret if (ret != 'error') else (shortcut_name, target_path, None)
 
     def _safe_create(self, create):
@@ -406,7 +400,6 @@ class ShortCutter(object):
         :param create:
             function to call (without arguments)
         """
-        print('_safe_create()')
         if self.raise_errors:
             ret = create()
         else:

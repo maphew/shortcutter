@@ -79,11 +79,10 @@ class ShortCutterWindows(ShortCutter):
     def _make_executable(file_path):
         pass
 
-    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
-        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon, True)
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory, icon):
+        return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, True, icon=icon)
 
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
-        print('_create_shortcut_file(): %s' % icon)
         return self._create_shortcut_win(shortcut_name, target_path, shortcut_directory, icon=icon)
 
     def _create_shortcut_win(self, shortcut_name, target_path, shortcut_directory, folder=False, icon=None):
@@ -92,7 +91,6 @@ class ShortCutterWindows(ShortCutter):
 
         Returns tuple (shortcut_name, target_path, shortcut_file_path)
         """
-        print(f'_create_shortcut_win(): {self}, {shortcut_name}, {target_path}, {shortcut_directory}, {folder}, {icon}')
         if not folder:
             shortcut_target_path = target_path
             working_directory = p.dirname(target_path)
@@ -109,7 +107,8 @@ class ShortCutterWindows(ShortCutter):
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
             shortcut_target_path = wrapper_path
             working_directory = self.bin_folder_shcut
-            icon = r'%SystemRoot%\explorer.exe,0'
+            if not icon:
+                icon = r'%SystemRoot%\explorer.exe,0'
 
         else:
             shortcut_target_path = target_path
@@ -122,7 +121,6 @@ class ShortCutterWindows(ShortCutter):
         shortcut.Description = "Shortcut to" + p.basename(target_path)
         if icon:
             shortcut.IconLocation = icon
-            print('//_create_shortcut_win %s' % icon)
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
