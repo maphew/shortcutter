@@ -43,7 +43,7 @@ class ShortCutterLinux(ShortCutter):
         st = os.stat(file_path)
         os.chmod(file_path, st.st_mode | stat.S_IEXEC)
 
-    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory, icon):
         """
         Creates a Linux shortcut file to executable.
         """
@@ -53,9 +53,10 @@ class ShortCutterLinux(ShortCutter):
                                            'Type=Application\n' +
                                            'Path={}\n'.format(target_path) +
                                            'Exec=xdg-open "{}"\n'.format(target_path) +
-                                           'Icon=system-file-manager.png\n')
+                                           'Icon=system-file-manager.png\n',
+                                           icon=icon)
 
-    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
         """
         Creates a Linux shortcut file to folder.
         """
@@ -64,9 +65,10 @@ class ShortCutterLinux(ShortCutter):
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
                                            'Exec="{}" %F\n'.format(target_path) +
-                                           'Terminal=true\n')
+                                           'Terminal=true\n',
+                                           icon=icon)
 
-    def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script):
+    def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script, icon=None):
         """
         Creates a Linux shortcut file using .desktop file script
 
