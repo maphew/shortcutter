@@ -47,25 +47,31 @@ class ShortCutterLinux(ShortCutter):
         """
         Creates a Linux shortcut file to executable.
         """
+        if not icon:
+            icon='system-file-manager.png'
         return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
                                            '[Desktop Entry]\n' +
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
                                            'Path={}\n'.format(target_path) +
                                            'Exec=xdg-open "{}"\n'.format(target_path) +
-                                           'Icon=system-file-manager.png\n',
+                                           'Icon={}\n'.format(icon),
                                            icon=icon)
 
     def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
         """
         Creates a Linux shortcut file to folder.
         """
+        if not icon:
+            #icon='system-file-manager.png'
+            icon='utilities-terminal'
         return self._create_shortcut_linux(shortcut_name, target_path, shortcut_directory,
                                            '[Desktop Entry]\n' +
                                            'Name={}\n'.format(shortcut_name) +
                                            'Type=Application\n' +
                                            'Exec="{}" %F\n'.format(target_path) +
-                                           'Terminal=true\n',
+                                           'Terminal=true\n' +
+                                           'Icon={}\n'.format(icon),
                                            icon=icon)
 
     def _create_shortcut_linux(self, shortcut_name, target_path, shortcut_directory, script, icon=None):
