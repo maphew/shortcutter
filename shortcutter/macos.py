@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 import subprocess as sp
 
 
-def create_shortcut(shortcut_name, target_path, shortcut_directory, script):
+def create_shortcut(shortcut_name, target_path, shortcut_directory, script, icon=None):
     """
     Creates a MacOS app which opens an target_path (executable or folder) using AppleScript script
 
@@ -43,16 +43,17 @@ class ShortCutterMacOS(ShortCutterLinux):
     def _get_menu_folder():
         return p.join('/', 'Applications') 
 
-    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_to_dir(self, shortcut_name, target_path, shortcut_directory, icon):
         """
         Creates a MacOS app which opens a folder via finder
         """
         return create_shortcut(shortcut_name, target_path, shortcut_directory,
                                'tell application "Finder"\n' +
                                'open POSIX file "{}"\n'.format(target_path) +
-                               'end tell\n')
+                               'end tell\n',
+                               icon=icon)
 
-    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory):
+    def _create_shortcut_file(self, shortcut_name, target_path, shortcut_directory, icon):
         """
         Creates a MacOS app which opens an executable via the terminal
         """
@@ -60,4 +61,5 @@ class ShortCutterMacOS(ShortCutterLinux):
                                'tell application "Terminal"\n' +
                                'activate\n' +
                                'do script "{}"\n'.format(target_path) +
-                               'end tell\n')
+                               'end tell\n',
+                               icon=icon)
