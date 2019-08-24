@@ -97,11 +97,14 @@ class ShortCutterWindows(ShortCutter):
             ext = p.splitext(target_path)[1].upper()
             if not icon:
                 if ext in self._executable_file_extensions:
-                    icon = r'%SystemRoot%\System32\imageres.dll,11'
-        
+                   icon = r'%SystemRoot%\System32\imageres.dll,11'
+
+        if shortcut_name.lower().startswith('terminal'):
+            icon = r'%SystemRoot%\System32\cmd.exe,0'
+
         elif not p.isdir(target_path):
             # create a bat script that opens the folder:
-            
+
             wrapper_path = p.join(self.bin_folder_shcut, self.ba('shortcutter__dir__' + self._path_to_name(target_path)))
             with open(wrapper_path, 'w') as f:
                 f.write(FOLDER_SHORTCUT.format(path=target_path))
@@ -124,6 +127,7 @@ class ShortCutterWindows(ShortCutter):
         shortcut.save()
 
         return shortcut_name, target_path, shortcut_file_path
+
     def _is_file_the_target(self, target, file_name, file_path):
         match = False
         # does the target have an extension?
@@ -142,7 +146,7 @@ class ShortCutterWindows(ShortCutter):
     @staticmethod
     def _get_paths():
         """
-        Gets paths from the PATH environment variable and 
+        Gets paths from the PATH environment variable and
         prepends `<Python>`, `<Python>\Scripts`, `<Python>\Library\bin` directories.
 
         Returns a list of paths.
