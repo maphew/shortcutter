@@ -118,7 +118,7 @@ class ShortCutterWindows(ShortCutter):
         shortcut = shell.CreateShortCut(shortcut_file_path)
         shortcut.Targetpath = shortcut_target_path
         shortcut.WorkingDirectory = working_directory
-        shortcut.Description = "Shortcut to" + p.basename(target_path)
+        shortcut.Description = "Shortcut to " + p.basename(target_path)
         if icon:
             shortcut.IconLocation = icon
         shortcut.save()
